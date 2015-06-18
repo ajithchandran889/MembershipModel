@@ -1,0 +1,6 @@
+J:\MembershipModel\MembershipModel\MembershipModel\bin\MembershipModel.dll.config
+J:\MembershipModel\MembershipModel\MembershipModel\bin\MembershipModel.dll
+J:\MembershipModel\MembershipModel\MembershipModel\bin\MembershipModel.pdb
+J:\MembershipModel\MembershipModel\MembershipModel\obj\Debug\MembershipModel.csprojResolveAssemblyReference.cache
+J:\MembershipModel\MembershipModel\MembershipModel\obj\Debug\MembershipModel.dll
+J:\MembershipModel\MembershipModel\MembershipModel\obj\Debug\MembershipModel.pdb
