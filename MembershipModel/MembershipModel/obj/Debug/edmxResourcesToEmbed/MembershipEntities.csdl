@@ -1,0 +1,668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MembershipModelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CreditAccount">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pcanId" Type="Int32" Nullable="false" />
+    <Property Name="usersSubscribed" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="financialTransactionId" Type="Int32" Nullable="false" />
+    <Property Name="productId" Type="Int32" Nullable="false" />
+    <Property Name="productSubscriptionModel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="toDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="FinancialTransaction" Relationship="Self.FK_CreditAccount_FinancialTransactions" FromRole="CreditAccount" ToRole="FinancialTransactions" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_CreditAccount_Products" FromRole="CreditAccount" ToRole="Products" />
+    <NavigationProperty Name="User" Relationship="Self.FK_CreditAccount_Users" FromRole="CreditAccount" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_CreditAccount_Users1" FromRole="CreditAccount" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="FinancialTransaction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="paidMedium" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="additionalTransactionalDetails" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="amount" Type="Double" Nullable="false" />
+    <Property Name="dateOfTransaction" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ipAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="systemDetails" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CreditAccounts" Relationship="Self.FK_CreditAccount_FinancialTransactions" FromRole="FinancialTransactions" ToRole="CreditAccount" />
+    <NavigationProperty Name="User" Relationship="Self.FK_FinancialTransactions_Users" FromRole="FinancialTransactions" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_FinancialTransactions_Users1" FromRole="FinancialTransactions" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="GroupMember">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="groupId" Type="Int32" Nullable="false" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_GroupMembers_Groups" FromRole="GroupMembers" ToRole="Groups" />
+    <NavigationProperty Name="User" Relationship="Self.FK_GroupMembers_Users" FromRole="GroupMembers" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_GroupMembers_Users1" FromRole="GroupMembers" ToRole="Users" />
+    <NavigationProperty Name="User2" Relationship="Self.FK_GroupMembers_Users2" FromRole="GroupMembers" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="GroupProduct">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="groupId" Type="Int32" Nullable="false" />
+    <Property Name="productId" Type="Int32" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_GroupProducts_Groups" FromRole="GroupProducts" ToRole="Groups" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_GroupProducts_Products" FromRole="GroupProducts" ToRole="Products" />
+    <NavigationProperty Name="User" Relationship="Self.FK_GroupProducts_Users" FromRole="GroupProducts" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_GroupProducts_Users1" FromRole="GroupProducts" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="groupOwner" Type="Int32" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastmodifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="GroupMembers" Relationship="Self.FK_GroupMembers_Groups" FromRole="Groups" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.FK_GroupProducts_Groups" FromRole="Groups" ToRole="GroupProducts" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Groups_Users" FromRole="Groups" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_Groups_Users1" FromRole="Groups" ToRole="Users" />
+    <NavigationProperty Name="User2" Relationship="Self.FK_Groups_Users2" FromRole="Groups" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="LogHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="actionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ipAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK_LogHistory_Users" FromRole="LogHistory" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="ProductRole">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productId" Type="Int32" Nullable="false" />
+    <Property Name="roleName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="roleDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_ProductRoles_Products" FromRole="ProductRoles" ToRole="Products" />
+    <NavigationProperty Name="User" Relationship="Self.FK_ProductRoles_Users" FromRole="ProductRoles" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_ProductRoles_Users1" FromRole="ProductRoles" ToRole="Users" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_ProductRoles" FromRole="ProductRoles" ToRole="UserRoles" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CreditAccounts" Relationship="Self.FK_CreditAccount_Products" FromRole="Products" ToRole="CreditAccount" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.FK_GroupProducts_Products" FromRole="Products" ToRole="GroupProducts" />
+    <NavigationProperty Name="ProductRoles" Relationship="Self.FK_ProductRoles_Products" FromRole="Products" ToRole="ProductRoles" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Products_Users" FromRole="Products" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_Products_Users1" FromRole="Products" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ipAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="systemDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="createdAt" Type="DateTime" Precision="3" />
+    <Property Name="lastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="groupProductId" Type="Int32" Nullable="false" />
+    <Property Name="roleId" Type="Int32" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" Nullable="false" />
+    <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" Nullable="false" />
+    <Property Name="lastModifiedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ProductRole" Relationship="Self.FK_UserRoles_ProductRoles" FromRole="UserRoles" ToRole="ProductRoles" />
+    <NavigationProperty Name="User" Relationship="Self.FK_UserRoles_Users" FromRole="UserRoles" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_UserRoles_Users1" FromRole="UserRoles" ToRole="Users" />
+    <NavigationProperty Name="User2" Relationship="Self.FK_UserRoles_Users2" FromRole="UserRoles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="companyName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contactInfo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="isOwner" Type="Boolean" Nullable="false" />
+    <Property Name="status" Type="Boolean" Nullable="false" />
+    <Property Name="createdBy" Type="Int32" />
+    <Property Name="createdAt" Type="DateTime" Precision="3" />
+    <Property Name="lastModifiedBy" Type="Int32" />
+    <Property Name="lastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="ipAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="forgotPasswordRequestAt" Type="DateTime" Precision="3" />
+    <Property Name="forgotPasswordToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="changeEmailRequestAt" Type="DateTime" Precision="3" />
+    <Property Name="changeEmailToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CreditAccounts" Relationship="Self.FK_CreditAccount_Users" FromRole="Users" ToRole="CreditAccount" />
+    <NavigationProperty Name="CreditAccounts1" Relationship="Self.FK_CreditAccount_Users1" FromRole="Users" ToRole="CreditAccount" />
+    <NavigationProperty Name="FinancialTransactions" Relationship="Self.FK_FinancialTransactions_Users" FromRole="Users" ToRole="FinancialTransactions" />
+    <NavigationProperty Name="FinancialTransactions1" Relationship="Self.FK_FinancialTransactions_Users1" FromRole="Users" ToRole="FinancialTransactions" />
+    <NavigationProperty Name="GroupMembers" Relationship="Self.FK_GroupMembers_Users" FromRole="Users" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupMembers1" Relationship="Self.FK_GroupMembers_Users1" FromRole="Users" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupMembers2" Relationship="Self.FK_GroupMembers_Users2" FromRole="Users" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.FK_GroupProducts_Users" FromRole="Users" ToRole="GroupProducts" />
+    <NavigationProperty Name="GroupProducts1" Relationship="Self.FK_GroupProducts_Users1" FromRole="Users" ToRole="GroupProducts" />
+    <NavigationProperty Name="Groups" Relationship="Self.FK_Groups_Users" FromRole="Users" ToRole="Groups" />
+    <NavigationProperty Name="Groups1" Relationship="Self.FK_Groups_Users1" FromRole="Users" ToRole="Groups" />
+    <NavigationProperty Name="Groups2" Relationship="Self.FK_Groups_Users2" FromRole="Users" ToRole="Groups" />
+    <NavigationProperty Name="LogHistories" Relationship="Self.FK_LogHistory_Users" FromRole="Users" ToRole="LogHistory" />
+    <NavigationProperty Name="ProductRoles" Relationship="Self.FK_ProductRoles_Users" FromRole="Users" ToRole="ProductRoles" />
+    <NavigationProperty Name="ProductRoles1" Relationship="Self.FK_ProductRoles_Users1" FromRole="Users" ToRole="ProductRoles" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_Users" FromRole="Users" ToRole="Products" />
+    <NavigationProperty Name="Products1" Relationship="Self.FK_Products_Users1" FromRole="Users" ToRole="Products" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_Users" FromRole="Users" ToRole="UserRoles" />
+    <NavigationProperty Name="UserRoles1" Relationship="Self.FK_UserRoles_Users1" FromRole="Users" ToRole="UserRoles" />
+    <NavigationProperty Name="UserRoles2" Relationship="Self.FK_UserRoles_Users2" FromRole="Users" ToRole="UserRoles" />
+  </EntityType>
+  <Association Name="FK_CreditAccount_FinancialTransactions">
+    <End Role="FinancialTransactions" Type="Self.FinancialTransaction" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FinancialTransactions">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="financialTransactionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreditAccount_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreditAccount_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreditAccount_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FinancialTransactions_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="FinancialTransactions" Type="Self.FinancialTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FinancialTransactions">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FinancialTransactions_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="FinancialTransactions" Type="Self.FinancialTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FinancialTransactions">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Groups">
+    <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="groupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Users2">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupProducts_Groups">
+    <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="groupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupProducts_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupProducts_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupProducts_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Groups_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="groupOwner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Groups_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Groups_Users2">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogHistory_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="LogHistory" Type="Self.LogHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LogHistory">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductRoles_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductRoles_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductRoles_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_ProductRoles">
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductRoles">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Users1">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="createdBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Users2">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="lastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MembershipModelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CreditAccounts" EntityType="Self.CreditAccount" />
+    <EntitySet Name="FinancialTransactions" EntityType="Self.FinancialTransaction" />
+    <EntitySet Name="GroupMembers" EntityType="Self.GroupMember" />
+    <EntitySet Name="GroupProducts" EntityType="Self.GroupProduct" />
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="LogHistories" EntityType="Self.LogHistory" />
+    <EntitySet Name="ProductRoles" EntityType="Self.ProductRole" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Registrations" EntityType="Self.Registration" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_CreditAccount_FinancialTransactions" Association="Self.FK_CreditAccount_FinancialTransactions">
+      <End Role="FinancialTransactions" EntitySet="FinancialTransactions" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreditAccount_Products" Association="Self.FK_CreditAccount_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreditAccount_Users" Association="Self.FK_CreditAccount_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreditAccount_Users1" Association="Self.FK_CreditAccount_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FinancialTransactions_Users" Association="Self.FK_FinancialTransactions_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="FinancialTransactions" EntitySet="FinancialTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FinancialTransactions_Users1" Association="Self.FK_FinancialTransactions_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="FinancialTransactions" EntitySet="FinancialTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Groups" Association="Self.FK_GroupMembers_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Users" Association="Self.FK_GroupMembers_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Users1" Association="Self.FK_GroupMembers_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Users2" Association="Self.FK_GroupMembers_Users2">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupProducts_Groups" Association="Self.FK_GroupProducts_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupProducts_Products" Association="Self.FK_GroupProducts_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupProducts_Users" Association="Self.FK_GroupProducts_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupProducts_Users1" Association="Self.FK_GroupProducts_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Groups_Users" Association="Self.FK_Groups_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Groups_Users1" Association="Self.FK_Groups_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Groups_Users2" Association="Self.FK_Groups_Users2">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogHistory_Users" Association="Self.FK_LogHistory_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="LogHistory" EntitySet="LogHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductRoles_Products" Association="Self.FK_ProductRoles_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductRoles_Users" Association="Self.FK_ProductRoles_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductRoles_Users1" Association="Self.FK_ProductRoles_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_ProductRoles" Association="Self.FK_UserRoles_ProductRoles">
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Users" Association="Self.FK_Products_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Users1" Association="Self.FK_Products_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Users" Association="Self.FK_UserRoles_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Users1" Association="Self.FK_UserRoles_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Users2" Association="Self.FK_UserRoles_Users2">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

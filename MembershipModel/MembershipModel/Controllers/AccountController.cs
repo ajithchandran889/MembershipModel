@@ -15,6 +15,7 @@ namespace MembershipModel.Controllers
         }
         public ActionResult Register()
         {
+            ViewBag.isRegistrationCompletedSuccessfully = false;
             return View();
         }
     }
