@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace MembershipModel.Controllers
 {
@@ -15,6 +16,7 @@ namespace MembershipModel.Controllers
         }
         public ActionResult Register()
         {
+            
             ViewBag.isRegistrationCompletedSuccessfully = false;
             return View();
         }
