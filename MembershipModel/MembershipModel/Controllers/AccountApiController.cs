@@ -10,12 +10,31 @@ namespace MembershipModel.Controllers
 {
     public class AccountApiController : ApiController
     {
-        public IHttpActionResult Register(int id)
+        MembershipModelEntities DBEntities = new MembershipModelEntities();
+        public HttpResponseMessage Register(Register reg)
         {
-            if (true)
+            if (!ModelState.IsValid)
             {
-                return Ok(1);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
+                
+            else
+            {
+                try
+                {
+                    Registration registerRow = new Registration();
+                    registerRow.email = reg.emailId;
+                    registerRow.password = reg.password;
+                    registerRow.
+                    return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+                }
+                catch(Exception e)
+                {
+
+                }
+            }
+                
+           
             
         }
         
