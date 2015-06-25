@@ -155,26 +155,26 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="MembershipModelModel.User">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-          <ScalarProperty Name="changeEmailToken" ColumnName="changeEmailToken" />
-          <ScalarProperty Name="changeEmailRequestAt" ColumnName="changeEmailRequestAt" />
-          <ScalarProperty Name="forgotPasswordToken" ColumnName="forgotPasswordToken" />
-          <ScalarProperty Name="forgotPasswordRequestAt" ColumnName="forgotPasswordRequestAt" />
-          <ScalarProperty Name="ipAddress" ColumnName="ipAddress" />
-          <ScalarProperty Name="lastModifiedAt" ColumnName="lastModifiedAt" />
-          <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
-          <ScalarProperty Name="createdAt" ColumnName="createdAt" />
-          <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="isOwner" ColumnName="isOwner" />
-          <ScalarProperty Name="contactInfo" ColumnName="contactInfo" />
-          <ScalarProperty Name="address" ColumnName="address" />
-          <ScalarProperty Name="companyName" ColumnName="companyName" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="userId" ColumnName="userId" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="companyName" ColumnName="companyName" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="contactInfo" ColumnName="contactInfo" />
+          <ScalarProperty Name="isOwner" ColumnName="isOwner" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+          <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+          <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+          <ScalarProperty Name="lastModifiedAt" ColumnName="lastModifiedAt" />
+          <ScalarProperty Name="ipAddress" ColumnName="ipAddress" />
+          <ScalarProperty Name="forgotPasswordRequestAt" ColumnName="forgotPasswordRequestAt" />
+          <ScalarProperty Name="forgotPasswordToken" ColumnName="forgotPasswordToken" />
+          <ScalarProperty Name="changeEmailRequestAt" ColumnName="changeEmailRequestAt" />
+          <ScalarProperty Name="changeEmailToken" ColumnName="changeEmailToken" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

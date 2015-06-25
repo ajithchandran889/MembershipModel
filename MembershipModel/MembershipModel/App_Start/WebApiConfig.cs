@@ -23,7 +23,11 @@ namespace MembershipModel
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.Routes.MapHttpRoute(
+                name: "ActivateApi",
+                routeTemplate: "api/{controller}/{action}/{token}",
+                defaults: new { id = RouteParameter.Optional }
+            );
         }
     }
 }

@@ -15,34 +15,34 @@
         <EntityTypeShape EntityType="MembershipModelModel.Product" Width="1.5" PointX="3" PointY="41" IsExpanded="true" />
         <EntityTypeShape EntityType="MembershipModelModel.Registration" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MembershipModelModel.UserRole" Width="1.5" PointX="10.5" PointY="19.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MembershipModelModel.User" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
         <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_FinancialTransactions" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_FinancialTransactions_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_FinancialTransactions_Users1" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Groups" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users2" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Groups" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users2" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_LogHistory_Users" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_ProductRoles_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_ProductRoles_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_ProductRoles_Users1" ManuallyRouted="false" />
         <AssociationConnector Association="MembershipModelModel.FK_UserRoles_ProductRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_Products_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_Products_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users1" ManuallyRouted="false" />
-        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users2" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MembershipModelModel.User" Width="1.5" PointX="0.75" PointY="26.125" />
+        <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_CreditAccount_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_FinancialTransactions_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_FinancialTransactions_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_GroupMembers_Users2" />
+        <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_GroupProducts_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_Groups_Users2" />
+        <AssociationConnector Association="MembershipModelModel.FK_LogHistory_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_ProductRoles_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_ProductRoles_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_Products_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_Products_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users" />
+        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users1" />
+        <AssociationConnector Association="MembershipModelModel.FK_UserRoles_Users2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

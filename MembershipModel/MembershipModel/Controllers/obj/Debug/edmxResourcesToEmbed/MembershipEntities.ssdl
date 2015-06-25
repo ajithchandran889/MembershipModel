@@ -151,8 +151,8 @@
     <Property Name="password" Type="text" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="150" />
     <Property Name="companyName" Type="varchar" MaxLength="150" />
-    <Property Name="address" Type="text" />
-    <Property Name="contactInfo" Type="varchar" MaxLength="300" />
+    <Property Name="address" Type="text" Nullable="false" />
+    <Property Name="contactInfo" Type="varchar" MaxLength="300" Nullable="false" />
     <Property Name="isOwner" Type="bit" Nullable="false" />
     <Property Name="status" Type="bit" Nullable="false" />
     <Property Name="createdBy" Type="int" />

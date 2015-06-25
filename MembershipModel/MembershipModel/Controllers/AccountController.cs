@@ -20,5 +20,6 @@ namespace MembershipModel.Controllers
             ViewBag.isRegistrationCompletedSuccessfully = false;
             return View();
         }
+        
     }
 }
