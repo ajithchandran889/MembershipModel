@@ -12,10 +12,12 @@ namespace MembershipModel
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class AspNetUser
     {
-        public User()
+        public AspNetUser()
         {
+            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
+            this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.CreditAccounts = new HashSet<CreditAccount>();
             this.CreditAccounts1 = new HashSet<CreditAccount>();
             this.FinancialTransactions = new HashSet<FinancialTransaction>();
@@ -23,42 +25,40 @@ namespace MembershipModel
             this.GroupMembers = new HashSet<GroupMember>();
             this.GroupMembers1 = new HashSet<GroupMember>();
             this.GroupMembers2 = new HashSet<GroupMember>();
+            this.Products = new HashSet<Product>();
+            this.ProductRoles = new HashSet<ProductRole>();
+            this.Groups = new HashSet<Group>();
             this.GroupProducts = new HashSet<GroupProduct>();
             this.GroupProducts1 = new HashSet<GroupProduct>();
-            this.Groups = new HashSet<Group>();
             this.Groups1 = new HashSet<Group>();
             this.Groups2 = new HashSet<Group>();
-            this.LogHistories = new HashSet<LogHistory>();
-            this.ProductRoles = new HashSet<ProductRole>();
-            this.ProductRoles1 = new HashSet<ProductRole>();
-            this.Products = new HashSet<Product>();
             this.Products1 = new HashSet<Product>();
+            this.ProductRoles1 = new HashSet<ProductRole>();
+            this.LogHistories = new HashSet<LogHistory>();
             this.UserRoles = new HashSet<UserRole>();
             this.UserRoles1 = new HashSet<UserRole>();
             this.UserRoles2 = new HashSet<UserRole>();
+            this.UsersAditionalInfoes = new HashSet<UsersAditionalInfo>();
+            this.UsersAditionalInfoes1 = new HashSet<UsersAditionalInfo>();
+            this.UsersAditionalInfoes2 = new HashSet<UsersAditionalInfo>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
-        public int id { get; set; }
-        public string userId { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string name { get; set; }
-        public string companyName { get; set; }
-        public string address { get; set; }
-        public string contactInfo { get; set; }
-        public bool isOwner { get; set; }
-        public bool status { get; set; }
-        public Nullable<int> createdBy { get; set; }
-        public Nullable<System.DateTime> createdAt { get; set; }
-        public Nullable<int> lastModifiedBy { get; set; }
-        public Nullable<System.DateTime> lastModifiedAt { get; set; }
-        public string ipAddress { get; set; }
-        public Nullable<System.DateTime> forgotPasswordRequestAt { get; set; }
-        public string forgotPasswordToken { get; set; }
-        public Nullable<System.DateTime> changeEmailRequestAt { get; set; }
-        public string changeEmailToken { get; set; }
-        public bool isDeleted { get; set; }
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string UserName { get; set; }
     
+        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<CreditAccount> CreditAccounts { get; set; }
         public virtual ICollection<CreditAccount> CreditAccounts1 { get; set; }
         public virtual ICollection<FinancialTransaction> FinancialTransactions { get; set; }
@@ -66,18 +66,22 @@ namespace MembershipModel
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
         public virtual ICollection<GroupMember> GroupMembers1 { get; set; }
         public virtual ICollection<GroupMember> GroupMembers2 { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductRole> ProductRoles { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<GroupProduct> GroupProducts { get; set; }
         public virtual ICollection<GroupProduct> GroupProducts1 { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<Group> Groups1 { get; set; }
         public virtual ICollection<Group> Groups2 { get; set; }
-        public virtual ICollection<LogHistory> LogHistories { get; set; }
-        public virtual ICollection<ProductRole> ProductRoles { get; set; }
-        public virtual ICollection<ProductRole> ProductRoles1 { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Product> Products1 { get; set; }
+        public virtual ICollection<ProductRole> ProductRoles1 { get; set; }
+        public virtual ICollection<LogHistory> LogHistories { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<UserRole> UserRoles1 { get; set; }
         public virtual ICollection<UserRole> UserRoles2 { get; set; }
+        public virtual ICollection<UsersAditionalInfo> UsersAditionalInfoes { get; set; }
+        public virtual ICollection<UsersAditionalInfo> UsersAditionalInfoes1 { get; set; }
+        public virtual ICollection<UsersAditionalInfo> UsersAditionalInfoes2 { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

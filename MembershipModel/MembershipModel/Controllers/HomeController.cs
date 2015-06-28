@@ -11,6 +11,15 @@ namespace MembershipModel.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            
+            if(User.Identity.IsAuthenticated)
+            {
+
+            }
+            else
+            {
+
+            }
             return View();
         }
     }

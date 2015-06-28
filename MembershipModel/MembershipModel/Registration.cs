@@ -14,14 +14,14 @@ namespace MembershipModel
     
     public partial class Registration
     {
-        public int id { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string token { get; set; }
-        public string ipAddress { get; set; }
-        public string systemDetails { get; set; }
-        public Nullable<System.DateTime> createdAt { get; set; }
-        public Nullable<System.DateTime> lastModifiedAt { get; set; }
-        public Nullable<bool> isDeleted { get; set; }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
+        public string IpAddress { get; set; }
+        public string SystemDetails { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public Nullable<System.DateTime> LastModifiedAt { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     }
 }

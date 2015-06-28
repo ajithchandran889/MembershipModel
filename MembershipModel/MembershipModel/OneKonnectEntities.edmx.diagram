@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b695f7702e3b49b5a59d1efa805b9699" Name="Diagram1">
+        <EntityTypeShape EntityType="OneKonnectModel.CreditAccount" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.FinancialTransaction" Width="1.5" PointX="8.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.GroupMember" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.GroupProduct" Width="1.5" PointX="6" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.Group" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.LogHistory" Width="1.5" PointX="2.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.ProductRole" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.Product" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.Registration" Width="1.5" PointX="8.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.UserRole" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OneKonnectModel.UsersAditionalInfo" Width="1.5" PointX="7.75" PointY="12" IsExpanded="true" />
+        <AssociationConnector Association="OneKonnectModel.Products_CreditAccount_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="OneKonnectModel.GroupMembers_Groups_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="OneKonnectModel.GroupProducts_Groups_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="OneKonnectModel.GroupProducts_Products_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="OneKonnectModel.ProductId_Products_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="OneKonnectModel.UserRoles_ProductRoles_FK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OneKonnectModel.AspNetRole" Width="1.5" PointX="1.5" PointY="2.25" />
+        <EntityTypeShape EntityType="OneKonnectModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="OneKonnectModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="13.5" />
+        <EntityTypeShape EntityType="OneKonnectModel.AspNetUser" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="OneKonnectModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="OneKonnectModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_CreditAccount_FK" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_CreditAccount_FK1" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_FinancialTransactions_FK" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_FinancialTransactions_FK1" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_GroupMembers_FK" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_GroupMembers_FK1" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUsers_GroupMembers_FK2" />
+        <AssociationConnector Association="OneKonnectModel.CreatedBy_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.CreatedBy_Products_FK" />
+        <AssociationConnector Association="OneKonnectModel.GroupOwner_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.GroupProducts_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.GroupProducts_AspNetUsers_FK1" />
+        <AssociationConnector Association="OneKonnectModel.Groups_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.Groups_AspNetUsers_FK1" />
+        <AssociationConnector Association="OneKonnectModel.LastModifiedBy_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.LastModifiedBy_Products_FK" />
+        <AssociationConnector Association="OneKonnectModel.UserId_LogHistory_FK" />
+        <AssociationConnector Association="OneKonnectModel.UserRoles_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.UserRoles_AspNetUsers_FK1" />
+        <AssociationConnector Association="OneKonnectModel.UserRoles_AspNetUsers_FK2" />
+        <AssociationConnector Association="OneKonnectModel.UsersAditionalInfo_AspNetUsers_FK" />
+        <AssociationConnector Association="OneKonnectModel.UsersAditionalInfo_AspNetUsers_FK1" />
+        <AssociationConnector Association="OneKonnectModel.UsersAditionalInfo_AspNetUsers_FK2" />
+        <AssociationConnector Association="OneKonnectModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -14,19 +14,19 @@ namespace MembershipModel
     
     public partial class GroupMember
     {
-        public int id { get; set; }
-        public int groupId { get; set; }
-        public int userId { get; set; }
-        public bool isAdmin { get; set; }
-        public int createdBy { get; set; }
-        public System.DateTime createdAt { get; set; }
-        public int lastModifiedBy { get; set; }
-        public System.DateTime lastModifiedAt { get; set; }
-        public bool isDeleted { get; set; }
+        public int Id { get; set; }
+        public int GroupId { get; set; }
+        public string UserId { get; set; }
+        public Nullable<bool> isAdmin { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<System.DateTime> LastModifiedAt { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Group Group { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
-        public virtual User User2 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
+        public virtual AspNetUser AspNetUser2 { get; set; }
     }
 }

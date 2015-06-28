@@ -13,10 +13,10 @@ namespace MembershipModel
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MembershipModelEntities : DbContext
+    public partial class OneKonnectEntities : DbContext
     {
-        public MembershipModelEntities()
-            : base("name=MembershipModelEntities")
+        public OneKonnectEntities()
+            : base("name=OneKonnectEntities")
         {
         }
     
@@ -35,6 +35,10 @@ namespace MembershipModel
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UsersAditionalInfo> UsersAditionalInfoes { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

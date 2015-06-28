@@ -14,12 +14,12 @@ namespace MembershipModel
     
     public partial class LogHistory
     {
-        public int id { get; set; }
-        public int userId { get; set; }
-        public string actionDescription { get; set; }
-        public string ipAddress { get; set; }
-        public System.DateTime createdAt { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ActionDescription { get; set; }
+        public string IpAddress { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

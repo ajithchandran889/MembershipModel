@@ -1,5 +1,4 @@
 ﻿$(document).on("click", "#submitRegister", function (event) {
-    alert("ok");
     var register =
         {
             emailId: $("#emailId").val(),
@@ -39,6 +38,29 @@
             if (errorsString != "") {
                 //$("#errDiv").html(errorsString);
             }
+        }
+    });
+    return false;
+});
+
+$(document).on("click", "#submitLogin", function (event) {
+    
+    $.ajax({
+        type: "POST",
+        url: "/token",
+        data: "grant_type=password&username=" + $("#emailId").val() + "&password=" + $("#password").val() + "",
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        Accept: "application/json",
+        dataType: "json",
+        success: function (response) {
+            alert(response.access_token);
+            alert($("#emailId").val());
+            self.user($("#emailId").val());
+            sessionStorage.setItem(tokenKey, response.access_token);
+            
+        },
+        error: function (x, y, z) {
+            alert("error");
         }
     });
     return false;

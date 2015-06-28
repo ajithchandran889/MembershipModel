@@ -20,20 +20,20 @@ namespace MembershipModel
             this.GroupProducts = new HashSet<GroupProduct>();
         }
     
-        public int id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public int groupOwner { get; set; }
-        public int createdBy { get; set; }
-        public System.DateTime createdAt { get; set; }
-        public int lastModifiedBy { get; set; }
-        public System.DateTime lastmodifiedAt { get; set; }
-        public bool isDeleted { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string GroupOwner { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<System.DateTime> LastModifiedAt { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
         public virtual ICollection<GroupProduct> GroupProducts { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
-        public virtual User User2 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
+        public virtual AspNetUser AspNetUser2 { get; set; }
     }
 }

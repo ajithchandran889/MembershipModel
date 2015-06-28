@@ -11,50 +11,75 @@ using System.Text;
 using System.Web.Http.Routing;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using MembershipModel.Models;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+
 namespace MembershipModel.Controllers.WebApi
 {
+[RoutePrefix("api/AccountApi")]
     public class AccountApiController : ApiController
     {
-        MembershipModelEntities DBEntities = new MembershipModelEntities();
-        public HttpResponseMessage Register(Register reg)
+
+        OneKonnectEntities DBEntities = new OneKonnectEntities();
+        private AuthRepository _repo = null;
+        public AccountApiController()
+        {
+            _repo = new AuthRepository();
+        }
+        //POST api/AccountApi/InitialRegister
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("InitialRegister")]
+        public HttpResponseMessage InitialRegister(Register reg)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-                
+
             else
             {
                 try
                 {
-                    DateTime existingUserRegisteredTime = DBEntities.Registrations.Where(r => r.email == reg.emailId && r.isDeleted==false).Select(r=>r.createdAt).SingleOrDefault() ??DateTime.Now;
-                    User existingUser = DBEntities.Users.Where(u => u.email == reg.emailId).FirstOrDefault();
-                   
-                    existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
-                    
+                    //DateTime existingUserRegisteredTime = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => r.CreatedAt).SingleOrDefault() ?? DateTime.Now;
+                    var existingUserRegisteredDetails = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => new { r.CreatedAt }).SingleOrDefault();
+                    AspNetUser existingUser = DBEntities.AspNetUsers.Where(u => u.Email == reg.emailId).FirstOrDefault();
+                    //return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist") ;
+                    DateTime existingUserRegisteredTime;
+                    if (existingUserRegisteredDetails == null)
+                    {
+                        existingUserRegisteredTime = DateTime.Now;
+                    }
+                    else
+                    {
+                        existingUserRegisteredTime=(DateTime)existingUserRegisteredDetails.CreatedAt;
+                        existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
+                    }
+
 
                     if (existingUser != null)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist");
                     }
-                    else if (existingUserRegisteredTime>DateTime.Now)
+                    else if (existingUserRegisteredTime > DateTime.Now)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "Already Registered,waiting for aprovel");
                     }
                     else
                     {
                         Registration registerRow = new Registration();
-                        registerRow.email = reg.emailId;
-                        registerRow.password = reg.password;
-                        registerRow.token = Guid.NewGuid().ToString();
-                        registerRow.createdAt = DateTime.Now;
-                        registerRow.lastModifiedAt = DateTime.Now;
+                        registerRow.Email = reg.emailId;
+                        registerRow.Password = reg.password;
+                        registerRow.Token = Guid.NewGuid().ToString();
+                        registerRow.CreatedAt = DateTime.Now;
+                        registerRow.LastModifiedAt = DateTime.Now;
                         string host = Dns.GetHostName();
-                        registerRow.ipAddress = Dns.GetHostByName(host).AddressList[0].ToString();
-                        registerRow.isDeleted = false;
+                        registerRow.IpAddress = Dns.GetHostByName(host).AddressList[0].ToString();
+                        registerRow.IsDeleted = false;
                         DBEntities.Registrations.Add(registerRow);
                         DBEntities.SaveChanges();
-                        string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.token);
+                        string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.Token);
                         var url = Url.Link("ActivateApi", new { Controller = "AccountApi", Action = "Activate", token = registerationToken });
                         MailMessage mail = new MailMessage();
                         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
@@ -76,83 +101,161 @@ namespace MembershipModel.Controllers.WebApi
                         SmtpServer.Send(mail);
                         return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
                     }
-                    
+
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Exception");
                 }
             }
-                
-           
-            
-        }
-        [HttpGet]
-        public HttpResponseMessage Activate(string token)
-        {
-            try
-            {
-                string registerationToken = HttpContext.Current.Server.UrlDecode(token);
-                var userData = (Registration)DBEntities.Registrations.Where(u => u.token == registerationToken).FirstOrDefault();
-                DateTime existingUserRegisteredTime = (DateTime)userData.createdAt;
-                existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
-                if ((bool)userData.isDeleted)
-                {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Already registered");
-                }
-                else if (existingUserRegisteredTime<DateTime.Now)
-                {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please try again");
-                }
-                else if (userData != null)
-                {
-                    var lastid = DBEntities.Users.OrderByDescending(u => u.id).Select(u => u.userId).SingleOrDefault();
-                    int newIdCount=0;
-                    if(lastid==null)
-                    {
-                        newIdCount = 1;
-                    }
-                    else
-                    {
-                        lastid=lastid.Replace("W", "");
-                        newIdCount = Convert.ToInt32(lastid);
-                        newIdCount++;
-                    }
-                    User user = new User();
-                    user.userId = "W" + newIdCount.ToString("000000");
-                    user.email = userData.email;
-                    user.password = userData.password;
-                    user.status = true;
-                    user.createdAt = DateTime.Now;
-                    user.lastModifiedAt = DateTime.Now;
-                    user.ipAddress = userData.ipAddress;
-                    user.isDeleted = false;
-                    user.isOwner = true;
-                    DBEntities.Users.Add(user);
-                    userData.isDeleted = true;
-                    DBEntities.Entry(userData).State = EntityState.Modified;
-                    DBEntities.SaveChanges();
 
-                } 
+
+
+        }
+    //POST api/AccountApi/Activate
+    [HttpGet]
+    [AllowAnonymous]
+    //[Route("Activate")]
+    public async Task<HttpResponseMessage> Activate(string token)
+    {
+        try
+        {
+            string registerationToken = HttpContext.Current.Server.UrlDecode(token);
+            var userData = (Registration)DBEntities.Registrations.Where(u => u.Token == registerationToken).FirstOrDefault();
+            DateTime existingUserRegisteredTime = (DateTime)userData.CreatedAt;
+            existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
+            if ((bool)userData.IsDeleted)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Already registered");
+            }
+            else if (existingUserRegisteredTime < DateTime.Now)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please try again");
+            }
+            else if (userData != null)
+            {
+                var lastid = DBEntities.UsersAditionalInfoes.OrderByDescending(u => u.Id).Select(u => u.CustomUserId).SingleOrDefault();
+                int newIdCount = 0;
+                if (lastid == null)
+                {
+                    newIdCount = 1;
+                }
                 else
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Record doesn't exist");
+                    lastid = lastid.Replace("W", "");
+                    newIdCount = Convert.ToInt32(lastid);
+                    newIdCount++;
+                }
+                UserModel userModel = new UserModel();
+                userModel.UserName = userData.Email;
+                userModel.Email = userData.Email;
+                userModel.Password = userData.Password;
+                string userId = await _repo.RegisterUser(userModel);
+                //IdentityResult result = await _repo.RegisterUser(userModel);
+
+                //IHttpActionResult errorResult = GetErrorResult(result);
+                //if (errorResult != null)
+                //{
+                //    //return errorResult;
+                //}
+                UsersAditionalInfo user = new UsersAditionalInfo();
+                user.AspNetUserId = userId;
+                user.CreatedBy = userId;
+                user.LastModifiedBy = userId;
+                user.CustomUserId = "W" + newIdCount.ToString("000000");
+                user.Status = true;
+                user.CreatedAt = DateTime.Now;
+                user.LastModifiedAt = DateTime.Now;
+                user.IpAddress = userData.IpAddress;
+                user.IsDeleted = false;
+                user.IsOwner = true;
+                DBEntities.UsersAditionalInfoes.Add(user);
+                userData.IsDeleted = true;
+                DBEntities.Entry(userData).State = EntityState.Modified;
+                DBEntities.SaveChanges();
+
+            }
+            else
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Record doesn't exist");
+            }
+        }
+        catch (DbEntityValidationException e)
+        {
+            foreach (var eve in e.EntityValidationErrors)
+            {
+                string str = eve.Entry.Entity.GetType().Name;
+                EntityState state = eve.Entry.State;
+                foreach (var ve in eve.ValidationErrors)
+                {
+                    var propertyName = ve.PropertyName;
+                    var message = ve.ErrorMessage;
                 }
             }
-            catch (DbEntityValidationException e)
+        }
+        return  Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+    }
+        
+   
+        // POST api/Account/Register
+        //[AllowAnonymous]
+        //[Route("Register")]
+        //public async Task<IHttpActionResult> Register(UserModel register)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    IdentityResult result = await _repo.RegisterUser(register);
+ 
+        //    IHttpActionResult errorResult = GetErrorResult(result);
+ 
+        //    if (errorResult != null)
+        //    {
+        //        return errorResult;
+        //    }
+ 
+        //    return Ok();
+        //}
+ 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                _repo.Dispose();
+            }
+ 
+            base.Dispose(disposing);
+        }
+ 
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+ 
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
                 {
-                    string str = eve.Entry.Entity.GetType().Name;
-                    EntityState state = eve.Entry.State;
-                    foreach (var ve in eve.ValidationErrors)
+                    foreach (string error in result.Errors)
                     {
-                        var propertyName = ve.PropertyName;
-                        var message = ve.ErrorMessage;
+                        ModelState.AddModelError("", error);
                     }
                 }
+ 
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+ 
+                return BadRequest(ModelState);
             }
-            return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+ 
+            return null;
         }
     }
 

@@ -14,26 +14,20 @@ namespace MembershipModel
     
     public partial class FinancialTransaction
     {
-        public FinancialTransaction()
-        {
-            this.CreditAccounts = new HashSet<CreditAccount>();
-        }
+        public int Id { get; set; }
+        public string PaidMeduim { get; set; }
+        public string AdditionalTransactionDetails { get; set; }
+        public Nullable<double> Amount { get; set; }
+        public Nullable<System.DateTime> DateOfTransaction { get; set; }
+        public string IpAddress { get; set; }
+        public string SystemDetails { get; set; }
+        public string Createdby { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<bool> LastModifiedAt { get; set; }
+        public string IsDeleted { get; set; }
     
-        public int id { get; set; }
-        public string paidMedium { get; set; }
-        public string additionalTransactionalDetails { get; set; }
-        public double amount { get; set; }
-        public System.DateTime dateOfTransaction { get; set; }
-        public string ipAddress { get; set; }
-        public string systemDetails { get; set; }
-        public int createdBy { get; set; }
-        public System.DateTime createdAt { get; set; }
-        public int lastModifiedBy { get; set; }
-        public System.DateTime lastModifiedAt { get; set; }
-        public bool isDeleted { get; set; }
-    
-        public virtual ICollection<CreditAccount> CreditAccounts { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

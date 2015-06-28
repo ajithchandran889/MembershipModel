@@ -19,19 +19,19 @@ namespace MembershipModel
             this.UserRoles = new HashSet<UserRole>();
         }
     
-        public int id { get; set; }
-        public int productId { get; set; }
-        public string roleName { get; set; }
-        public string roleDescription { get; set; }
-        public int createdBy { get; set; }
-        public System.DateTime createdAt { get; set; }
-        public int lastModifiedBy { get; set; }
-        public System.DateTime lastModifedAt { get; set; }
-        public bool isDeleted { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> ProductId { get; set; }
+        public string RoleName { get; set; }
+        public string RoleDescription { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<System.DateTime> LastModifiedAt { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

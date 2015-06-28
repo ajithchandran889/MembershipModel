@@ -14,23 +14,22 @@ namespace MembershipModel
     
     public partial class CreditAccount
     {
-        public int id { get; set; }
-        public int pcanId { get; set; }
-        public string usersSubscribed { get; set; }
-        public int financialTransactionId { get; set; }
-        public int productId { get; set; }
-        public string productSubscriptionModel { get; set; }
-        public System.DateTime fromDate { get; set; }
-        public System.DateTime toDate { get; set; }
-        public int createdBy { get; set; }
-        public System.DateTime createdDate { get; set; }
-        public int lastModifiedBy { get; set; }
-        public System.DateTime lastModifiedAt { get; set; }
-        public bool isDeleted { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> PcanId { get; set; }
+        public string UserSubscribed { get; set; }
+        public int FinancialTransactionId { get; set; }
+        public int ProductId { get; set; }
+        public string ProductSubscriptionModel { get; set; }
+        public Nullable<System.DateTime> FromDate { get; set; }
+        public Nullable<System.DateTime> ToDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<System.DateTime> LastModiifedAt { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
-        public virtual FinancialTransaction FinancialTransaction { get; set; }
         public virtual Product Product { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }
