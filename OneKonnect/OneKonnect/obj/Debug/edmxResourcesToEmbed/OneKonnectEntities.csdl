@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OneKonnectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="CreditAccounts" Relationship="Self.AspNetUsers_CreditAccount_FK" FromRole="AspNetUsers" ToRole="CreditAccount" />
+    <NavigationProperty Name="CreditAccounts1" Relationship="Self.AspNetUsers_CreditAccount_FK1" FromRole="AspNetUsers" ToRole="CreditAccount" />
+    <NavigationProperty Name="FinancialTransactions" Relationship="Self.AspNetUsers_FinancialTransactions_FK" FromRole="AspNetUsers" ToRole="FinancialTransactions" />
+    <NavigationProperty Name="FinancialTransactions1" Relationship="Self.AspNetUsers_FinancialTransactions_FK1" FromRole="AspNetUsers" ToRole="FinancialTransactions" />
+    <NavigationProperty Name="GroupMembers" Relationship="Self.AspNetUsers_GroupMembers_FK" FromRole="AspNetUsers" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupMembers1" Relationship="Self.AspNetUsers_GroupMembers_FK1" FromRole="AspNetUsers" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupMembers2" Relationship="Self.AspNetUsers_GroupMembers_FK2" FromRole="AspNetUsers" ToRole="GroupMembers" />
+    <NavigationProperty Name="Products" Relationship="Self.CreatedBy_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="Products" />
+    <NavigationProperty Name="ProductRoles" Relationship="Self.CreatedBy_Products_FK" FromRole="AspNetUsers" ToRole="ProductRoles" />
+    <NavigationProperty Name="Groups" Relationship="Self.GroupOwner_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="Groups" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.GroupProducts_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="GroupProducts" />
+    <NavigationProperty Name="GroupProducts1" Relationship="Self.GroupProducts_AspNetUsers_FK1" FromRole="AspNetUsers" ToRole="GroupProducts" />
+    <NavigationProperty Name="Groups1" Relationship="Self.Groups_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="Groups" />
+    <NavigationProperty Name="Groups2" Relationship="Self.Groups_AspNetUsers_FK1" FromRole="AspNetUsers" ToRole="Groups" />
+    <NavigationProperty Name="Products1" Relationship="Self.LastModifiedBy_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="Products" />
+    <NavigationProperty Name="ProductRoles1" Relationship="Self.LastModifiedBy_Products_FK" FromRole="AspNetUsers" ToRole="ProductRoles" />
+    <NavigationProperty Name="LogHistories" Relationship="Self.UserId_LogHistory_FK" FromRole="AspNetUsers" ToRole="LogHistory" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.UserRoles_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="UserRoles" />
+    <NavigationProperty Name="UserRoles1" Relationship="Self.UserRoles_AspNetUsers_FK1" FromRole="AspNetUsers" ToRole="UserRoles" />
+    <NavigationProperty Name="UserRoles2" Relationship="Self.UserRoles_AspNetUsers_FK2" FromRole="AspNetUsers" ToRole="UserRoles" />
+    <NavigationProperty Name="UsersAditionalInfoes" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK" FromRole="AspNetUsers" ToRole="UsersAditionalInfo" />
+    <NavigationProperty Name="UsersAditionalInfoes1" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK1" FromRole="AspNetUsers" ToRole="UsersAditionalInfo" />
+    <NavigationProperty Name="UsersAditionalInfoes2" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK2" FromRole="AspNetUsers" ToRole="UsersAditionalInfo" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <EntityType Name="CreditAccount">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PcanId" Type="Int32" />
+    <Property Name="UserSubscribed" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="FinancialTransactionId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="ProductSubscriptionModel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FromDate" Type="DateTime" Precision="3" />
+    <Property Name="ToDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModiifedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.AspNetUsers_CreditAccount_FK" FromRole="CreditAccount" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.AspNetUsers_CreditAccount_FK1" FromRole="CreditAccount" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Product" Relationship="Self.Products_CreditAccount_FK" FromRole="CreditAccount" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="FinancialTransaction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaidMeduim" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AdditionalTransactionDetails" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="DateOfTransaction" Type="DateTime" Precision="3" />
+    <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SystemDetails" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Createdby" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModifiedAt" Type="Boolean" />
+    <Property Name="IsDeleted" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.AspNetUsers_FinancialTransactions_FK" FromRole="FinancialTransactions" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.AspNetUsers_FinancialTransactions_FK1" FromRole="FinancialTransactions" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="GroupMember">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="isAdmin" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.AspNetUsers_GroupMembers_FK" FromRole="GroupMembers" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.AspNetUsers_GroupMembers_FK1" FromRole="GroupMembers" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser2" Relationship="Self.AspNetUsers_GroupMembers_FK2" FromRole="GroupMembers" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Group" Relationship="Self.GroupMembers_Groups_FK" FromRole="GroupMembers" ToRole="Groups" />
+  </EntityType>
+  <EntityType Name="GroupProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.GroupProducts_AspNetUsers_FK" FromRole="GroupProducts" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.GroupProducts_AspNetUsers_FK1" FromRole="GroupProducts" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Group" Relationship="Self.GroupProducts_Groups_FK" FromRole="GroupProducts" ToRole="Groups" />
+    <NavigationProperty Name="Product" Relationship="Self.GroupProducts_Products_FK" FromRole="GroupProducts" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="GroupOwner" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.GroupOwner_AspNetUsers_FK" FromRole="Groups" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.Groups_AspNetUsers_FK" FromRole="Groups" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser2" Relationship="Self.Groups_AspNetUsers_FK1" FromRole="Groups" ToRole="AspNetUsers" />
+    <NavigationProperty Name="GroupMembers" Relationship="Self.GroupMembers_Groups_FK" FromRole="Groups" ToRole="GroupMembers" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.GroupProducts_Groups_FK" FromRole="Groups" ToRole="GroupProducts" />
+  </EntityType>
+  <EntityType Name="LogHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ActionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.UserId_LogHistory_FK" FromRole="LogHistory" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="ProductRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RoleDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.CreatedBy_Products_FK" FromRole="ProductRoles" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.LastModifiedBy_Products_FK" FromRole="ProductRoles" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Product" Relationship="Self.ProductId_Products_FK" FromRole="ProductRoles" ToRole="Products" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.UserRoles_ProductRoles_FK" FromRole="ProductRoles" ToRole="UserRoles" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.CreatedBy_AspNetUsers_FK" FromRole="Products" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.LastModifiedBy_AspNetUsers_FK" FromRole="Products" ToRole="AspNetUsers" />
+    <NavigationProperty Name="CreditAccounts" Relationship="Self.Products_CreditAccount_FK" FromRole="Products" ToRole="CreditAccount" />
+    <NavigationProperty Name="GroupProducts" Relationship="Self.GroupProducts_Products_FK" FromRole="Products" ToRole="GroupProducts" />
+    <NavigationProperty Name="ProductRoles" Relationship="Self.ProductId_Products_FK" FromRole="Products" ToRole="ProductRoles" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SystemDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="GroupProductId" Type="Int32" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.UserRoles_AspNetUsers_FK" FromRole="UserRoles" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.UserRoles_AspNetUsers_FK1" FromRole="UserRoles" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser2" Relationship="Self.UserRoles_AspNetUsers_FK2" FromRole="UserRoles" ToRole="AspNetUsers" />
+    <NavigationProperty Name="ProductRole" Relationship="Self.UserRoles_ProductRoles_FK" FromRole="UserRoles" ToRole="ProductRoles" />
+  </EntityType>
+  <EntityType Name="UsersAditionalInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AspNetUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ContactInfo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="IsOwner" Type="Boolean" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="LastModifiedAt" Type="DateTime" Precision="3" />
+    <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ForgotPasswordRequestAt" Type="DateTime" Precision="3" />
+    <Property Name="ForgotPasswordToken" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ChangeEmailReuestAt" Type="DateTime" Precision="3" />
+    <Property Name="ChangeEmailToken" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK1" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser2" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK2" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_CreditAccount_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_CreditAccount_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_FinancialTransactions_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="FinancialTransactions" Type="Self.FinancialTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FinancialTransactions">
+        <PropertyRef Name="Createdby" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_FinancialTransactions_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="FinancialTransactions" Type="Self.FinancialTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FinancialTransactions">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_GroupMembers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_GroupMembers_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsers_GroupMembers_FK2">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CreatedBy_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CreatedBy_Products_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupOwner_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="GroupOwner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupProducts_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupProducts_AspNetUsers_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Groups_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Groups_AspNetUsers_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LastModifiedBy_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LastModifiedBy_Products_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserId_LogHistory_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="LogHistory" Type="Self.LogHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogHistory">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserRoles_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserRoles_AspNetUsers_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserRoles_AspNetUsers_FK2">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersAditionalInfo_AspNetUsers_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UsersAditionalInfo" Type="Self.UsersAditionalInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersAditionalInfo">
+        <PropertyRef Name="AspNetUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersAditionalInfo_AspNetUsers_FK1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="UsersAditionalInfo" Type="Self.UsersAditionalInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersAditionalInfo">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersAditionalInfo_AspNetUsers_FK2">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="UsersAditionalInfo" Type="Self.UsersAditionalInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersAditionalInfo">
+        <PropertyRef Name="LastModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Products_CreditAccount_FK">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="CreditAccount" Type="Self.CreditAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditAccount">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupMembers_Groups_FK">
+    <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupProducts_Groups_FK">
+    <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupProducts_Products_FK">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="GroupProducts" Type="Self.GroupProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupProducts">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductId_Products_FK">
+    <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductRoles">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserRoles_ProductRoles_FK">
+    <End Role="ProductRoles" Type="Self.ProductRole" Multiplicity="0..1" />
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="OneKonnectEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="CreditAccounts" EntityType="Self.CreditAccount" />
+    <EntitySet Name="FinancialTransactions" EntityType="Self.FinancialTransaction" />
+    <EntitySet Name="GroupMembers" EntityType="Self.GroupMember" />
+    <EntitySet Name="GroupProducts" EntityType="Self.GroupProduct" />
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="LogHistories" EntityType="Self.LogHistory" />
+    <EntitySet Name="ProductRoles" EntityType="Self.ProductRole" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Registrations" EntityType="Self.Registration" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+    <EntitySet Name="UsersAditionalInfoes" EntityType="Self.UsersAditionalInfo" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_CreditAccount_FK" Association="Self.AspNetUsers_CreditAccount_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_CreditAccount_FK1" Association="Self.AspNetUsers_CreditAccount_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_FinancialTransactions_FK" Association="Self.AspNetUsers_FinancialTransactions_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="FinancialTransactions" EntitySet="FinancialTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_FinancialTransactions_FK1" Association="Self.AspNetUsers_FinancialTransactions_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="FinancialTransactions" EntitySet="FinancialTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_GroupMembers_FK" Association="Self.AspNetUsers_GroupMembers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_GroupMembers_FK1" Association="Self.AspNetUsers_GroupMembers_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsers_GroupMembers_FK2" Association="Self.AspNetUsers_GroupMembers_FK2">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="CreatedBy_AspNetUsers_FK" Association="Self.CreatedBy_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="CreatedBy_Products_FK" Association="Self.CreatedBy_Products_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="GroupOwner_AspNetUsers_FK" Association="Self.GroupOwner_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="GroupProducts_AspNetUsers_FK" Association="Self.GroupProducts_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="GroupProducts_AspNetUsers_FK1" Association="Self.GroupProducts_AspNetUsers_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="Groups_AspNetUsers_FK" Association="Self.Groups_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="Groups_AspNetUsers_FK1" Association="Self.Groups_AspNetUsers_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="LastModifiedBy_AspNetUsers_FK" Association="Self.LastModifiedBy_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="LastModifiedBy_Products_FK" Association="Self.LastModifiedBy_Products_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UserId_LogHistory_FK" Association="Self.UserId_LogHistory_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="LogHistory" EntitySet="LogHistories" />
+    </AssociationSet>
+    <AssociationSet Name="UserRoles_AspNetUsers_FK" Association="Self.UserRoles_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UserRoles_AspNetUsers_FK1" Association="Self.UserRoles_AspNetUsers_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UserRoles_AspNetUsers_FK2" Association="Self.UserRoles_AspNetUsers_FK2">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UsersAditionalInfo_AspNetUsers_FK" Association="Self.UsersAditionalInfo_AspNetUsers_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UsersAditionalInfo" EntitySet="UsersAditionalInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="UsersAditionalInfo_AspNetUsers_FK1" Association="Self.UsersAditionalInfo_AspNetUsers_FK1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UsersAditionalInfo" EntitySet="UsersAditionalInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="UsersAditionalInfo_AspNetUsers_FK2" Association="Self.UsersAditionalInfo_AspNetUsers_FK2">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UsersAditionalInfo" EntitySet="UsersAditionalInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="Products_CreditAccount_FK" Association="Self.Products_CreditAccount_FK">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="CreditAccount" EntitySet="CreditAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="GroupMembers_Groups_FK" Association="Self.GroupMembers_Groups_FK">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="GroupProducts_Groups_FK" Association="Self.GroupProducts_Groups_FK">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="GroupProducts_Products_FK" Association="Self.GroupProducts_Products_FK">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="GroupProducts" EntitySet="GroupProducts" />
+    </AssociationSet>
+    <AssociationSet Name="ProductId_Products_FK" Association="Self.ProductId_Products_FK">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UserRoles_ProductRoles_FK" Association="Self.UserRoles_ProductRoles_FK">
+      <End Role="ProductRoles" EntitySet="ProductRoles" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
