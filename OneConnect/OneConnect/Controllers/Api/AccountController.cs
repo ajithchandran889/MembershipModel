@@ -79,7 +79,7 @@ namespace OneConnect.Controllers.Api
                         MailMessage mail = new MailMessage();
                         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
                         mail.From = new MailAddress("ajithchandran1990@gmail.com");
-                        mail.To.Add("ajithchandran1990@gmail.com");
+                        mail.To.Add(reg.emailId);
                         mail.Subject = "Registration link";
 
                         mail.IsBodyHtml = true;
