@@ -1,0 +1,66 @@
+﻿@model OneConnect.ViewModels.Login
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="home-welcome-page">
+    <div class="container">
+        <div class="row home-welcome-text">
+            <h3>One Konnect</h3>
+            <h1>Communication Simplified And Unfied</h1>
+        </div>
+        <div class="row login-box">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-3">
+                <div class="panel panel-info">
+                    <!--<div class="panel-heading">
+                        <h3 class="panel-title">Please login</h3>
+                    </div>-->
+                    <div class="panel-body">
+                        <div class="row login-body">
+                            <div class="col-md-5  col-xs-2 login-blue">
+                                <h3>Log In</h3>
+                            </div>
+                            <div class="col-md-7  username-pass">
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    <fieldset>
+                                        <div class="form-group user-input">
+                                            @*<input class="form-control" placeholder="Email" name="email" type="text">*@
+                                            @*<text>Signed In As  <strong>@User.Identity.Name</strong>*@
+                                            @Html.TextBoxFor(model =>model.emailId, new { id = "emailId", placeholder = "Email", @class = "form-control" })
+                                            <img src="~/Content/site/forgot-pasword-email.png" />
+                                            @Html.ValidationMessageFor(model => model.emailId)
+                                        </div>
+                                        <div class="form-group user-input">
+                                            @*<input class="form-control" placeholder="Password" name="password" type="password" value="">*@
+                                            @Html.PasswordFor(model => model.password, new { id = "password", placeholder = "Password", @class = "form-control" })
+                                            <img src="~/Content/site/key.png" />
+                                            @Html.ValidationMessageFor(model => model.password)
+                                        </div>
+                                        <div class="login-btn-box">
+                                            <input class="btn btn-flat flat-info btn-lg btn-block login-btn" type="submit" value="Login" id="submitLogin">
+                                        </div>
+                                        <div class="frgt-uname-pass">
+                                            <p><a href="01_homepage_forgot_Usr.html">Forgot username?</a></p>
+                                            <p><a href="01_homepage_forgot_pwd.html">Forgot password?</a></p>
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-3  or-sign-up">
+                <p class="or-bar"></p>
+                <p class="or-text">
+                    @*<a href="01_homepage_Signup.html">Or Sign up</a>*@
+                    @Html.ActionLink("Or Sign up", "Register", "UserAccount")
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

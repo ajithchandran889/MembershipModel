@@ -1,0 +1,77 @@
+﻿@model OneConnect.ViewModels.Register
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="home-welcome-page">
+    <div class="container">
+        <div class="row home-welcome-text">
+            <h3>One Konnect</h3>
+            <h1>Communication Simplified And Unfied</h1>
+        </div>
+        <div class="row forgot-password">
+            <div class="col-md-7  col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-headings">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 class="panel-title">Signup</h3>
+
+                            </div>
+                            <div class="col-md-8">
+                                @if (ViewBag.isRegistrationCompletedSuccessfully)
+                                {
+                                    <div class="alert alert-success" role="alert">
+                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span class="bold"> &nbsp;Thanks you!</span>	Check your inbox for  activation
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr class="signup">
+                    </div>
+                    <div class="panel-body">
+                        <div class="row login-body">
+                            <div class="col-md-10  username-pass">
+
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    <fieldset>
+
+                                        <div class="form-group user-input">
+                                            @*<input class="form-control" placeholder="Email" name="email" type="text" value="">*@
+                                            @Html.TextBoxFor(model => model.emailId, new { id = "emailId", placeholder = "Email", @class = "form-control" })
+                                            <img src="~/Content/site/forgot-pasword-email.png" />
+                                            @Html.ValidationMessageFor(model => model.emailId)
+                                        </div>
+                                        <div class="form-group user-input">
+                                            @*<input class="form-control" placeholder="Password" name="password" type="password" value="">*@
+                                            @Html.TextBoxFor(model => model.password, new { id = "password", placeholder = "Password", @class = "form-control" })
+                                            <img src="~/Content/site/key.png">
+                                            @Html.ValidationMessageFor(model => model.password)
+                                        </div>
+                                        <div class="captcha-box">
+                                            <img src="~/Content/site/captcha.png" />
+                                        </div>
+                                        <div class="form-group user-input">
+                                            <input class="form-control" placeholder="Code" name="Code" type="text" value="">
+                                            <img src="~/Content/site/captcha-code-bug.png" />
+                                        </div>
+                                        <div class="login-btn-box col-md-5">
+                                            <input class="btn btn-flat flat-info btn-lg btn-block login-btn" type="submit" value="Submit" id="submitRegister">
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
