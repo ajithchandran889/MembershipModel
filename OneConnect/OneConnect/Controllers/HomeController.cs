@@ -35,10 +35,12 @@ namespace OneConnect.Controllers
                     var isAuthenticated = Convert.ToBoolean(Request.Cookies["isAuthenticated"].Value);
                     if (isAuthenticated == true)
                     {
+                        Session["IsAuthenticated"] = true;
                         return true;
                     }
                     else
                     {
+                        Session["IsAuthenticated"] = false;
                         return false;
                     }
                 }

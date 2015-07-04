@@ -28,17 +28,25 @@
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="about-us.html">Pages</a></li>
-                        <li><a href="product.html">About Us</a></li>
-                        <li><a href="contact-us.html">Products</a></li>
-                        <li><a href="sign-in.html">Portfolio</a></li>
-                        <li><a href="sign-in.html">Blog</a></li>
-                        <li><a href="sign-in.html">Contact</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>
-                    </ul>
+                    <div class="hidden">
+                        @{Html.RenderAction("IsAuthenticated", "Home");}
+                    </div>
+                    
+                    @if(Convert.ToBoolean(Session["IsAuthenticated"]))
+                       {
+                            <ul class="nav navbar-nav">
+                                <li><a href="/">Home</a></li>
+                                @*<li><a href="about-us.html">Pages</a></li>
+                                <li><a href="product.html">About Us</a></li>*@
+                                <li><a href="contact-us.html">Products</a></li>
+                                @*<li><a href="sign-in.html">Portfolio</a></li>*@
+                                <li><a href="sign-in.html">Membership</a></li>
+                                <li><a href="sign-in.html">FAQ</a></li>
+                                @*<li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+                                <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>*@
+                            </ul>
+                       }
+                    
                     <!-- /.nav -->
                 </div>
                 <!-- /.navbar-collapse -->

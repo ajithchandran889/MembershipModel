@@ -77,3 +77,18 @@ $(document).on("click", "#logOutBtn", function (event) {
     var url = $("#RedirectToHome").val();
     window.location.href = url;
 });
+$(document).on("click", ".accountSetting", function (event) {
+    $("#accountSettings").show();
+    $("#groupSettigs").hide();
+    $("#userSettings").hide();
+});
+$(document).on("click", ".userSetting", function (event) {
+    $("#accountSettings").hide();
+    $("#groupSettigs").hide();
+    $("#userSettings").show();
+});
+$(document).on("click", ".groupSetting", function (event) {
+    $("#accountSettings").hide();
+    $("#groupSettigs").show();
+    $("#userSettings").hide();
+});

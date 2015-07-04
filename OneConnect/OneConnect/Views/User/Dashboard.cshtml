@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-md-3 col-sm-4 ">
                 <div class="thumbnail acs">
-                    <a href="02_Settings_info.html"><img src="~/Content/site/account-settings-hover.png" alt="..." /> </a>
+                    <a href="#" class="accountSetting"> <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." /> </a>
                     <div class="caption">
                         <h3>Account Settings</h3>
                     </div>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-md-6 col-sm-4 ">
                 <div class="thumbnail">
-                    <a href="03_User.html"><img src="~/Content/site/user-settings.png" alt="..."></a>
+                    <a href="#" class="userSetting"><img class="userSetting" src="~/Content/site/user-settings.png" alt="..."></a>
                     <div class="caption">
                         <h3>User Settings</h3>
                     </div>
@@ -54,18 +54,18 @@
             </div>
             <div class="col-md-3 col-sm-4 grp-setting-rht">
                 <div class="thumbnail">
-                    <a href="04_Groups.html"><img src="~/Content/site/group-settings.png" alt="..."></a>
+                    <a href="#" class="groupSetting"><img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
                     <div class="caption">
                         <h3>Group Settings</h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="blue-line">
+        @*<div class="blue-line">
             <div class="blue-spacing"></div>
-        </div>
+        </div>*@
     </section>
-    <section class="account-settings">
+    <section id="accountSettings" class="account-settings">
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <h3>ACCOUNT SETTINGS</h3>
@@ -322,6 +322,352 @@
                 <!-- /tabs -->
             </div>
         </div><!-- /row -->
+    </section>
+    <section id="userSettings" class="account-settings hideElement">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <h3>USER SETTINGS</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-5 col-sm-offset-5 col-sm-6 col-xs-6 col-xs-offset-4">
+                <div class="blue-line-short">
+                    <div class="blue-spacing"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable tabs-left user-settings-tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#aa" data-toggle="tab">All Users</a>
+                        </li>
+                        <li>
+                            <a href="#bb" data-toggle="tab">Add New User</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active account-setting-form" id="aa">
+                            <div class="bs-example  ">
+                                <div class="row table-responsive">
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>User ID</th>
+                                                <th>Username</th>
+                                                <th>Email</th>
+                                                <th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
+                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>
+                                                <th>Status</th>
+                                                <th>Options</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <!--<td><span><img src="images/site/status-uncheck.png"></span></td>-->
+                                                <td>
+                                                    <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                </td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <td><input id="checkboxid" type="checkbox" class="css-checkbox"></td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">onek 01</td>
+                                                <td>Username 01</td>
+                                                <td>onek01@gmail.com</td>
+                                                <td>Full Address, 1270</td>
+                                                <td>onekonnect</td>
+                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
+                                                <td>
+                                                    <span class="edit">
+                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row edit-fields">
+                                    <span> <img src="~/Content/site/star.png" alt="" /></span>
+                                    <span>: Editable Fields</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="bb">
+                            <div class="row">
+                                <div class="bs-example col-md-7">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4 col-md-3 col-sm-3">User Email:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="email" class="form-control" id="inputEmail" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group account-settings-btn">
+                                            <div class="col-xs-12 col-sm-5 col-md-4 col-md-offset-1">
+                                                <a class="btn btn-info">
+                                                    <img src="~/Content/site/save.png" alt="">Save Your Changes
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5 col-md-4 col-md-offset-1">
+                                                <a class="btn btn-danger">
+                                                    <img src="~/Content/site/cancel.png" alt="">Cancel Changes
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="groupSettigs" class="account-settings hideElement">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <h3>GROUP SETTINGS</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-5 col-sm-offset-5 col-sm-6 col-xs-6 col-xs-offset-4">
+                <div class="blue-line-short">
+                    <div class="blue-spacing"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
+            </div>
+        </div>
+        <div class="row members-group">
+            <div class="col-md-12">
+                <div class="col-md-3 pull-left">
+                    <h3 class="text-left">Members Groups</h3>
+                    <div class="col-md-1 ">
+                        <div class="blue-line-short">
+                            <div class="blue-spacing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="  pull-right">
+                    <div class="form-group account-settings-btn">
+                        <div class=" ">
+                            <a class="btn btn-warning">
+                                <img class="pluse" src="~/Content/site/minus.png" alt="">Hide Inactive Groups
+                            </a>
+                            <a class="btn btn-success">
+                                <img class="minus" src="~/Content/site/pluse.png" alt="">Add New Group
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row member-group-settings">
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="support" src="~/Content/site/support.png" alt="...">
+                    <div class="caption">
+                        <h4>Sample Group 1</h4>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Products :18</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit Group
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Users :37</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit User
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="support" src="~/Content/site/social-media.png" alt="...">
+                    <div class="caption">
+                        <h4>Sample Group 2</h4>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Products :25</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit Group
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Users :19</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit User
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="support" src="images/site/onekonnect.png" alt="...">
+                    <div class="caption">
+                        <h4>Sample Group 3</h4>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Products :41</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit Group
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Users :73</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit User
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="support" src="~/Content/site/inactive-group.png" alt="...">
+                    <div class="caption">
+                        <h4>Sample Group 1</h4>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Products :18</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit Group
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                <h5>Users :37</h5>
+                                <a href="#" class="btn btn-default grey" role="button">
+                                    <img src="~/Content/site/setting.png" alt="" />
+                                    Edit User
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 @Html.Hidden("RedirectToHome", Url.Action("Index", "Home"));
