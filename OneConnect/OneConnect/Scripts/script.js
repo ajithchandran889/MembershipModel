@@ -60,11 +60,20 @@ $(document).on("click", "#submitLogin", function (event) {
             $.cookie('isAuthenticated', true, { path: '/' });
             $.cookie('token', response.access_token, { path: '/' });
             $.cookie('userEmail', $("#emailId").val(), { path: '/' });
-            alert($.cookie("isAuthenticated"));
+            var url = $("#RedirectToDash").val();
+            window.location.href = url;
+            //alert($.cookie("isAuthenticated"));
         },
         error: function (x, y, z) {
             alert("error");
         }
     });
     return false;
+});
+$(document).on("click", "#logOutBtn", function (event) {
+    $.cookie('isAuthenticated', false, { path: '/' });
+    $.cookie('token', null, { path: '/' });
+    $.cookie('userEmail',null, { path: '/' });
+    var url = $("#RedirectToHome").val();
+    window.location.href = url;
 });

@@ -58,9 +58,10 @@
                 <p class="or-bar"></p>
                 <p class="or-text">
                     @*<a href="01_homepage_Signup.html">Or Sign up</a>*@
-                    @Html.ActionLink("Or Sign up", "Register", "UserAccount")
+                    @Html.ActionLink("Or Sign up", "Register", "User")
                 </p>
             </div>
+            @Html.Hidden("RedirectToDash", Url.Action("Dashboard", "User"));
         </div>
     </div>
 </section>
