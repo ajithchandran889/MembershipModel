@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="top-well">
+    <div class="well"></div>
+</section>
+<div class="container">
+    <section class="login-status">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-7">
+                <p>Logged In As John Deo</p>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-5 pull-right">
+                <div class="logout-btn">
+                    <a href="#" id="logOutBtn" class="btn btn-danger">
+                        <img src="~/Content/site/logout.png" alt="">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="blue-line">
+            <div class="blue-spacing"></div>
+        </div>
+    </section>
+
+
+    <section class="dashboard">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                <h1>User Dashboard</h1>
+            </div>
+        </div>
+    </section>
+    <section class="settings">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 ">
+                <div class="thumbnail acs">
+                    <a href="02_Settings_info.html"><img src="~/Content/site/account-settings-hover.png" alt="..." /> </a>
+                    <div class="caption">
+                        <h3>Account Settings</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-4 ">
+                <div class="thumbnail">
+                    <a href="03_User.html"><img src="~/Content/site/user-settings.png" alt="..."></a>
+                    <div class="caption">
+                        <h3>User Settings</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4 grp-setting-rht">
+                <div class="thumbnail">
+                    <a href="04_Groups.html"><img src="~/Content/site/group-settings.png" alt="..."></a>
+                    <div class="caption">
+                        <h3>Group Settings</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blue-line">
+            <div class="blue-spacing"></div>
+        </div>
+    </section>
+    <section class="account-settings">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <h3>ACCOUNT SETTINGS</h3>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1  col-md-offset-5   col-sm-offset-5 col-sm-6  col-xs-6 col-xs-offset-4">
+                <div class="blue-line-short">
+                    <div class="blue-spacing">	</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- tabs left -->
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#a" data-toggle="tab">Account Info</a></li>
+                        <li><a href="#b" data-toggle="tab">Edit Details</a></li>
+                        <li><a href="#c" data-toggle="tab">Change Password</a></li>
+                        <li><a href="#d" data-toggle="tab">Change Email</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active account-setting-form" id="a">
+                            <div class="row">
+                                <div class="bs-example col-md-7">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <span><img src="~/Content/site/user-info.png" /></span>
+                                                <label for="inputEmail" class="control-label ">A182028</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4  col-md-3  col-sm-3">Email :</label>
+                                            <div class="col-xs-8 col-md-9  col-sm-9">
+                                                <span><img src="~/Content/site/forgot-pasword-email.png" /></span>
+                                                <label class="control-label ">onekonnect@gmail.com</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <span><img src="~/Content/site/card.png" /></span>
+                                                <label class="control-label ">First Name Last Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9 ">
+                                                <span><img src="~/Content/site/company.png" /></span>
+                                                <label class="control-label ">Abc Corporation LTD</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <span><img src="~/Content/site/address.png" /></span>
+                                                <label class="control-label ">Full Address, Free Text</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <span><img src="~/Content/site/contact.png" /></span>
+                                                <label class="control-label ">Full Country code number</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
+                                            <div class="col-xs-2">
+                                                <span><img class="active-checkbox" src="~/Content/site/active.png" /></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group account-settings-btn">
+
+
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-danger">
+                                                    <img src="~/Content/site/cancel.png" alt="">	Deactivate account
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="b">
+                            <div class="row">
+                                <div class="bs-example col-md-7">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <label for="inputEmail" class="control-label ">A182028</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4  col-md-3 col-sm-3">Email :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="email" class="form-control" id="inputEmail" placeholder="onekonnect@gmail.com">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword" placeholder="First Name Last Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword" placeholder="Abc Corporation LTD">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword" placeholder="Full Address, Free Text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword" placeholder="Abc Corporation LTD">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
+                                            <div class="col-xs-2">
+                                                <input type="checkbox" class="form-control edit-tick-mark" id="inputPassword" placeholder="Full Country COde Number">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3"> </label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <img class="captcha" src="~/Content/site/captcha.png" alt="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Code :</label>
+                                            <div class="col-xs-5 col-md-5">
+                                                <input type="text" class="form-control" id="inputPassword" placeholder="Code">
+                                            </div>
+                                        </div>
+                                        <div class="form-group account-settings-btn">
+
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-info">
+                                                    <img src="~/Content/site/save.png" alt="">	Save Your Changes
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-danger">
+                                                    <img src="~/Content/site/cancel.png" alt="">	Cancel Changes
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="c">
+                            <div class="row">
+                                <div class="bs-example col-md-7">
+                                    <form class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Old:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">New:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Confirm:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group account-settings-btn">
+
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-info">
+                                                    <img src="~/Content/site/save.png" alt="">	Save Your Changes
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-danger">
+                                                    <img src="~/Content/site/cancel.png" alt="">	Cancel Changes
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="d">
+                            <div class="row">
+                                <div class="bs-example col-md-7">
+                                    <form class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label col-xs-4  col-md-3 col-sm-3">New Email:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="email" class="form-control" id="inputEmail" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group account-settings-btn">
+
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-info">
+                                                    <img src="~/Content/site/save.png" alt="">	Save Your Changes
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                <a class="btn btn-danger">
+                                                    <img src="~/Content/site/cancel.png" alt="">	Cancel Changes
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /tabs -->
+            </div>
+        </div><!-- /row -->
+    </section>
+</div>
+@Html.Hidden("RedirectToHome", Url.Action("Index", "Home"));
