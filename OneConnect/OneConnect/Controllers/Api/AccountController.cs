@@ -11,6 +11,9 @@ using System.Net.Mail;
 using System.Data.Entity.Validation;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using Microsoft.Owin.Security.Cookies;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 namespace OneConnect.Controllers.Api
 {
     [RoutePrefix("api/Account")]
@@ -22,7 +25,7 @@ namespace OneConnect.Controllers.Api
         {
             _repo = new AuthRepository();
         }
-        //POST api/Register/InitialRegister
+        //POST api/Account/InitialRegister
         [HttpPost]
         [AllowAnonymous]
         [Route("InitialRegister")]
@@ -108,7 +111,7 @@ namespace OneConnect.Controllers.Api
 
         }
 
-        //POST api/Register/Activate
+        //POST api/Account/Activate
         [HttpGet]
         [AllowAnonymous]
         //[Route("Activate")]
@@ -190,6 +193,14 @@ namespace OneConnect.Controllers.Api
                     }
                 }
             }
+            return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+        }
+        [Route("Logout")]
+        [HttpGet]
+        public HttpResponseMessage Logout()
+        {
+            var authentication = HttpContext.Current.GetOwinContext().Authentication;
+            authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
         }
         //private AuthRepository _repo = null;

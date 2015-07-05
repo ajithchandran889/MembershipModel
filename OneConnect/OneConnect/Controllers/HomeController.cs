@@ -30,9 +30,9 @@ namespace OneConnect.Controllers
         {
             try
             {
-                if (Request.Cookies["isAuthenticated"] != null)
+                if (HttpContext.Request.Cookies["isAuthenticated"] != null)
                 {
-                    var isAuthenticated = Convert.ToBoolean(Request.Cookies["isAuthenticated"].Value);
+                    var isAuthenticated = Convert.ToBoolean(HttpContext.Request.Cookies["isAuthenticated"].Value);
                     if (isAuthenticated == true)
                     {
                         Session["IsAuthenticated"] = true;
@@ -47,7 +47,8 @@ namespace OneConnect.Controllers
             }
             catch (Exception e)
             {
-
+                //Session["IsAuthenticated"] = false;
+               // return false;
             }
             return true;
         }

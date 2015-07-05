@@ -8,7 +8,6 @@ namespace OneConnect.Controllers
 {
     public class UserController : Controller
     {
-        HomeController home = new HomeController();
         public ActionResult Index()
         {
             return View();
@@ -21,7 +20,7 @@ namespace OneConnect.Controllers
         }
         public ActionResult Dashboard()
         {
-            if(home.IsAuthenticated())
+            if(IsAuthenticated())
             {
                 return View();
             }
@@ -29,6 +28,32 @@ namespace OneConnect.Controllers
             {
                 return RedirectToAction("Index","Home");
             }
+        }
+        public bool IsAuthenticated()
+        {
+            try
+            {
+                if (HttpContext.Request.Cookies["isAuthenticated"] != null)
+                {
+                    var isAuthenticated = Convert.ToBoolean(HttpContext.Request.Cookies["isAuthenticated"].Value);
+                    if (isAuthenticated == true)
+                    {
+                        Session["IsAuthenticated"] = true;
+                        return true;
+                    }
+                    else
+                    {
+                        Session["IsAuthenticated"] = false;
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                //Session["IsAuthenticated"] = false;
+                // return false;
+            }
+            return true;
         }
     }
 }

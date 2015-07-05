@@ -71,11 +71,26 @@ $(document).on("click", "#submitLogin", function (event) {
     return false;
 });
 $(document).on("click", "#logOutBtn", function (event) {
-    $.cookie('isAuthenticated', false, { path: '/' });
-    $.cookie('token', null, { path: '/' });
-    $.cookie('userEmail',null, { path: '/' });
-    var url = $("#RedirectToHome").val();
-    window.location.href = url;
+    $.ajax({
+        type: "GET",
+        url: "/api/Account/Logout/",
+        contentType: "application/json; charset=utf-8",
+        Accept: "application/json",
+        dataType: "json",
+        success: function (response) {
+
+            $.cookie('isAuthenticated', false, { path: '/' });
+            $.cookie('token', null, { path: '/' });
+            $.cookie('userEmail', null, { path: '/' });
+            var url = $("#RedirectToHome").val(); 
+            window.location.href = url;
+        },
+        error: function (x, y, z) {
+            alert("error");
+            
+        }
+    });
+    
 });
 $(document).on("click", ".accountSetting", function (event) {
     $("#accountSettings").show();
