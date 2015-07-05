@@ -30,7 +30,7 @@ namespace OneConnect
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(10),
                 Provider = new SimpleAuthorizationServerProvider()
             };
 

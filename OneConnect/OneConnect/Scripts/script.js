@@ -57,7 +57,7 @@ $(document).on("click", "#submitLogin", function (event) {
             //alert($("#emailId").val());
             //self.user($("#emailId").val());
             //sessionStorage.setItem(tokenKey, response.access_token);
-            $.cookie('isAuthenticated', true, { path: '/' });
+            $.cookie('isAuthenticated', true, { path: '/' }); 
             $.cookie('token', response.access_token, { path: '/' });
             $.cookie('userEmail', $("#emailId").val(), { path: '/' });
             var url = $("#RedirectToDash").val();
@@ -96,14 +96,50 @@ $(document).on("click", ".accountSetting", function (event) {
     $("#accountSettings").show();
     $("#groupSettigs").hide();
     $("#userSettings").hide();
+    $("img.accountSetting").attr("src", "/Content/site/account-settings-hover.png");
+    $("img.userSetting").attr("src", "/Content/site/user-settings.png");
+    $("img.groupSetting").attr("src", "/Content/site/group-settings.png");
 });
 $(document).on("click", ".userSetting", function (event) {
     $("#accountSettings").hide();
     $("#groupSettigs").hide();
     $("#userSettings").show();
+    $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
+    $("img.userSetting").attr("src", "/Content/site/user-settings-hover.png");
+    $("img.groupSetting").attr("src", "/Content/site/group-settings.png");
 });
 $(document).on("click", ".groupSetting", function (event) {
     $("#accountSettings").hide();
     $("#groupSettigs").show();
     $("#userSettings").hide();
+    $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
+    $("img.userSetting").attr("src", "/Content/site/user-settings.png");
+    $("img.groupSetting").attr("src", "/Content/site/group-settings-hover.png");
+});
+
+
+$(document).on("click", ".addNewUser", function (event) {
+    var register =
+        {
+            emailId: $("#inputEmail").val(),
+            password: $("#inputPassword").val()
+        }; 
+    var dataReg = JSON.stringify(register); 
+    $.ajax({
+        type: "POST",
+        url: "/api/Account/UserRegister/",
+        data: dataReg,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            alert("success");
+        },
+        error: function (x, y, z) {
+            alert("error")
+        }
+    });
+    return false;
 });
