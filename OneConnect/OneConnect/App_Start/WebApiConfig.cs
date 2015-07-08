@@ -25,6 +25,14 @@ namespace OneConnect
                 routeTemplate: "api/{controller}/{action}/{token}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute(
+                name: "GetUsers",
+                routeTemplate: "api/{controller}/{action}"
+            );
+            config.Routes.MapHttpRoute(
+                name: "GetAccountInfo",
+                routeTemplate: "api/{controller}/{action}"
+            );
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }

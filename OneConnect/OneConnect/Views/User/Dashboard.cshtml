@@ -1,4 +1,6 @@
-﻿@{
+﻿@*@model IEnumerable<OneConnect.ViewModels.UserDetails>*@
+@model dynamic
+@{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -365,114 +367,46 @@
                                         <thead>
                                             <tr>
                                                 <th>User ID</th>
-                                                <th>Username</th>
+                                                @*<th>Username</th>*@
                                                 <th>Email</th>
-                                                <th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
-                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>
+                                                @*<th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
+                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>*@
                                                 <th>Status</th>
                                                 <th>Options</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <!--<td><span><img src="images/site/status-uncheck.png"></span></td>-->
-                                                <td>
-                                                    <input id="checkboxid" type="checkbox" class="css-checkbox">
-                                                </td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <td><input id="checkboxid" type="checkbox" class="css-checkbox"></td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">onek 01</td>
-                                                <td>Username 01</td>
-                                                <td>onek01@gmail.com</td>
-                                                <td>Full Address, 1270</td>
-                                                <td>onekonnect</td>
-                                                <td><input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox"></td>
-                                                <td>
-                                                    <span class="edit">
-                                                        <a href="##"><img src="~/Content/site/edit.png"></a>
-                                                    </span>
-                                                    <span class="delete">
-                                                        <a href="##"><img src="~/Content/site/delete.png"></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            @foreach (var item in Model.userList) 
+                                            {
+                                                <tr>
+                                                    <td scope="row"><label>@item.customUserId</label></td>
+                                                    @*<td>Username 01</td>*@
+                                                    <td>
+                                                        <label id="@item.userId">@item.emailId</label>
+                                                        <input id="email_@(item.userId)" type="text" class="hideElement" value="@item.emailId"/>
+                                                    </td>
+                                                    @*<td>Full Address, 1270</td>
+                                                    <td>onekonnect</td>*@
+                                                    <td>
+                                                        @*<span>
+                                                            <img src="~/Content/site/status-uncheck.png">
+                                                        </span>*@
+                                                        <input id="checkboxid" type="checkbox" class="checkboxid css-checkbox" userid="@item.userId" @if (item.status) { <text> checked="checked" </text> }>
+                                                    </td>
+                                                    @*<td>
+                                                        <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                    </td>*@
+                                                    <td>
+                                                        <span class="edit">
+                                                            <a href="" id="editUser_@(item.userId)" class="editUser" userid="@item.userId"><img src="~/Content/site/edit.png"></a>
+                                                            <a href="" id="saveChanges_@(item.userId)" class="hideElement saveChanges" userid="@item.userId"><img src="~/Content/site/save.png"></a>
+                                                        </span>
+                                                        <span class="delete">
+                                                            <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

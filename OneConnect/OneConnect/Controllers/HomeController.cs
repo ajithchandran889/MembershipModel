@@ -18,6 +18,10 @@ namespace OneConnect.Controllers
                         return RedirectToAction("Dashboard", "User");
                     
                 }
+                else
+                {
+                    return View();
+                }
             }
             catch(Exception e)
             {
@@ -50,7 +54,7 @@ namespace OneConnect.Controllers
                 //Session["IsAuthenticated"] = false;
                // return false;
             }
-            return true;
+            return false;
         }
     }
 }

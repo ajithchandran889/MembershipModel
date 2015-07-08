@@ -110,86 +110,6 @@ namespace OneConnect.Controllers.Api
 
 
         }
-        //POST api/Account/InitialRegister
-        [HttpPost]
-        [Authorize]
-        [Route("UserRegister")]
-        public async Task<HttpResponseMessage> UserRegister(Register reg)
-        {
-            
-                try
-                {
-                    var userId = GetUserIdByName(User.Identity.GetUserName());
-                    var existingUserRegisteredDetails = (from u in DBEntities.AspNetUsers
-                                                             join ua in DBEntities.UsersAditionalInfoes on u.Id equals ua.AspNetUserId
-                                                         where u.Email == reg.emailId && ua.CreatedBy == userId
-                                                         select new { u.Id }).FirstOrDefault();
-                    if (existingUserRegisteredDetails != null)
-                    {
-                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account with email "+reg.emailId+" already exists");
-                    }
-                    else
-                    {
-
-                        var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("U")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).SingleOrDefault();
-                        int newIdCount = 0;
-                        if (lastid == null)
-                        {
-                            newIdCount = 1;
-                        }
-                        else
-                        {
-                            lastid = lastid.Replace("U", "");
-                            newIdCount = Convert.ToInt32(lastid);
-                            newIdCount++;
-                        }
-                        UserModel userModel = new UserModel();
-                        userModel.UserName = reg.emailId;
-                        userModel.Email = reg.emailId;
-                        userModel.Password = reg.password;
-                        string newUserId = await _repo.RegisterUser(userModel);
-
-                        UsersAditionalInfo user = new UsersAditionalInfo();
-                        user.AspNetUserId = newUserId;
-                        user.CreatedBy = userId;
-                        user.LastModifiedBy = userId;
-                        user.CustomUserId = "U" + newIdCount.ToString("000000");
-                        user.Status = true;
-                        user.CreatedAt = DateTime.Now;
-                        user.LastModifiedAt = DateTime.Now;
-                        string host = Dns.GetHostName();
-                        user.IpAddress = Dns.GetHostByName(host).AddressList[0].ToString();
-                        user.IsDeleted = false;
-                        user.IsOwner = false;
-                        DBEntities.UsersAditionalInfoes.Add(user);
-                        DBEntities.SaveChanges();
-                        MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                        mail.From = new MailAddress("ajithchandran1990@gmail.com");
-                        mail.To.Add(reg.emailId);
-                        mail.To.Add(User.Identity.Name);
-                        mail.Subject = "Account created";
-                        mail.IsBodyHtml = true;
-                        string htmlBody;
-                        htmlBody = "OneKonnect account created";
-                        mail.Body = htmlBody;
-                        SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
-                        SmtpServer.EnableSsl = true;
-                        SmtpServer.Send(mail);
-                    }
-                    return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
-                    
-                }
-                catch (Exception e)
-                {
-                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Exception");
-                }
-
-
-
-        }
-
         //POST api/Account/Activate
         [HttpGet]
         [AllowAnonymous]
@@ -276,11 +196,143 @@ namespace OneConnect.Controllers.Api
         }
         [Route("Logout")]
         [HttpGet]
+        [AllowAnonymous]
         public HttpResponseMessage Logout()
         {
             var authentication = HttpContext.Current.GetOwinContext().Authentication;
             authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+        }
+        //POST api/Account/UserRegister
+        [HttpPost]
+        [Authorize]
+        [Route("UserRegister")]
+        public async Task<HttpResponseMessage> UserRegister(Register reg)
+        {
+            
+                try
+                {
+                    var userId = GetUserIdByName(User.Identity.GetUserName());
+                    var existingUserRegisteredDetails = (from u in DBEntities.AspNetUsers
+                                                             join ua in DBEntities.UsersAditionalInfoes on u.Id equals ua.AspNetUserId
+                                                         where u.Email == reg.emailId && ua.CreatedBy == userId
+                                                         select new { u.Id }).FirstOrDefault();
+                    if (existingUserRegisteredDetails != null)
+                    {
+                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account with email "+reg.emailId+" already exists");
+                    }
+                    else
+                    {
+
+                        var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("U")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).SingleOrDefault();
+                        int newIdCount = 0;
+                        if (lastid == null)
+                        {
+                            newIdCount = 1;
+                        }
+                        else
+                        {
+                            lastid = lastid.Replace("U", "");
+                            newIdCount = Convert.ToInt32(lastid);
+                            newIdCount++;
+                        }
+                        UserModel userModel = new UserModel();
+                        userModel.UserName = reg.emailId;
+                        userModel.Email = reg.emailId;
+                        userModel.Password = reg.password;
+                        string newUserId = await _repo.RegisterUser(userModel);
+
+                        UsersAditionalInfo user = new UsersAditionalInfo();
+                        user.AspNetUserId = newUserId;
+                        user.CreatedBy = userId;
+                        user.LastModifiedBy = userId;
+                        user.CustomUserId = "U" + newIdCount.ToString("000000");
+                        user.Status = true;
+                        user.CreatedAt = DateTime.Now;
+                        user.LastModifiedAt = DateTime.Now;
+                        string host = Dns.GetHostName();
+                        user.IpAddress = Dns.GetHostByName(host).AddressList[0].ToString();
+                        user.IsDeleted = false;
+                        user.IsOwner = false;
+                        DBEntities.UsersAditionalInfoes.Add(user);
+                        DBEntities.SaveChanges();
+                        MailMessage mail = new MailMessage();
+                        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                        mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                        mail.To.Add(reg.emailId);
+                        mail.To.Add(User.Identity.Name);
+                        mail.Subject = "Account created";
+                        mail.IsBodyHtml = true;
+                        string htmlBody;
+                        htmlBody = "OneKonnect account created";
+                        mail.Body = htmlBody;
+                        SmtpServer.Port = 587;
+                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                        SmtpServer.EnableSsl = true;
+                        SmtpServer.Send(mail);
+                    }
+                    return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+                    
+                }
+                catch (Exception e)
+                {
+                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Exception");
+                }
+
+
+
+        }
+        //POST api/Account/DisableEnableUser
+        [HttpPost]
+        [Authorize]
+        [Route("DisableEnableUser")]
+        public HttpResponseMessage DisableEnableUser(UserActiveStatus usAct)
+        {
+
+            try
+            {
+                var userInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == usAct.userId).SingleOrDefault();
+                userInfo.Status = usAct.status;
+                DBEntities.UsersAditionalInfoes.Attach(userInfo);
+                var entry = DBEntities.Entry(userInfo);
+                entry.Property(u => u.Status).IsModified = true;
+                DBEntities.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, 1);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
+            }
+
+
+
+        }
+        //POST api/Account/ChangeEmail
+        [HttpPost]
+        [Authorize]
+        [Route("ChangeEmail")]
+        public HttpResponseMessage ChangeEmail(UserChangeEmail usEmail)
+        {
+
+            try
+            {
+                var userInfo = DBEntities.AspNetUsers.Where(u => u.Id == usEmail.userId).SingleOrDefault();
+                userInfo.Email = usEmail.emailId;
+                userInfo.UserName = usEmail.emailId;
+                DBEntities.AspNetUsers.Attach(userInfo);
+                var entry = DBEntities.Entry(userInfo);
+                entry.Property(u => u.Email).IsModified = true;
+                entry.Property(u => u.UserName).IsModified = true;
+                DBEntities.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, 1);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
+            }
+
+
+
         }
         public string GetUserIdByName(string name)
         {
@@ -294,6 +346,28 @@ namespace OneConnect.Controllers.Api
 
             }
             return null;
+        }
+        //POST api/Account/GetAccountInfo
+        [HttpGet]
+        [Authorize]
+        [Route("GetAccountInfo")]
+        public AccountInfo GetAccountInfo()
+        {
+            AccountInfo info = null;
+            try
+            {
+                string userId = GetUserIdByName(User.Identity.Name); ;
+
+                info = (from a in DBEntities.AspNetUsers
+                        join ua in DBEntities.UsersAditionalInfoes on a.Id equals ua.AspNetUserId
+                        where a.Id == userId
+                        select new { r = a, s = ua }).Select(t => new AccountInfo { userId = t.r.Id, customUserId = t.s.CustomUserId, email = t.r.Email, name = t.s.Name, company = t.s.CompanyName, address = t.s.Address, contact = t.s.ContactInfo,status=t.s.Status.Value }).SingleOrDefault();
+
+            }
+            catch (Exception e)
+            {
+            }
+            return info;
         }
     }
 }

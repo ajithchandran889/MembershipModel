@@ -143,3 +143,95 @@ $(document).on("click", ".addNewUser", function (event) {
     });
     return false;
 });
+
+$('.checkboxid').change(function () {
+    var userId = $(this).attr("userId");
+    if ($(this).is(":checked")) {
+        var status = 1;
+    }
+    else
+    {
+        var status = 0;
+    }
+    var usrAct =
+        {
+            userId: userId,
+            status: status
+        };
+    var dataUsrAct = JSON.stringify(usrAct);
+    $.ajax({
+        type: "POST",
+        url: "/api/Account/DisableEnableUser/",
+        data: dataUsrAct,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+        },
+        error: function (x, y, z) {
+            alert("error");
+        }
+    });
+    return false;
+});
+$(document).on("click", ".editUser", function () {
+    var userId = $(this).attr("userId");
+    var editBtnId = "#editUser_" + userId;
+    var saveBtnId = "#saveChanges_" + userId;
+    var emailId = "#"+userId;
+    var editEmailId = "#email_" + userId;
+    $(editBtnId).hide();
+    $(emailId).hide();
+    $(saveBtnId).show();
+    $(editEmailId).show();
+    return false;
+});
+$(document).on("click", ".saveChanges", function () {
+    var userId = $(this).attr("userId");
+    var editBtnId = "#editUser_" + userId;
+    var saveBtnId = "#saveChanges_" + userId;
+    var emailId = "#"+userId;
+    var editEmailId = "#email_" + userId;
+    if(isValidEmailAddress($(editEmailId).val()))
+    {
+        var usrEmail =
+        {
+            userId: userId,
+            emailId: $(editEmailId).val()
+        };
+        var dataUsrEmail = JSON.stringify(usrEmail);
+        $.ajax({
+            type: "POST",
+            url: "/api/Account/ChangeEmail/",
+            data: dataUsrEmail,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+            },
+            success: function (response) {
+                $(emailId).text($(editEmailId).val());
+                $(editBtnId).show();
+                $(emailId).show();
+                $(saveBtnId).hide();
+                $(editEmailId).hide();
+            },
+            error: function (x, y, z) {
+                alert("error");
+            }
+        });
+        
+    }
+    else
+    {
+        alert("Invalid email address");
+        
+    }
+    return false;
+});
+function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    return pattern.test(emailAddress);
+};

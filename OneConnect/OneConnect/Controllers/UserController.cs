@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using OneConnect.ViewModels;
+using System.Dynamic;
+using System.Threading.Tasks;
 
 namespace OneConnect.Controllers
 {
@@ -18,11 +22,55 @@ namespace OneConnect.Controllers
             ViewBag.isRegistrationCompletedSuccessfully = false;
             return View();
         }
-        public ActionResult Dashboard()
+        public async Task<ActionResult> Dashboard()
         {
             if(IsAuthenticated())
             {
-                return View();
+                using (var client = new HttpClient())
+                {
+                    dynamic myModel = new ExpandoObject();
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",  HttpContext.Request.Cookies["token"].Value);
+                    var userDetailUrl = Url.RouteUrl(
+                        "GetUsers",
+                        new { httproute = "", controller = "User", action = "GetUsers" },
+                        Request.Url.Scheme
+                    );
+                    IEnumerable<UserDetails> userDetails = null;
+                    using (var response = client.GetAsync(userDetailUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                             userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+
+                        }
+
+                    }
+                    var accountInfoUrl = Url.RouteUrl(
+                        "GetAccountInfo",
+                        new { httproute = "", controller = "User", action = "GetUsers" },
+                        Request.Url.Scheme
+                    );
+                     IEnumerable<AccountInfo> accounInfo = null;
+                    using (var response = client.GetAsync(accountInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            accounInfo = response.Content.ReadAsAsync<List<AccountInfo>>().Result.ToList();
+
+                        }
+
+                    }
+                    myModel.userList = userDetails;
+                    myModel.accountInfo = accounInfo;
+                    return View(myModel);
+                }
+                
+                //return View();
             }
             else
             {
@@ -53,7 +101,7 @@ namespace OneConnect.Controllers
                 //Session["IsAuthenticated"] = false;
                 // return false;
             }
-            return true;
+            return false;
         }
     }
 }
