@@ -50,17 +50,17 @@ namespace OneConnect.Controllers
                     }
                     var accountInfoUrl = Url.RouteUrl(
                         "GetAccountInfo",
-                        new { httproute = "", controller = "User", action = "GetUsers" },
+                        new { httproute = "", controller = "Account", action = "GetAccountInfo" },
                         Request.Url.Scheme
                     );
-                     IEnumerable<AccountInfo> accounInfo = null;
+                     AccountInfo accounInfo = null;
                     using (var response = client.GetAsync(accountInfoUrl).Result)
                     {
 
                         if (response.IsSuccessStatusCode)
                         {
 
-                            accounInfo = response.Content.ReadAsAsync<List<AccountInfo>>().Result.ToList();
+                            accounInfo = response.Content.ReadAsAsync<AccountInfo>().Result;
 
                         }
 
