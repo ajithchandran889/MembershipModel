@@ -77,6 +77,11 @@ namespace OneConnect.Controllers
                 return RedirectToAction("Index","Home");
             }
         }
+        [ChildActionOnly]
+        public PartialViewResult AccountInfoPartial(AccountInfo accountInfo)
+        {
+            return PartialView("_PartialAccountInfo",accountInfo);
+        }
         public bool IsAuthenticated()
         {
             try

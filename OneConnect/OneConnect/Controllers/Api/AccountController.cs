@@ -421,6 +421,34 @@ namespace OneConnect.Controllers.Api
             
 
         }
+        // POST api/Account/EditAccountInfo
+        [Route("EditAccountInfo")]
+        [HttpPost]
+        [Authorize]
+        public HttpResponseMessage EditAccountInfo(EditAccountInfo model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid data");
+            }
+            string userId = GetUserIdByName(User.Identity.Name);
+            UsersAditionalInfo additionInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == userId).FirstOrDefault();
+            additionInfo.Name = model.name;
+            additionInfo.CompanyName = model.company;
+            additionInfo.ContactInfo = model.contact;
+            additionInfo.Address = model.address;
+            additionInfo.Status = model.status;
+            DBEntities.UsersAditionalInfoes.Attach(additionInfo);
+            var entry = DBEntities.Entry(additionInfo);
+            entry.Property(a => a.Name).IsModified = true;
+            entry.Property(a => a.CompanyName).IsModified = true;
+            entry.Property(a => a.ContactInfo).IsModified = true;
+            entry.Property(a => a.Address).IsModified = true;
+            entry.Property(a => a.Status).IsModified = true;
+            DBEntities.SaveChanges();
+            return Request.CreateResponse<string>(HttpStatusCode.OK, "updated");
+
+        }
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)

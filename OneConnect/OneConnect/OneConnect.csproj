@@ -270,6 +270,7 @@
     <Compile Include="ViewModels\AccountInfo.cs" />
     <Compile Include="ViewModels\ChangeEmail.cs" />
     <Compile Include="ViewModels\ChangePasswordBindingModel.cs" />
+    <Compile Include="ViewModels\EditAccountInfo.cs" />
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\Register.cs" />
     <Compile Include="ViewModels\UserActiveStatus.cs" />
@@ -402,6 +403,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\User\_PartialAccountInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

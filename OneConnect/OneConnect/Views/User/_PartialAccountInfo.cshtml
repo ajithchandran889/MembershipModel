@@ -1,0 +1,62 @@
+﻿@model OneConnect.ViewModels.AccountInfo
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
+        <div class="col-xs-8 col-md-9">
+            <span><img src="~/Content/site/user-info.png" /></span>
+            <label class="control-label ">@Model.customUserId</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4  col-md-3  col-sm-3">Email :</label>
+        <div class="col-xs-8 col-md-9  col-sm-9">
+            <span><img src="~/Content/site/forgot-pasword-email.png" /></span>
+            <label class="control-label ">@Model.email</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
+        <div class="col-xs-8 col-md-9 col-sm-9">
+            <span><img src="~/Content/site/card.png" /></span>
+            <label class="control-label ">@(Model.name ?? "NA")</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
+        <div class="col-xs-8 col-md-9 col-sm-9 ">
+            <span><img src="~/Content/site/company.png" /></span>
+            <label class="control-label ">@(Model.company ?? "NA")</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
+        <div class="col-xs-8 col-md-9 col-sm-9">
+            <span><img src="~/Content/site/address.png" /></span>
+            <label class="control-label ">@(Model.address ?? "NA")</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
+        <div class="col-xs-8 col-md-9 col-sm-9">
+            <span><img src="~/Content/site/contact.png" /></span>
+            <label class="control-label ">@(Model.contact ?? "NA")</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
+        <div class="col-xs-2">
+            @{string src = string.Empty;}
+            @if (Model.status)
+            {
+                src = "/Content/site/active.png";
+            }
+            else
+            {
+                src = "/Content/site/deactive.png";
+            }
+            <span><img class="active-checkbox" src=@src /></span>
+        </div>
+    </div>
+
+</form>

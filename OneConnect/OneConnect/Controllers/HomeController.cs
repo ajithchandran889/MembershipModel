@@ -30,6 +30,11 @@ namespace OneConnect.Controllers
             return View();
             
         }
+        public ActionResult ForgotPassword()
+        {
+            ViewBag.isSuccess = false;
+            return View();
+        }
         public bool IsAuthenticated()
         {
             try
