@@ -356,7 +356,7 @@ namespace OneConnect.Controllers.Api
             AccountInfo info = null;
             try
             {
-                string userId = GetUserIdByName(User.Identity.Name); ;
+                string userId = GetUserIdByName(User.Identity.Name); 
 
                 info = (from a in DBEntities.AspNetUsers
                         join ua in DBEntities.UsersAditionalInfoes on a.Id equals ua.AspNetUserId
@@ -368,6 +368,86 @@ namespace OneConnect.Controllers.Api
             {
             }
             return info;
+        }
+        // POST api/Account/ChangePassword
+        [Route("ChangePassword")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await _repo.ChangePassword(model, User.Identity.Name);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+        // POST api/Account/ChangeEmailWithPassword
+        [Route("ChangeEmailWithPassword")]
+        [HttpPost]
+        [Authorize]
+        public HttpResponseMessage ChangeEmailWithPassword(ChangeEmail model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid data");
+            }
+            var user = DBEntities.AspNetUsers.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+
+            string oldHash = user.PasswordHash;
+            bool result = _repo.VerifyHashedPassword(oldHash, model.password);
+            if(result)
+            {
+                user.Email = model.emailId;
+                user.UserName = model.emailId;
+                DBEntities.AspNetUsers.Attach(user);
+                var entry = DBEntities.Entry(user);
+                entry.Property(u => u.UserName).IsModified = true;
+                entry.Property(u => u.Email).IsModified = true;
+                DBEntities.SaveChanges();
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Email changed");
+            }
+            else
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid password");
+            }
+            
+
+        }
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
         }
     }
 }

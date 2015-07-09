@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
+using OneConnect.ViewModels;
+using OneConnect.Controllers.Api;
 
 namespace OneConnect.Models
 {
@@ -27,12 +30,23 @@ namespace OneConnect.Models
                 UserName = userModel.UserName,
                 Email = userModel.Email
             };
-
+            
             var result = await _userManager.CreateAsync(user, userModel.Password);
             var userId = user.Id;
             return userId;
         }
+        public async Task<IdentityResult> ChangePassword(ChangePasswordBindingModel model,string username)
+        {
 
+            AccountController acc = new AccountController();
+            string userId = acc.GetUserIdByName(username);
+            IdentityResult result = await _userManager.ChangePasswordAsync(userId, model.OldPassword,
+                model.NewPassword);
+
+            return result;
+
+            
+        }
         public async Task<IdentityUser> FindUser(string userName, string password)
         {
             IdentityUser user = await _userManager.FindAsync(userName, password);
@@ -45,6 +59,14 @@ namespace OneConnect.Models
             _ctx.Dispose();
             _userManager.Dispose();
 
+        }
+        public bool VerifyHashedPassword(string oldPassword, string password)
+        {
+            if (_userManager.PasswordHasher.VerifyHashedPassword(oldPassword, password) != PasswordVerificationResult.Failed)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

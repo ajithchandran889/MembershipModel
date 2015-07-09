@@ -143,7 +143,58 @@ $(document).on("click", ".addNewUser", function (event) {
     });
     return false;
 });
-
+$(document).on("click", ".changePassword", function (event) {
+    var changePassowrd =
+        {
+            OldPassword: $("#oldPassword").val(),
+            NewPassword: $("#newPassword").val(),
+            ConfirmPassword: $("#confirmPassword").val()
+        };
+    var dataChangePwd = JSON.stringify(changePassowrd);
+    $.ajax({
+        type: "POST",
+        url: "/api/Account/ChangePassword/",
+        data: dataChangePwd,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            alert("success");
+        },
+        error: function (x, y, z) {
+            alert("error")
+        }
+    });
+    return false;
+});
+$(document).on("click", ".changeEmail", function (event) {
+    
+    var ChangeEmail =
+        {
+            password: $("#currentUserPassword").val(),
+            emailId: $("#newEmailId").val()
+        };
+    var dataChangePwd = JSON.stringify(ChangeEmail);
+    $.ajax({
+        type: "POST",
+        url: "/api/Account/ChangeEmailWithPassword/",
+        data: dataChangePwd,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            alert("success");
+        },
+        error: function (x, y, z) {
+            alert("error");
+        }
+    });
+    return false;
+});
 $('.checkboxid').change(function () {
     var userId = $(this).attr("userId");
     if ($(this).is(":checked")) {

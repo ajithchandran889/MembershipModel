@@ -12,7 +12,11 @@
     <section class="login-status">
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-7">
-                <p>Logged In As John Deo</p>
+                @if (!String.IsNullOrEmpty(Model.accountInfo.name))
+                {
+                    <p>Logged In As @Model.accountInfo.name </p>
+                }
+                
             </div>
             <div class="col-md-6 col-sm-6 col-xs-5 pull-right">
                 <div class="logout-btn">
@@ -109,52 +113,61 @@
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
                                             <div class="col-xs-8 col-md-9">
                                                 <span><img src="~/Content/site/user-info.png" /></span>
-                                                <label  class="control-label ">A182028</label>
+                                                <label  class="control-label ">@Model.accountInfo.customUserId</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4  col-md-3  col-sm-3">Email :</label>
                                             <div class="col-xs-8 col-md-9  col-sm-9">
                                                 <span><img src="~/Content/site/forgot-pasword-email.png" /></span>
-                                                <label class="control-label ">onekonnect@gmail.com</label>
+                                                <label class="control-label ">@Model.accountInfo.email</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <span><img src="~/Content/site/card.png" /></span>
-                                                <label class="control-label ">First Name Last Name</label>
+                                                <label class="control-label ">@(Model.accountInfo.name ?? "NA")</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9 ">
                                                 <span><img src="~/Content/site/company.png" /></span>
-                                                <label class="control-label ">Abc Corporation LTD</label>
+                                                <label class="control-label ">@(Model.accountInfo.company ?? "NA")</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <span><img src="~/Content/site/address.png" /></span>
-                                                <label class="control-label ">Full Address, Free Text</label>
+                                                <label class="control-label ">@(Model.accountInfo.address ?? "NA")</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <span><img src="~/Content/site/contact.png" /></span>
-                                                <label class="control-label ">Full Country code number</label>
+                                                <label class="control-label ">@(Model.accountInfo.contact ?? "NA")</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
                                             <div class="col-xs-2">
-                                                <span><img class="active-checkbox" src="~/Content/site/active.png" /></span>
+                                                @{string src=string.Empty;}
+                                                @if (Model.accountInfo.status)
+                                                {
+                                                    src = "/Content/site/active.png";
+                                                }
+                                                else
+                                                {
+                                                    src = "/Content/site/deactive.png";
+                                                }
+                                                <span><img class="active-checkbox" src=@src /></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group account-settings-btn">
+                                        @*<div class="form-group account-settings-btn">
 
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
@@ -162,7 +175,7 @@
                                                     <img src="~/Content/site/cancel.png" alt="">	Deactivate account
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                                     </form>
                                 </div>
@@ -175,43 +188,44 @@
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
                                             <div class="col-xs-8 col-md-9">
-                                                <label  class="control-label ">A182028</label>
+                                                <label  class="control-label ">@Model.accountInfo.customUserId</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4  col-md-3 col-sm-3">Email :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="email" class="form-control"  placeholder="onekonnect@gmail.com">
+                                                <input type="email" class="form-control" placeholder="onekonnect@gmail.com" value="@Model.accountInfo.email">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="text" class="form-control"  placeholder="First Name Last Name">
+                                                <input type="text" class="form-control" placeholder="Name" value="@Model.accountInfo.name">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="text" class="form-control"  placeholder="Abc Corporation LTD">
+                                                <input type="text" class="form-control" placeholder="Abc Corporation LTD" value="@Model.accountInfo.company">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="text" class="form-control"  placeholder="Full Address, Free Text">
+                                                <input type="text" class="form-control"  placeholder="Full Address, Free Text" value="@Model.accountInfo.address">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="text" class="form-control"  placeholder="Abc Corporation LTD">
+                                                <input type="text" class="form-control" placeholder="Abc Corporation LTD" value="@Model.accountInfo.contact">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
                                             <div class="col-xs-2">
-                                                <input type="checkbox" class="form-control edit-tick-mark"  placeholder="Full Country COde Number">
+                                                <input id="checkboxAccountStatus" type="checkbox" class="checkboxid css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status) { <text> checked="checked" </text>   }>
+                                                @*<input type="checkbox" class="form-control edit-tick-mark"  >*@
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -252,27 +266,27 @@
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Old:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="">
+                                                <input type="password" class="form-control"  placeholder="" id="oldPassword">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">New:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="">
+                                                <input type="password" class="form-control"  placeholder="" id="newPassword">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Confirm:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control" placeholder="">
+                                                <input type="password" class="form-control" placeholder="" id="confirmPassword">
                                             </div>
                                         </div>
 
                                         <div class="form-group account-settings-btn">
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
-                                                <a class="btn btn-info">
-                                                    <img src="~/Content/site/save.png" alt="">	Save Your Changes
+                                                <a class="btn btn-info changePassword">
+                                                    <img src="~/Content/site/save.png" alt="" class="changePassword">	Save Your Changes
                                                 </a>
                                             </div>
                                             <div class="col-xs-12 col-sm-5 col-md-5">
@@ -294,21 +308,21 @@
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4  col-md-3 col-sm-3">New Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="email" class="form-control"  placeholder="">
+                                                <input type="email" name="newEmailId" id="newEmailId" class="form-control" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="">
+                                                <input type="password" class="form-control" name="currentUserPassword" id="currentUserPassword" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="form-group account-settings-btn">
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
-                                                <a class="btn btn-info">
-                                                    <img src="~/Content/site/save.png" alt="">	Save Your Changes
+                                                <a class="btn btn-info changeEmail">
+                                                    <img src="~/Content/site/save.png" alt="" class="changeEmail">	Save Your Changes
                                                 </a>
                                             </div>
                                             <div class="col-xs-12 col-sm-5 col-md-5">

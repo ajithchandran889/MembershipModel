@@ -22,7 +22,7 @@ namespace OneConnect.Controllers.Api
             try
             {
                 AccountController acc = new AccountController();
-                string userId = acc.GetUserIdByName(User.Identity.Name); ;
+                string userId = acc.GetUserIdByName(User.Identity.Name); 
                 
                list=(from u in DBEntities.AspNetUsers
                               join  ua in DBEntities.UsersAditionalInfoes on u.Id equals ua.AspNetUserId
