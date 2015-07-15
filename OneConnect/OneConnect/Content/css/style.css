@@ -1003,3 +1003,7 @@
  .hideElement{
      display:none;
  }
+ .errorMessage
+ {
+     color:red;
+ }

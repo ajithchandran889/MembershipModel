@@ -225,6 +225,9 @@
     <Property Name="ChangeEmailReuestAt" Type="datetime" />
     <Property Name="ChangeEmailToken" Type="nvarchar" MaxLength="50" />
     <Property Name="IsDeleted" Type="bit" />
+    <Property Name="passwordRecoveryToken" Type="nvarchar" MaxLength="200" />
+    <Property Name="emailResetToken" Type="nvarchar" MaxLength="200" />
+    <Property Name="newEmailRequested" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <Association Name="AspNetUsers_CreditAccount_FK">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />

@@ -88,7 +88,7 @@ namespace OneConnect.Controllers.Api
                         mail.IsBodyHtml = true;
                         string htmlBody;
 
-                        htmlBody = "Click the link to activate  thee account:<a href='" + url + "'>Click here<a/>";
+                        htmlBody = "Click the link to activate  the account:<a href='" + url + "'>Click here<a/>";
 
                         mail.Body = htmlBody;
 
@@ -145,7 +145,7 @@ namespace OneConnect.Controllers.Api
                         newIdCount++;
                     }
                     UserModel userModel = new UserModel();
-                    userModel.UserName = userData.Email;
+                    userModel.UserName = "W" + newIdCount.ToString("000000");
                     userModel.Email = userData.Email;
                     userModel.Password = userData.Password;
                     string userId = await _repo.RegisterUser(userModel);
@@ -172,7 +172,24 @@ namespace OneConnect.Controllers.Api
                     userData.IsDeleted = true;
                     DBEntities.Entry(userData).State = EntityState.Modified;
                     DBEntities.SaveChanges();
+                    MailMessage mail = new MailMessage();
+                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                    mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                    mail.To.Add(userData.Email);
+                    mail.Subject = "Login Information";
 
+                    mail.IsBodyHtml = true;
+                    string htmlBody;
+
+                    htmlBody = "User Id:" + user.CustomUserId ;
+
+                    mail.Body = htmlBody;
+
+                    SmtpServer.Port = 587;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(mail);
                 }
                 else
                 {
@@ -237,7 +254,7 @@ namespace OneConnect.Controllers.Api
                             newIdCount++;
                         }
                         UserModel userModel = new UserModel();
-                        userModel.UserName = reg.emailId;
+                        userModel.UserName = "U" + newIdCount.ToString("000000");
                         userModel.Email = reg.emailId;
                         userModel.Password = reg.password;
                         string newUserId = await _repo.RegisterUser(userModel);
@@ -318,11 +335,11 @@ namespace OneConnect.Controllers.Api
             {
                 var userInfo = DBEntities.AspNetUsers.Where(u => u.Id == usEmail.userId).SingleOrDefault();
                 userInfo.Email = usEmail.emailId;
-                userInfo.UserName = usEmail.emailId;
+                //userInfo.UserName = usEmail.emailId;
                 DBEntities.AspNetUsers.Attach(userInfo);
                 var entry = DBEntities.Entry(userInfo);
                 entry.Property(u => u.Email).IsModified = true;
-                entry.Property(u => u.UserName).IsModified = true;
+                //entry.Property(u => u.UserName).IsModified = true;
                 DBEntities.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, 1);
             }
@@ -361,7 +378,7 @@ namespace OneConnect.Controllers.Api
                 info = (from a in DBEntities.AspNetUsers
                         join ua in DBEntities.UsersAditionalInfoes on a.Id equals ua.AspNetUserId
                         where a.Id == userId
-                        select new { r = a, s = ua }).Select(t => new AccountInfo { userId = t.r.Id, customUserId = t.s.CustomUserId, email = t.r.Email, name = t.s.Name, company = t.s.CompanyName, address = t.s.Address, contact = t.s.ContactInfo,status=t.s.Status.Value }).SingleOrDefault();
+                        select new { r = a, s = ua }).Select(t => new AccountInfo { userId = t.r.Id, customUserId = t.r.UserName, email = t.r.Email, name = t.s.Name, company = t.s.CompanyName, address = t.s.Address, contact = t.s.ContactInfo,status=t.s.Status.Value }).SingleOrDefault();
 
             }
             catch (Exception e)
@@ -399,24 +416,48 @@ namespace OneConnect.Controllers.Api
             {
                 return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid data");
             }
-            var user = DBEntities.AspNetUsers.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-
+            var user = DBEntities.AspNetUsers.Where(u => u.UserName == model.userId && u.Email==model.oldEmailId).FirstOrDefault();
+            if(user==null)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid details");
+            }
             string oldHash = user.PasswordHash;
             bool result = _repo.VerifyHashedPassword(oldHash, model.password);
             if(result)
             {
-                user.Email = model.emailId;
-                user.UserName = model.emailId;
-                DBEntities.AspNetUsers.Attach(user);
-                var entry = DBEntities.Entry(user);
-                entry.Property(u => u.UserName).IsModified = true;
-                entry.Property(u => u.Email).IsModified = true;
+                string emailToken = Guid.NewGuid().ToString();
+               
+                var userAdditionalInfo = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId == model.userId).SingleOrDefault();
+                userAdditionalInfo.emailResetToken = emailToken;
+                userAdditionalInfo.newEmailRequested = model.emailId;
+                DBEntities.UsersAditionalInfoes.Attach(userAdditionalInfo);
+                var entry = DBEntities.Entry(userAdditionalInfo);
+                entry.Property(u => u.emailResetToken).IsModified = true;
+                entry.Property(u => u.newEmailRequested).IsModified = true;
                 DBEntities.SaveChanges();
+                emailToken = HttpContext.Current.Server.UrlEncode(emailToken);
+                //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                var url = model.hostName+"/Home/ChangeEmail?token=" + emailToken;
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.To.Add(model.oldEmailId);
+                mail.Subject = "Change Email link:";
+                mail.IsBodyHtml = true;
+                string htmlBody;
+                htmlBody = "<b>Email change request to your one connect account</b><br/>link:" + url;
+                mail.Body = htmlBody;
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+                
                 return Request.CreateResponse<string>(HttpStatusCode.OK, "Email changed");
             }
             else
             {
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid password");
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid details");
             }
             
 
@@ -448,6 +489,180 @@ namespace OneConnect.Controllers.Api
             DBEntities.SaveChanges();
             return Request.CreateResponse<string>(HttpStatusCode.OK, "updated");
 
+        }
+        // POST api/Account/ForgotUserId
+        [Route("ForgotUserId")]
+        [HttpPost]
+        [AllowAnonymous]
+        public HttpResponseMessage ForgotUserId(ForgotUserId forgotUserId)
+        {
+            try
+            {
+                var info = (from u in DBEntities.AspNetUsers
+                            where u.Email == forgotUserId.emailId
+                            select new { u.UserName }).ToList();
+                if (info.Count==0)
+                {
+                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Email doesn't exist");
+                }
+                //string userIds = (string[])info;
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.To.Add(forgotUserId.emailId);
+                mail.Subject = "Onekonnect UserIds";
+                mail.IsBodyHtml = true;
+                string htmlBody;
+                htmlBody = "your user id's are:";
+                foreach(var userId in info)
+                {
+                    htmlBody += userId.UserName;
+                }
+                mail.Body = htmlBody;
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+            }
+            catch(Exception e)
+            {
+
+            }
+          
+          return Request.CreateResponse<string>(HttpStatusCode.OK, "Ok");
+        }
+        // POST api/Account/ForgotPassword
+        [Route("ForgotPassword")]
+        [HttpPost]
+        [AllowAnonymous]
+        public HttpResponseMessage ForgotPassword(ForgotPassword forgotPassowrd)
+        {
+            try
+            {
+                string passwordToken = Guid.NewGuid().ToString();
+                var info = DBEntities.AspNetUsers.Where(u => u.UserName == forgotPassowrd.userId && u.Email == forgotPassowrd.emailId).SingleOrDefault();
+
+                if (info==null)
+                {
+                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "No data found");
+                }
+                var userAdditionalInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == info.Id).SingleOrDefault();
+                userAdditionalInfo.passwordRecoveryToken = passwordToken;
+                DBEntities.UsersAditionalInfoes.Attach(userAdditionalInfo);
+                var entry = DBEntities.Entry(userAdditionalInfo);
+                entry.Property(u => u.passwordRecoveryToken).IsModified = true;
+                DBEntities.SaveChanges();
+                passwordToken = HttpContext.Current.Server.UrlEncode(passwordToken);
+                //string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
+                //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                var url = forgotPassowrd.hostName+"/Home/RceoverPassword?token="+passwordToken;
+                //var url = Url.Route("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = "passwordToken" });
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.To.Add(forgotPassowrd.emailId);
+                mail.Subject = "Password reset link:";
+                mail.IsBodyHtml = true;
+                string htmlBody;
+                htmlBody = "link:"+url;
+                mail.Body = htmlBody;
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return Request.CreateResponse<string>(HttpStatusCode.OK, "Ok");
+        }
+        //POST api/Account/RceoverPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("RceoverPassword")]
+        public IHttpActionResult RceoverPassword(RecoverPassword recoverPassword)
+        {
+            try
+            {
+                string passwordRecoveryToken = HttpContext.Current.Server.UrlDecode(recoverPassword.recoveryToken);
+                var userData = DBEntities.UsersAditionalInfoes.Where(u => u.passwordRecoveryToken == passwordRecoveryToken).FirstOrDefault();
+                if (userData == null)
+                {
+                    return BadRequest();
+                }
+                else 
+                {
+                    bool result =_repo.ChangePasswordWithoutCurrentPassword(recoverPassword.newPassword, userData.CustomUserId);
+
+                    return Ok();
+                }
+                
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    string str = eve.Entry.Entity.GetType().Name;
+                    EntityState state = eve.Entry.State;
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        var propertyName = ve.PropertyName;
+                        var message = ve.ErrorMessage;
+                    }
+                }
+            }
+            return Ok();
+        }
+        //POST api/Account/changeEmailConfirmation
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("changeEmailConfirmation")]
+        public IHttpActionResult changeEmailConfirmation(ChangeEmailConfirm changeEmailConfirm)
+        {
+            try
+            {
+                string changeEmailToken = HttpContext.Current.Server.UrlDecode(changeEmailConfirm.token);
+                var userData = DBEntities.UsersAditionalInfoes.Where(u => u.emailResetToken == changeEmailToken).FirstOrDefault();
+                if (userData == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var user = DBEntities.AspNetUsers.Where(u => u.Id == userData.AspNetUserId ).FirstOrDefault();
+                    string oldHash = user.PasswordHash;
+                    bool result = _repo.VerifyHashedPassword(oldHash,changeEmailConfirm.password);
+                    if (result)
+                    {
+                        user.Email = userData.newEmailRequested;
+                        DBEntities.AspNetUsers.Attach(user);
+                        var entry = DBEntities.Entry(user);
+                        entry.Property(u => u.Email).IsModified = true;
+                        DBEntities.SaveChanges();
+                    }
+
+                    return Ok();
+                }
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    string str = eve.Entry.Entity.GetType().Name;
+                    EntityState state = eve.Entry.State;
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        var propertyName = ve.PropertyName;
+                        var message = ve.ErrorMessage;
+                    }
+                }
+            }
+            return Ok();
         }
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {

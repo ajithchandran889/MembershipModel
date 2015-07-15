@@ -281,6 +281,9 @@
     <NavigationProperty Name="AspNetUser" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
     <NavigationProperty Name="AspNetUser1" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK1" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
     <NavigationProperty Name="AspNetUser2" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK2" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
+    <Property Name="passwordRecoveryToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="emailResetToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="newEmailRequested" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">

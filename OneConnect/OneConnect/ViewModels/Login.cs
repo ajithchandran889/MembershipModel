@@ -8,10 +8,9 @@ namespace OneConnect.ViewModels
 {
     public class Login
     {
-        [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress)]
+        [Display(Name = "User ID")]
         [Required]
-        public string emailId { get; set; }
+        public string userId { get; set; }
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         [Required]

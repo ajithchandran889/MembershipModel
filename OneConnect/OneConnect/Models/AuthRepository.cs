@@ -44,8 +44,15 @@ namespace OneConnect.Models
                 model.NewPassword);
 
             return result;
+        }
+        public bool ChangePasswordWithoutCurrentPassword(string newPassword, string username)
+        {
 
-            
+            AccountController acc = new AccountController();
+            string userId = acc.GetUserIdByName(username);
+            _userManager.RemovePassword(userId);
+            _userManager.AddPassword(userId, newPassword);
+            return true;
         }
         public async Task<IdentityUser> FindUser(string userName, string password)
         {

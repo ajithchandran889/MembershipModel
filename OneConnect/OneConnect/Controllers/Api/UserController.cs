@@ -26,7 +26,7 @@ namespace OneConnect.Controllers.Api
                 
                list=(from u in DBEntities.AspNetUsers
                               join  ua in DBEntities.UsersAditionalInfoes on u.Id equals ua.AspNetUserId
-                              where ua.CreatedBy==userId && ua.AspNetUserId!=userId select new {r=u,s=ua}).Select(t=> new UserDetails{userId=t.r.Id,customUserId=t.s.CustomUserId,emailId=t.r.Email,status=t.s.Status.Value}).ToList();
+                              where ua.CreatedBy==userId && ua.AspNetUserId!=userId select new {r=u,s=ua}).Select(t=> new UserDetails{userId=t.r.Id,customUserId=t.r.UserName,emailId=t.r.Email,status=t.s.Status.Value}).ToList();
                 
             }
             catch (Exception e)

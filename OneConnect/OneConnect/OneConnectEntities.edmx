@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OneKonnectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OneKonnectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -230,6 +230,9 @@
           <Property Name="ChangeEmailReuestAt" Type="datetime" />
           <Property Name="ChangeEmailToken" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDeleted" Type="bit" />
+          <Property Name="passwordRecoveryToken" Type="nvarchar" MaxLength="200" />
+          <Property Name="emailResetToken" Type="nvarchar" MaxLength="200" />
+          <Property Name="newEmailRequested" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="AspNetUsers_CreditAccount_FK">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -788,8 +791,7 @@
             <End Role="UsersAditionalInfo" EntitySet="UsersAditionalInfo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OneKonnectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1074,6 +1076,9 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
           <NavigationProperty Name="AspNetUser1" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK1" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
           <NavigationProperty Name="AspNetUser2" Relationship="Self.UsersAditionalInfo_AspNetUsers_FK2" FromRole="UsersAditionalInfo" ToRole="AspNetUsers" />
+          <Property Name="passwordRecoveryToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="emailResetToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="newEmailRequested" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -1818,6 +1823,9 @@
           <EntitySetMapping Name="UsersAditionalInfoes">
             <EntityTypeMapping TypeName="OneKonnectModel.UsersAditionalInfo">
               <MappingFragment StoreEntitySet="UsersAditionalInfo">
+                <ScalarProperty Name="newEmailRequested" ColumnName="newEmailRequested" />
+                <ScalarProperty Name="emailResetToken" ColumnName="emailResetToken" />
+                <ScalarProperty Name="passwordRecoveryToken" ColumnName="passwordRecoveryToken" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomUserId" ColumnName="CustomUserId" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />

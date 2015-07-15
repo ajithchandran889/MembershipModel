@@ -114,8 +114,14 @@
                         </div>
                         <div class="tab-pane" id="b">
                             <div class="row">
+                                <div id="successMessageEditAccount" class="hideElement">
+                                    <div class="alert alert-success" role="alert">
+                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span class="bold"> &nbsp;Thanks you!</span>	Check your inbox to reset password
+                                    </div>
+                                </div>
                                 <div class="bs-example col-md-7">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" id="accountEditForm">
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
                                             <div class="col-xs-8 col-md-9">
@@ -191,25 +197,31 @@
                         </div>
                         <div class="tab-pane" id="c">
                             <div class="row">
+                                <div id="successMessagePasswordChange" class="hideElement">
+                                    <div class="alert alert-success" role="alert">
+                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        Successsfully changed password
+                                    </div>
+                                </div>
                                 <div class="bs-example col-md-7">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" id="changePasswordForm">
 
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Old:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="" id="oldPassword">
+                                                <input type="password" class="form-control"  placeholder="" name="oldPassword" id="oldPassword">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">New:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="" id="newPassword">
+                                                <input type="password" class="form-control" placeholder="" name="newPassword" id="newPassword">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Confirm:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control" placeholder="" id="confirmPassword">
+                                                <input type="password" class="form-control" placeholder="" name="confirmPassword" id="confirmPassword">
                                             </div>
                                         </div>
 
@@ -233,13 +245,30 @@
                         </div>
                         <div class="tab-pane" id="d">
                             <div class="row">
+                                <div id="successMessageEmailChange" class="hideElement">
+                                    <div class="alert alert-success" role="alert">
+                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        Successsfully sent request to change email
+                                    </div>
+                                </div>
                                 <div class="bs-example col-md-7">
-                                    <form class="form-horizontal">
-
+                                    <form class="form-horizontal" id="changeEmailForm">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4  col-md-3 col-sm-3">User Id:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="text" name="userId" id="userId" class="form-control" placeholder="User Id">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4  col-md-3 col-sm-3">Old Email:</label>
+                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                                <input type="email" name="oldEmailId" id="oldEmailId" class="form-control" placeholder="Old Email">
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label  class="control-label col-xs-4  col-md-3 col-sm-3">New Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="email" name="newEmailId" id="newEmailId" class="form-control" placeholder="">
+                                                <input type="email" name="newEmailId" id="newEmailId" class="form-control" placeholder="New Email">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -364,8 +393,14 @@
                         </div>
                         <div class="tab-pane" id="bb">
                             <div class="row">
+                                <div id="successMessageAddedNewUser" class="hideElement">
+                                    <div class="alert alert-success" role="alert">
+                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        Successsfully added new user
+                                    </div>
+                                </div>
                                 <div class="bs-example col-md-7">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" id="addNewUserForm">
                                         <div class="form-group">
                                             <label for="inputEmail" class="control-label col-xs-4 col-md-3 col-sm-3">User Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">

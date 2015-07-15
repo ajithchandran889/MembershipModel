@@ -210,6 +210,9 @@
     <EntitySetMapping Name="UsersAditionalInfoes">
       <EntityTypeMapping TypeName="OneKonnectModel.UsersAditionalInfo">
         <MappingFragment StoreEntitySet="UsersAditionalInfo">
+          <ScalarProperty Name="newEmailRequested" ColumnName="newEmailRequested" />
+          <ScalarProperty Name="emailResetToken" ColumnName="emailResetToken" />
+          <ScalarProperty Name="passwordRecoveryToken" ColumnName="passwordRecoveryToken" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustomUserId" ColumnName="CustomUserId" />
           <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />

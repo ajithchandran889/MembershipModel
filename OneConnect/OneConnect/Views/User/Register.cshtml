@@ -20,13 +20,14 @@
 
                             </div>
                             <div class="col-md-8">
-                                @if (ViewBag.isRegistrationCompletedSuccessfully)
-                                {
-                                    <div class="alert alert-success" role="alert">
+                                
+                                    <div id="registerSuccess" class="alert alert-success hideElement" role="alert">
                                         <span><img src="~/Content/site/like.png" alt="" />	</span>
                                         <span class="bold"> &nbsp;Thanks you!</span>	Check your inbox for  activation
                                     </div>
-                                }
+                                    <div id="registerFailure" class="alert alert-danger hideElement" role="alert">
+                                        <span id="failureMessage"> </span>
+                                    </div>
                             </div>
                         </div>
                         <hr class="signup">
@@ -35,7 +36,7 @@
                         <div class="row login-body">
                             <div class="col-md-10  username-pass">
 
-                                @using (Html.BeginForm())
+                                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "registerForm" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.ValidationSummary(true)
@@ -43,7 +44,7 @@
 
                                         <div class="form-group user-input">
                                             @*<input class="form-control" placeholder="Email" name="email" type="text" value="">*@
-                                            @Html.TextBoxFor(model => model.emailId, new { id = "emailId", placeholder = "Email", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.emailId, new { id = "emailId",autocomplete="off", placeholder = "Email", @class = "form-control" })
                                             <img src="~/Content/site/forgot-pasword-email.png" />
                                             @Html.ValidationMessageFor(model => model.emailId)
                                         </div>

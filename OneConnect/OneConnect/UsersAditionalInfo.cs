@@ -33,6 +33,9 @@ namespace OneConnect
         public Nullable<System.DateTime> ChangeEmailReuestAt { get; set; }
         public string ChangeEmailToken { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public string passwordRecoveryToken { get; set; }
+        public string emailResetToken { get; set; }
+        public string newEmailRequested { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

@@ -35,6 +35,23 @@ namespace OneConnect.Controllers
             ViewBag.isSuccess = false;
             return View();
         }
+        public ActionResult RceoverPassword(string token)
+        {
+            ViewBag.isSuccess = false;
+            ViewBag.passwordToken = token;
+            return View();
+        }
+        public ActionResult ForgotUserId()
+        {
+            ViewBag.isSuccess = false;
+            return View();
+        }
+        public ActionResult ChangeEmail(string token)
+        {
+            ViewBag.isSuccess = false;
+            ViewBag.emailToken = token;
+            return View();
+        }
         public bool IsAuthenticated()
         {
             try
