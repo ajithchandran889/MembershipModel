@@ -1,7 +1,4 @@
 ﻿
-$(document).on("click", "#submitRegister", function (event) {
-    
-});
 $("#registerForm").submit(function (e) {
     e.preventDefault();
 }).validate({
@@ -209,7 +206,7 @@ $("#addNewUserForm").submit(function (e) {
             $("#successMessageAddedNewUser").show();
         },
         error: function (x, y, z) {
-            alert("error")
+            $("#errorsMessageAddedNewUser").show();
         }
     });
     return false;
@@ -267,10 +264,10 @@ $("#changePasswordForm").submit(function (e) {
                 xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
             },
             success: function (response) {
-                $("#successMessagePasswordChange").show(); changeEmailForm
+                $("#successMessagePasswordChange").show(); 
             },
             error: function (x, y, z) {
-                alert(x.responseText)
+                $("#errorMessagePasswordChange").show();
             }
         });
         return false;
@@ -337,7 +334,7 @@ $("#changeEmailForm").submit(function (e) {
                 $("#successMessageEmailChange").show();
             },
             error: function (x, y, z) {
-                alert("error");
+                $("#errorMessageEmailChange").show();
             }
         });
         return false;
@@ -627,5 +624,21 @@ $(document).on("click", "#resetEmail", function () {
             $("#successMessage").hide();
         }
     });
+    return false;
+});
+$(document).on("click", "#clearChanges", function (event) {
+    $("#accountEditForm")[0].reset();
+    return false;
+}); 
+$(document).on("click", "#changePwdClearChanges", function (event) {
+    $("#changePasswordForm")[0].reset();
+    return false;
+});
+$(document).on("click", "#chnageEmailClearForm", function (event) {
+    $("#changeEmailForm")[0].reset();
+    return false;
+});
+$(document).on("click", "#cancelAddUser", function (event) {
+    $("#addNewUserForm")[0].reset();
     return false;
 });

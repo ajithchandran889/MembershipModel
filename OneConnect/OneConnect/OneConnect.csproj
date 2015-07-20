@@ -191,16 +191,16 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AspNetRole.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUser.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserClaim.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserLogin.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Api\AccountController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
@@ -208,64 +208,64 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CreditAccount.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="FinancialTransaction.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Group.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupMember.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupProduct.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="LogHistory.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\AuthRepository.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="OneConnectEntities.Context.cs">
+    <Compile Include="OneKonnectEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneConnectEntities.Context.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="OneConnectEntities.cs">
+    <Compile Include="OneKonnectEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="OneConnectEntities.Designer.cs">
+    <Compile Include="OneKonnectEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneConnectEntities.edmx</DependentUpon>
+      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductRole.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Registration.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="UserRole.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="UsersAditionalInfo.cs">
-      <DependentUpon>OneConnectEntities.tt</DependentUpon>
+      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountInfo.cs" />
     <Compile Include="ViewModels\ChangeEmail.cs" />
@@ -356,27 +356,27 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="OneConnectEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OneConnectEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="OneConnectEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OneConnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OneConnectEntities.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="OneConnectEntities.edmx.diagram">
-      <DependentUpon>OneConnectEntities.edmx</DependentUpon>
-    </Content>
-    <Content Include="OneConnectEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OneConnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OneConnectEntities.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <EntityDeploy Include="OneKonnectEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OneKonnectEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="OneKonnectEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
+      <LastGenOutput>OneKonnectEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="OneKonnectEntities.edmx.diagram">
+      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
+    </Content>
+    <Content Include="OneKonnectEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
+      <LastGenOutput>OneKonnectEntities.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

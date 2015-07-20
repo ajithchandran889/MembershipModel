@@ -41,7 +41,7 @@ namespace OneConnect.Controllers.Api
                 try
                 {
                     //DateTime existingUserRegisteredTime = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => r.CreatedAt).SingleOrDefault() ?? DateTime.Now;
-                    var existingUserRegisteredDetails = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => new { r.CreatedAt }).SingleOrDefault();
+                    var existingUserRegisteredDetails = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).FirstOrDefault();
                     AspNetUser existingUser = DBEntities.AspNetUsers.Where(u => u.Email == reg.emailId).FirstOrDefault();
                     //return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist") ;
                     DateTime existingUserRegisteredTime;
@@ -58,14 +58,17 @@ namespace OneConnect.Controllers.Api
 
                     if (existingUser != null)
                     {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist");
+                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account already exist");
                     }
                     else if (existingUserRegisteredTime > DateTime.Now)
                     {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Already Registered,waiting for aprovel");
+                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Already Registered,waiting for aprovel");
                     }
                     else
                     {
+                        existingUserRegisteredDetails.IsDeleted = true;
+                        DBEntities.Entry(existingUserRegisteredDetails).State = EntityState.Modified;
+                        DBEntities.SaveChanges();
                         Registration registerRow = new Registration();
                         registerRow.Email = reg.emailId;
                         registerRow.Password = reg.password;
@@ -81,7 +84,7 @@ namespace OneConnect.Controllers.Api
                         var url = Url.Link("Account", new { Controller = "Account", Action = "Activate", token = registerationToken });
                         MailMessage mail = new MailMessage();
                         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                        mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                        mail.From = new MailAddress("ajithchandran046@gmail.com");
                         mail.To.Add(reg.emailId);
                         mail.Subject = "Registration link";
 
@@ -93,7 +96,7 @@ namespace OneConnect.Controllers.Api
                         mail.Body = htmlBody;
 
                         SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                         SmtpServer.EnableSsl = true;
 
                         SmtpServer.Send(mail);
@@ -103,7 +106,7 @@ namespace OneConnect.Controllers.Api
                 }
                 catch (Exception e)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Exception");
+                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong!");
                 }
             }
 
@@ -128,7 +131,7 @@ namespace OneConnect.Controllers.Api
                 }
                 else if (existingUserRegisteredTime < DateTime.Now)
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please try again");
+                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please register again");
                 }
                 else if (userData != null)
                 {
@@ -174,7 +177,7 @@ namespace OneConnect.Controllers.Api
                     DBEntities.SaveChanges();
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                    mail.From = new MailAddress("ajithchandran046@gmail.com");
                     mail.To.Add(userData.Email);
                     mail.Subject = "Login Information";
 
@@ -186,7 +189,7 @@ namespace OneConnect.Controllers.Api
                     mail.Body = htmlBody;
 
                     SmtpServer.Port = 587;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                     SmtpServer.EnableSsl = true;
 
                     SmtpServer.Send(mail);
@@ -275,7 +278,7 @@ namespace OneConnect.Controllers.Api
                         DBEntities.SaveChanges();
                         MailMessage mail = new MailMessage();
                         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                        mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                        mail.From = new MailAddress("ajithchandran046@gmail.com");
                         mail.To.Add(reg.emailId);
                         mail.To.Add(User.Identity.Name);
                         mail.Subject = "Account created";
@@ -284,7 +287,7 @@ namespace OneConnect.Controllers.Api
                         htmlBody = "OneKonnect account created";
                         mail.Body = htmlBody;
                         SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                         SmtpServer.EnableSsl = true;
                         SmtpServer.Send(mail);
                     }
@@ -293,7 +296,7 @@ namespace OneConnect.Controllers.Api
                 }
                 catch (Exception e)
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Exception");
+                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,somehting went wrong.Please try again.");
                 }
 
 
@@ -345,7 +348,7 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
             }
 
 
@@ -419,7 +422,7 @@ namespace OneConnect.Controllers.Api
             var user = DBEntities.AspNetUsers.Where(u => u.UserName == model.userId && u.Email==model.oldEmailId).FirstOrDefault();
             if(user==null)
             {
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid details");
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Invalid details");
             }
             string oldHash = user.PasswordHash;
             bool result = _repo.VerifyHashedPassword(oldHash, model.password);
@@ -441,7 +444,7 @@ namespace OneConnect.Controllers.Api
                 var url = model.hostName+"/Home/ChangeEmail?token=" + emailToken;
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.From = new MailAddress("ajithchandran046@gmail.com");
                 mail.To.Add(model.oldEmailId);
                 mail.Subject = "Change Email link:";
                 mail.IsBodyHtml = true;
@@ -449,15 +452,15 @@ namespace OneConnect.Controllers.Api
                 htmlBody = "<b>Email change request to your one connect account</b><br/>link:" + url;
                 mail.Body = htmlBody;
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(mail);
                 
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "Email changed");
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Successfully changed your email");
             }
             else
             {
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "Invalid details");
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Invalid details");
             }
             
 
@@ -508,7 +511,7 @@ namespace OneConnect.Controllers.Api
                 //string userIds = (string[])info;
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.From = new MailAddress("ajithchandran046@gmail.com");
                 mail.To.Add(forgotUserId.emailId);
                 mail.Subject = "Onekonnect UserIds";
                 mail.IsBodyHtml = true;
@@ -520,7 +523,7 @@ namespace OneConnect.Controllers.Api
                 }
                 mail.Body = htmlBody;
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(mail);
             }
@@ -560,7 +563,7 @@ namespace OneConnect.Controllers.Api
                 //var url = Url.Route("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = "passwordToken" });
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran1990@gmail.com");
+                mail.From = new MailAddress("ajithchandran046@gmail.com");
                 mail.To.Add(forgotPassowrd.emailId);
                 mail.Subject = "Password reset link:";
                 mail.IsBodyHtml = true;
@@ -568,7 +571,7 @@ namespace OneConnect.Controllers.Api
                 htmlBody = "link:"+url;
                 mail.Body = htmlBody;
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran1990@gmail.com", "Ayy@pp@136252");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(mail);
                 return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
