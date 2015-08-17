@@ -1,5 +1,4 @@
-﻿
-$("#registerForm").submit(function (e) {
+﻿$("#registerForm").submit(function (e) {
     e.preventDefault();
 }).validate({
     rules: {
@@ -19,15 +18,17 @@ $("#registerForm").submit(function (e) {
         password: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
-
+        $("#errDiv").html($("#g-recaptcha-response").val());
         var register =
         {
             emailId: $("#emailId").val(),
-            password: $("#password").val()
+            password: $("#password").val(),
+            captchaResponse: $("#g-recaptcha-response").val()
         };
+        
         var dataReg = JSON.stringify(register);
         $.ajax({
             type: "POST",
@@ -36,12 +37,21 @@ $("#registerForm").submit(function (e) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                $("#registerSuccess").show();
+                $("#registerFailure").hide();
+                //$("#registerSuccess").show();
+                $("#emailId").val("");
+                $("#password").val("");
+                grecaptcha.reset();
+                $("#username-pass").hide();
+                $("#username-pass-redirect").show();
             },
             error: function (x, y, z) {
                 var errorMsg = x.responseText;
                 $("#failureMessage").text(errorMsg.replace(/"/g, ''));
                 $("#registerFailure").show();
+                $("#successMessage").hide();
+                $("#username-pass").show();
+                $("#username-pass-redirect").hide();
                 var response = null;
                 var errors = [];
                 var errorsString = "";
@@ -90,7 +100,7 @@ $("#loginForm").submit(function (e) {
         password: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-            error.insertBefore(element);
+            error.insertAfter(element);
         },
     submitHandler: function () {
 
@@ -162,6 +172,49 @@ $(document).on("click", ".groupSetting", function (event) {
     $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
     $("img.userSetting").attr("src", "/Content/site/user-settings.png");
     $("img.groupSetting").attr("src", "/Content/site/group-settings-hover.png");
+});
+$(document).on("click", "#AddNewGroup", function (event) {
+    $("#member-group-master").hide();
+   
+    $("#account-settings-btn").hide();
+    
+    var url = $("img.addNewGroups").attr("data-member");
+
+    $("#member-group-details").load(url);
+
+    $("#member-group-details").show();
+
+    /*if ($("#AddNewGroup").hasClass("selected")) {
+        $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
+        $("span.addNewGroups").html("Add New Group");
+        $("#AddNewGroup").removeClass("selected");
+        
+
+    } else {
+        $("img.addNewGroups").attr("src", "/Content/site/minus.png");
+        $("span.addNewGroups").html("Go To Group List");
+        $("#AddNewGroup").addClass("selected");
+        $("#member-group-master").hide();
+        $("#member-group-details").show();
+    }*/
+
+});
+
+$(document).on("click", "#HideAndShowInActive", function (event) {
+    
+
+    if ($("#HideAndShowInActive").hasClass("selected")) {
+        $("img.HideAndShowInActive").attr("src", "/Content/site/minus.png");
+        $("span.HideAndShowInActive").html("Hide Inactive Groups");
+        $("#HideAndShowInActive").removeClass("selected");
+        
+
+    } else {
+        $("img.HideAndShowInActive").attr("src", "/Content/site/pluse.png");
+        $("span.HideAndShowInActive").html("Show Inactive Groups");
+        $("#HideAndShowInActive").addClass("selected");
+    }
+
 });
 
 $("#addNewUserForm").submit(function (e) {
@@ -494,13 +547,14 @@ $("#forgotUserIdForm").submit(function (e) {
         email: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
 
             var forgotUserId =
                {
-                   emailId: $("#emailId").val()
+                   emailId: $("#emailId").val(),
+                   captchaResponse: $("#g-recaptcha-response").val()
                };
             var dataforgotUserId = JSON.stringify(forgotUserId);
             $.ajax({
@@ -511,11 +565,19 @@ $("#forgotUserIdForm").submit(function (e) {
                 dataType: "json",
                 success: function (response) {
                     $("#errorMessage").hide();
-                    $("#successMessage").show();
+                    //$("#successMessage").show();
+                    $("#emailId").val("");
+                    grecaptcha.reset();
+                    $("#username-pass").hide();
+                    $("#username-pass-redirect").show();
                 },
                 error: function (x, y, z) {
+                    var errorMsg = x.responseText;
+                    $("#failureMessage").text(errorMsg.replace(/"/g, ''));
                     $("#errorMessage").show();
                     $("#successMessage").hide();
+                    $("#username-pass").show();
+                    $("#username-pass-redirect").hide();
                 }
             });
             return false;
@@ -528,22 +590,22 @@ $("#forgotPasswordForm").submit(function (e) {
 }).validate({
     rules: {
         userId: { required: true },
-        email: { required: true, email: true }
+        emailId: { required: true, email: true }
     },
     messages: {
         userId: {
             required: "Please enter your user Id"
         },
-        email: {
+        emailId: {
             required: "Please enter your email"
         }
     },
     tooltip_options: {
         userId: { trigger: 'focus' },
-        email: { trigger: 'focus' }
+        emailId: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
 
@@ -552,6 +614,7 @@ $("#forgotPasswordForm").submit(function (e) {
            userId: $("#userId").val(),
            emailId: $("#emailId").val(),
            hostName: window.location.origin,
+           captchaResponse: $("#g-recaptcha-response").val()
        };
         var dataforgotPassword = JSON.stringify(forgotPassword);
         $.ajax({
@@ -562,11 +625,20 @@ $("#forgotPasswordForm").submit(function (e) {
             dataType: "json",
             success: function (response) {
                 $("#errorMessage").hide();
-                $("#successMessage").show();
+                //$("#successMessage").show();
+                $("#userId").val("");
+                $("#emailId").val("");
+                grecaptcha.reset();
+                $("#username-pass").hide();
+                $("#username-pass-redirect").show();
             },
             error: function (x, y, z) {
+                var errorMsg = x.responseText;
+                $("#failureMessage").text(errorMsg.replace(/"/g, ''));
                 $("#errorMessage").show();
                 $("#successMessage").hide();
+                $("#username-pass").show();
+                $("#username-pass-redirect").hide();
             }
         });
         return false;
@@ -641,4 +713,72 @@ $(document).on("click", "#chnageEmailClearForm", function (event) {
 $(document).on("click", "#cancelAddUser", function (event) {
     $("#addNewUserForm")[0].reset();
     return false;
+});
+$(document).on("click", ".goToLoginPage", function (event) {
+    var url = $("#RedirectToLogin").val();
+    window.location.href = url;
+});
+
+
+
+
+
+$("#addNewGroupForm").submit(function (e) {
+    e.preventDefault();
+}).validate({
+    rules: {
+        inputGroupName: { required: true }
+    },
+    messages: {
+        inputGroupName: {
+            required: "Please enter group name"
+        }
+    },
+    tooltip_options: {
+        inputGroupName: { trigger: 'focus' }
+    },
+    errorPlacement: function (error, element) {
+        error.insertAfter(element);
+    },
+    submitHandler: function () {
+
+        var forgotPassword =
+       {
+           groupName: $("#inputGroupName").val()
+       };
+        var dataforgotPassword = JSON.stringify(forgotPassword);
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/api/Account/ForgotPassword/",
+        //    data: dataforgotPassword,
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (response) {
+        //        $("#errorMessage").hide();
+        //        //$("#successMessage").show();
+        //        $("#userId").val("");
+        //        $("#emailId").val("");
+        //        grecaptcha.reset();
+        //        $("#username-pass").hide();
+        //        $("#username-pass-redirect").show();
+        //    },
+        //    error: function (x, y, z) {
+        //        var errorMsg = x.responseText;
+        //        $("#failureMessage").text(errorMsg.replace(/"/g, ''));
+        //        $("#errorMessage").show();
+        //        $("#successMessage").hide();
+        //        $("#username-pass").show();
+        //        $("#username-pass-redirect").hide();
+        //    }
+        //});
+        return false;
+
+    }
+});
+
+$(document).on("click", "#saveAddUser", function (event) {
+    alert(1);
+    $("#addNewGroupForm").submit();
+    alert(2);
+
 });

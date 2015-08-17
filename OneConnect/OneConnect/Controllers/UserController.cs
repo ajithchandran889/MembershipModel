@@ -65,8 +65,28 @@ namespace OneConnect.Controllers
                         }
 
                     }
+
+                    var groupListUrl = Url.RouteUrl(
+                        "GetGroups",
+                        new { httproute = "", controller = "Group", action = "GetGroups" },
+                        Request.Url.Scheme
+                    );
+                    IEnumerable<GroupDetails> groupDetails = null;
+                    using (var response = client.GetAsync(groupListUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            groupDetails = response.Content.ReadAsAsync<List<GroupDetails>>().Result.ToList();
+
+                        }
+
+                    }
+
                     myModel.userList = userDetails;
                     myModel.accountInfo = accounInfo;
+                    myModel.groupList = groupDetails;
                     return View(myModel);
                 }
                 
@@ -82,6 +102,13 @@ namespace OneConnect.Controllers
         {
             return PartialView("_PartialAccountInfo",accountInfo);
         }
+
+        
+        public PartialViewResult GroupListPartial()
+        {
+            return PartialView("_PartialCreateGroup");
+        }
+
         public bool IsAuthenticated()
         {
             try

@@ -8,5 +8,6 @@ namespace OneConnect.ViewModels
     public class ForgotUserId
     {
         public string emailId { get; set; }
+        public string captchaResponse { get; set; }
     }
 }

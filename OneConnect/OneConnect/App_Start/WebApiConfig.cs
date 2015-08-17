@@ -33,6 +33,11 @@ namespace OneConnect
                 name: "GetAccountInfo",
                 routeTemplate: "api/{controller}/{action}"
             );
+
+            config.Routes.MapHttpRoute(
+               name: "GetGroups",
+               routeTemplate: "api/{controller}/{action}"
+           );
             
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
