@@ -12,6 +12,7 @@ namespace OneConnect.Controllers.Api
     public class UserController : ApiController
     {
         OneKonnectEntities DBEntities = new OneKonnectEntities();
+
         //POST api/User/GetUsers
         [HttpGet]
         [Authorize]

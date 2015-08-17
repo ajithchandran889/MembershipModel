@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors">
@@ -191,89 +192,95 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AspNetRole.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUser.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserClaim.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserLogin.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CreditAccount.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="FinancialTransaction.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Group.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupMember.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupProduct.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="LogHistory.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\AuthRepository.cs" />
+    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="OneKonnectEntities.Context.cs">
+    <Compile Include="OnekonnectEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneKonnectEntities.Context.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="OneKonnectEntities.cs">
+    <Compile Include="OnekonnectEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="OneKonnectEntities.Designer.cs">
+    <Compile Include="OnekonnectEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
+      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductRole.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Registration.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="UserRole.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="UsersAditionalInfo.cs">
-      <DependentUpon>OneKonnectEntities.tt</DependentUpon>
+      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\CaptchaValidation.cs" />
+    <Compile Include="Utils\MailClient.cs" />
     <Compile Include="ViewModels\AccountInfo.cs" />
+    <Compile Include="ViewModels\CaptchaResponse.cs" />
     <Compile Include="ViewModels\ChangeEmail.cs" />
     <Compile Include="ViewModels\ChangeEmailConfirm.cs" />
     <Compile Include="ViewModels\ChangePasswordBindingModel.cs" />
     <Compile Include="ViewModels\EditAccountInfo.cs" />
     <Compile Include="ViewModels\ForgotPassword.cs" />
     <Compile Include="ViewModels\ForgotUserId.cs" />
+    <Compile Include="ViewModels\GroupDetails.cs" />
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\RecoverPassword.cs" />
     <Compile Include="ViewModels\Register.cs" />
@@ -360,23 +367,25 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <EntityDeploy Include="OneKonnectEntities.edmx">
+    <Content Include="onekonnect.pfx" />
+    <EntityDeploy Include="OnekonnectEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OneKonnectEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>OnekonnectEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="OneKonnectEntities.Context.tt">
+    <Content Include="OnekonnectEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OneKonnectEntities.Context.cs</LastGenOutput>
+      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
+      <LastGenOutput>OnekonnectEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="OneKonnectEntities.edmx.diagram">
-      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
+    <Content Include="OnekonnectEntities.edmx.diagram">
+      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
     </Content>
-    <Content Include="OneKonnectEntities.tt">
+    <Content Include="OnekonnectEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OneKonnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OneKonnectEntities.cs</LastGenOutput>
+      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
+      <LastGenOutput>OnekonnectEntities.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\OneKonnect.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -390,7 +399,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\script.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -412,6 +423,8 @@
     <Content Include="Views\Home\ForgotUserId.cshtml" />
     <Content Include="Views\Home\RceoverPassword.cshtml" />
     <Content Include="Views\Home\ChangeEmail.cshtml" />
+    <Content Include="Views\User\_PartialGroupMaster.cshtml" />
+    <Content Include="Views\User\_PartialCreateGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -426,6 +439,15 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>onekonnect.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

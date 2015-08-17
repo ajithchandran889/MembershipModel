@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security.Cookies;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
+using OneConnect.Utils;
+using System.Configuration;
+using Newtonsoft.Json;
 namespace OneConnect.Controllers.Api
 {
     [RoutePrefix("api/Account")]
@@ -40,67 +43,112 @@ namespace OneConnect.Controllers.Api
             {
                 try
                 {
-                    //DateTime existingUserRegisteredTime = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => r.CreatedAt).SingleOrDefault() ?? DateTime.Now;
-                    var existingUserRegisteredDetails = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).FirstOrDefault();
-                    AspNetUser existingUser = DBEntities.AspNetUsers.Where(u => u.Email == reg.emailId).FirstOrDefault();
-                    //return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist") ;
-                    DateTime existingUserRegisteredTime;
-                    if (existingUserRegisteredDetails == null)
+                    var response = reg.captchaResponse;
+                    //secret that was generated in key value pair
+                    string secret = ConfigurationManager.AppSettings["ReCaptchaPrivateKey"];
+
+                    var captchaResponse = CaptchaValidation.CaptchaValidate(secret, response, "");
+
+
+                    //when response is false check for the error message
+                    if (!captchaResponse.Success && captchaResponse.ErrorCodes.Count > 0)
                     {
-                        existingUserRegisteredTime = DateTime.Now;
+                        
+
+                            var error = captchaResponse.ErrorCodes[0].ToLower();
+                            switch (error)
+                            {
+                                case ("missing-input-secret"):
+                                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is missing.");
+                                    
+                                case ("invalid-input-secret"):
+                                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is invalid or malformed.");
+                                    
+
+                                case ("missing-input-response"):
+                                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Please input Captcha");
+                                    
+                                case ("invalid-input-response"):
+                                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Captcha is invalid or malformed.");
+                                    
+
+                                default:
+                                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Error occured. Please try again");
+                                    
+                            }
                     }
                     else
                     {
-                        existingUserRegisteredTime = (DateTime)existingUserRegisteredDetails.CreatedAt;
-                        existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
-                    }
+
+                        //DateTime existingUserRegisteredTime = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).Select(r => r.CreatedAt).SingleOrDefault() ?? DateTime.Now;
+                        var existingUserRegisteredDetails = DBEntities.Registrations.Where(r => r.Email == reg.emailId && r.IsDeleted == false).FirstOrDefault();
+                        AspNetUser existingUser = DBEntities.AspNetUsers.Where(u => u.Email == reg.emailId).FirstOrDefault();
+                        //return Request.CreateResponse(HttpStatusCode.BadRequest, "Account already exist") ;
+                        DateTime existingUserRegisteredTime;
+                        if (existingUserRegisteredDetails == null)
+                        {
+                            existingUserRegisteredTime = DateTime.Now;
+                        }
+                        else
+                        {
+                            existingUserRegisteredTime = (DateTime)existingUserRegisteredDetails.CreatedAt;
+                            existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
+                        }
+
+                        if (existingUser != null)
+                        {
+                            return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account already exist");
+                        }
+                        else if (existingUserRegisteredDetails != null && existingUserRegisteredTime > DateTime.Now)
+                        {
+                            return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Already Registered,waiting for aprovel");
+                        }
+                        else
+                        {
+                            if (existingUserRegisteredDetails != null)
+                            {
+                                existingUserRegisteredDetails.IsDeleted = true;
+                                DBEntities.Entry(existingUserRegisteredDetails).State = EntityState.Modified;
+                                DBEntities.SaveChanges();
+                            }
+                            Registration registerRow = new Registration();
+                            registerRow.Email = reg.emailId;
+                            registerRow.Password = reg.password;
+                            registerRow.Token = Guid.NewGuid().ToString();
+                            registerRow.CreatedAt = DateTime.Now;
+                            registerRow.LastModifiedAt = DateTime.Now;
+                            string host = Dns.GetHostName();
+                            registerRow.IpAddress = Dns.GetHostByName(host).AddressList[0].ToString();
+                            registerRow.IsDeleted = false;
+                            DBEntities.Registrations.Add(registerRow);
+                            DBEntities.SaveChanges();
+                            string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.Token);
+                            var url = new Uri(Url.Link("UserActivationRoute", new { token = registerationToken }));
+                            //var url = new Uri(Url.Link("UserActivationRoute", new { Controller = "Account", Action = "UserActivation", token = registerationToken });
+
+                            //MailMessage mail = new MailMessage();
+                            //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                            //mail.From = new MailAddress("fayizmuhamed@gmail.com");
+                            //mail.To.Add(reg.emailId);
+                            //mail.Subject = "Registration link";
+
+                            //mail.IsBodyHtml = true;
+                            string htmlBody;
+
+                            htmlBody = "Click the link to activate your OneKonnect account:<a href='" + url + "'>Click here<a/>";
+
+                            //mail.Body = htmlBody;
 
 
-                    if (existingUser != null)
-                    {
-                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account already exist");
-                    }
-                    else if (existingUserRegisteredTime > DateTime.Now)
-                    {
-                        return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Already Registered,waiting for aprovel");
-                    }
-                    else
-                    {
-                        existingUserRegisteredDetails.IsDeleted = true;
-                        DBEntities.Entry(existingUserRegisteredDetails).State = EntityState.Modified;
-                        DBEntities.SaveChanges();
-                        Registration registerRow = new Registration();
-                        registerRow.Email = reg.emailId;
-                        registerRow.Password = reg.password;
-                        registerRow.Token = Guid.NewGuid().ToString();
-                        registerRow.CreatedAt = DateTime.Now;
-                        registerRow.LastModifiedAt = DateTime.Now;
-                        string host = Dns.GetHostName();
-                        registerRow.IpAddress = Dns.GetHostByName(host).AddressList[0].ToString();
-                        registerRow.IsDeleted = false;
-                        DBEntities.Registrations.Add(registerRow);
-                        DBEntities.SaveChanges();
-                        string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.Token);
-                        var url = Url.Link("Account", new { Controller = "Account", Action = "Activate", token = registerationToken });
-                        MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                        mail.From = new MailAddress("ajithchandran046@gmail.com");
-                        mail.To.Add(reg.emailId);
-                        mail.Subject = "Registration link";
+                            MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Registration link", true, htmlBody);
 
-                        mail.IsBodyHtml = true;
-                        string htmlBody;
+                            //SmtpServer.Port = 587;
+                            //SmtpServer.Credentials = new System.Net.NetworkCredential("fayizmuhamed@gmail.com", "9495177881");
+                            //SmtpServer.EnableSsl = true;
 
-                        htmlBody = "Click the link to activate  the account:<a href='" + url + "'>Click here<a/>";
-
-                        mail.Body = htmlBody;
-
-                        SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                        SmtpServer.EnableSsl = true;
-
-                        SmtpServer.Send(mail);
-                        return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+                            //SmtpServer.Send(mail);
+                            return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
+                        }
                     }
 
                 }
@@ -116,7 +164,8 @@ namespace OneConnect.Controllers.Api
         //POST api/Account/Activate
         [HttpGet]
         [AllowAnonymous]
-        //[Route("Activate")]
+        [Route("UserActivation", Name = "UserActivationRoute")]
+        //[Route("UserActivation")]
         public async Task<HttpResponseMessage> Activate(string token)
         {
             try
@@ -135,7 +184,7 @@ namespace OneConnect.Controllers.Api
                 }
                 else if (userData != null)
                 {
-                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("W")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).SingleOrDefault();
+                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("W")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).First();
                     int newIdCount = 0;
                     if (lastid == null)
                     {
@@ -175,24 +224,26 @@ namespace OneConnect.Controllers.Api
                     userData.IsDeleted = true;
                     DBEntities.Entry(userData).State = EntityState.Modified;
                     DBEntities.SaveChanges();
-                    MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    mail.From = new MailAddress("ajithchandran046@gmail.com");
-                    mail.To.Add(userData.Email);
-                    mail.Subject = "Login Information";
+                    //MailMessage mail = new MailMessage();
+                    //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                    //mail.From = new MailAddress("ajithchandran046@gmail.com");
+                    //mail.To.Add(userData.Email);
+                    //mail.Subject = "Login Information";
 
-                    mail.IsBodyHtml = true;
+                    //mail.IsBodyHtml = true;
                     string htmlBody;
 
                     htmlBody = "User Id:" + user.CustomUserId ;
 
-                    mail.Body = htmlBody;
+                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, "Login Information", true, htmlBody);
+                    //mail.Body = htmlBody;
 
-                    SmtpServer.Port = 587;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                    SmtpServer.EnableSsl = true;
+                    //SmtpServer.Port = 587;
+                    //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
+                    //SmtpServer.EnableSsl = true;
 
-                    SmtpServer.Send(mail);
+                    //SmtpServer.Send(mail);
+                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Registration successfull and user id mailed to you");
                 }
                 else
                 {
@@ -276,20 +327,23 @@ namespace OneConnect.Controllers.Api
                         user.IsOwner = false;
                         DBEntities.UsersAditionalInfoes.Add(user);
                         DBEntities.SaveChanges();
-                        MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                        mail.From = new MailAddress("ajithchandran046@gmail.com");
-                        mail.To.Add(reg.emailId);
-                        mail.To.Add(User.Identity.Name);
-                        mail.Subject = "Account created";
-                        mail.IsBodyHtml = true;
                         string htmlBody;
                         htmlBody = "OneKonnect account created";
-                        mail.Body = htmlBody;
-                        SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                        SmtpServer.EnableSsl = true;
-                        SmtpServer.Send(mail);
+                        MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Account created", true, htmlBody);
+                    
+                        //MailMessage mail = new MailMessage();
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                        //mail.From = new MailAddress("ajithchandran046@gmail.com");
+                        //mail.To.Add(reg.emailId);
+                        //mail.To.Add(User.Identity.Name);
+                        //mail.Subject = "Account created";
+                        //mail.IsBodyHtml = true;
+                        
+                        //mail.Body = htmlBody;
+                        //SmtpServer.Port = 587;
+                        //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
+                        //SmtpServer.EnableSsl = true;
+                        //SmtpServer.Send(mail);
                     }
                     return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
                     
@@ -442,19 +496,23 @@ namespace OneConnect.Controllers.Api
                 //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
                 //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
                 var url = model.hostName+"/Home/ChangeEmail?token=" + emailToken;
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran046@gmail.com");
-                mail.To.Add(model.oldEmailId);
-                mail.Subject = "Change Email link:";
-                mail.IsBodyHtml = true;
+
                 string htmlBody;
-                htmlBody = "<b>Email change request to your one connect account</b><br/>link:" + url;
-                mail.Body = htmlBody;
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(mail);
+                htmlBody = "<b>We received your request to change email Id  associated with OneKonnect account,Please confirm your request by click on this </b><br/>link:" + url;
+
+                MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], model.oldEmailId, "Change Email Confirmation", true, htmlBody);
+                //MailMessage mail = new MailMessage();
+                //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                //mail.From = new MailAddress("ajithchandran046@gmail.com");
+                //mail.To.Add(model.oldEmailId);
+                //mail.Subject = "Change Email link:";
+                //mail.IsBodyHtml = true;
+                
+                //mail.Body = htmlBody;
+                //SmtpServer.Port = 587;
+                //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
+                //SmtpServer.EnableSsl = true;
+                //SmtpServer.Send(mail);
                 
                 return Request.CreateResponse<string>(HttpStatusCode.OK, "Successfully changed your email");
             }
@@ -501,31 +559,78 @@ namespace OneConnect.Controllers.Api
         {
             try
             {
-                var info = (from u in DBEntities.AspNetUsers
-                            where u.Email == forgotUserId.emailId
-                            select new { u.UserName }).ToList();
-                if (info.Count==0)
-                {
-                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Email doesn't exist");
-                }
-                //string userIds = (string[])info;
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran046@gmail.com");
-                mail.To.Add(forgotUserId.emailId);
-                mail.Subject = "Onekonnect UserIds";
-                mail.IsBodyHtml = true;
-                string htmlBody;
-                htmlBody = "your user id's are:";
-                foreach(var userId in info)
-                {
-                    htmlBody += userId.UserName;
-                }
-                mail.Body = htmlBody;
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(mail);
+                var response = forgotUserId.captchaResponse;
+                    //secret that was generated in key value pair
+                    string secret = ConfigurationManager.AppSettings["ReCaptchaPrivateKey"];
+
+                    var captchaResponse = CaptchaValidation.CaptchaValidate(secret, response, "");
+
+
+                    //when response is false check for the error message
+                    if (!captchaResponse.Success && captchaResponse.ErrorCodes.Count > 0)
+                    {
+
+
+                        var error = captchaResponse.ErrorCodes[0].ToLower();
+                        switch (error)
+                        {
+                            case ("missing-input-secret"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is missing.");
+
+                            case ("invalid-input-secret"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is invalid or malformed.");
+
+
+                            case ("missing-input-response"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Please input Captcha");
+
+                            case ("invalid-input-response"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Captcha is invalid or malformed.");
+
+
+                            default:
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Error occured. Please try again");
+
+                        }
+                    }
+                    else
+                    {
+                        var info = (from u in DBEntities.AspNetUsers
+                                    where u.Email == forgotUserId.emailId
+                                    select new { u.UserName }).ToList();
+                        if (info.Count == 0)
+                        {
+                            return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Email doesn't exist");
+                        }
+
+                        string htmlBody;
+                        htmlBody = "Your OneKonnect user id's are:";
+                        foreach (var userId in info)
+                        {
+                            htmlBody += userId.UserName;
+                        }
+
+                        MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotUserId.emailId, "OneKonnect Account Details", true, htmlBody);
+
+                        ////string userIds = (string[])info;
+                        //MailMessage mail = new MailMessage();
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                        //mail.From = new MailAddress("ajithchandran046@gmail.com");
+                        //mail.To.Add(forgotUserId.emailId);
+                        //mail.Subject = "Onekonnect UserIds";
+                        //mail.IsBodyHtml = true;
+                        //string htmlBody;
+                        //htmlBody = "your user id's are:";
+                        //foreach(var userId in info)
+                        //{
+                        //    htmlBody += userId.UserName;
+                        //}
+                        //mail.Body = htmlBody;
+                        //SmtpServer.Port = 587;
+                        //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
+                        //SmtpServer.EnableSsl = true;
+                        //SmtpServer.Send(mail);
+                    }
             }
             catch(Exception e)
             {
@@ -542,39 +647,82 @@ namespace OneConnect.Controllers.Api
         {
             try
             {
-                string passwordToken = Guid.NewGuid().ToString();
-                var info = DBEntities.AspNetUsers.Where(u => u.UserName == forgotPassowrd.userId && u.Email == forgotPassowrd.emailId).SingleOrDefault();
+                var response = forgotPassowrd.captchaResponse;
+                    //secret that was generated in key value pair
+                    string secret = ConfigurationManager.AppSettings["ReCaptchaPrivateKey"];
 
-                if (info==null)
-                {
-                    return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "No data found");
-                }
-                var userAdditionalInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == info.Id).SingleOrDefault();
-                userAdditionalInfo.passwordRecoveryToken = passwordToken;
-                DBEntities.UsersAditionalInfoes.Attach(userAdditionalInfo);
-                var entry = DBEntities.Entry(userAdditionalInfo);
-                entry.Property(u => u.passwordRecoveryToken).IsModified = true;
-                DBEntities.SaveChanges();
-                passwordToken = HttpContext.Current.Server.UrlEncode(passwordToken);
-                //string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
-                //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
-                //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
-                var url = forgotPassowrd.hostName+"/Home/RceoverPassword?token="+passwordToken;
-                //var url = Url.Route("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = "passwordToken" });
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ajithchandran046@gmail.com");
-                mail.To.Add(forgotPassowrd.emailId);
-                mail.Subject = "Password reset link:";
-                mail.IsBodyHtml = true;
-                string htmlBody;
-                htmlBody = "link:"+url;
-                mail.Body = htmlBody;
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(mail);
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
+                    var captchaResponse = CaptchaValidation.CaptchaValidate(secret, response, "");
+
+
+                    //when response is false check for the error message
+                    if (!captchaResponse.Success && captchaResponse.ErrorCodes.Count > 0)
+                    {
+
+
+                        var error = captchaResponse.ErrorCodes[0].ToLower();
+                        switch (error)
+                        {
+                            case ("missing-input-secret"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is missing.");
+
+                            case ("invalid-input-secret"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is invalid or malformed.");
+
+
+                            case ("missing-input-response"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Please input Captcha");
+
+                            case ("invalid-input-response"):
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Captcha is invalid or malformed.");
+
+
+                            default:
+                                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Error occured. Please try again");
+
+                        }
+                    }
+                    else
+                    {
+
+                        string passwordToken = Guid.NewGuid().ToString();
+                        var info = DBEntities.AspNetUsers.Where(u => u.UserName == forgotPassowrd.userId && u.Email == forgotPassowrd.emailId).SingleOrDefault();
+
+                        if (info == null)
+                        {
+                            return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "No data found");
+                        }
+                        var userAdditionalInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == info.Id).SingleOrDefault();
+                        userAdditionalInfo.passwordRecoveryToken = passwordToken;
+                        DBEntities.UsersAditionalInfoes.Attach(userAdditionalInfo);
+                        var entry = DBEntities.Entry(userAdditionalInfo);
+                        entry.Property(u => u.passwordRecoveryToken).IsModified = true;
+                        DBEntities.SaveChanges();
+                        passwordToken = HttpContext.Current.Server.UrlEncode(passwordToken);
+                        //string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
+                        //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                        //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
+                        var url = forgotPassowrd.hostName + "/Home/RceoverPassword?token=" + passwordToken;
+                        //var url = Url.Route("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = "passwordToken" });
+                        string htmlBody;
+                        htmlBody = "To recover you OneKonnect Account Please click on link :" + url;
+
+                        MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotPassowrd.emailId, "Password Reset Link", true, htmlBody);
+
+                        //MailMessage mail = new MailMessage();
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                        //mail.From = new MailAddress("ajithchandran046@gmail.com");
+                        //mail.To.Add(forgotPassowrd.emailId);
+                        //mail.Subject = "Password reset link:";
+                        //mail.IsBodyHtml = true;
+                        //string htmlBody;
+                        //htmlBody = "link:"+url;
+                        //mail.Body = htmlBody;
+                        //SmtpServer.Port = 587;
+                        //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
+                        //SmtpServer.EnableSsl = true;
+                        //SmtpServer.Send(mail);
+                        return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
+                    }
             }
             catch (Exception e)
             {
@@ -695,5 +843,7 @@ namespace OneConnect.Controllers.Api
 
             return null;
         }
+        
+
     }
 }

@@ -26,7 +26,7 @@
                                 </div>
                                 <div id="errorMessage" class="hideElement">
                                     <div class="alert alert-danger" role="alert">
-                                        No matching record's found
+                                       <span id="failureMessage"></span>
                                     </div>
                                 </div>
                            </div>
@@ -34,26 +34,42 @@
                     </div>
                     <div class="panel-body">
                         <div class="row login-body">
-                            <div class="col-md-10  username-pass">
+                            <div class="col-md-10 col-md-offset-1 username-pass" id="username-pass">
                                 <form id="forgotUserIdForm" accept-charset="UTF-8" role="form">
                                     <fieldset>
 
                                         <div class="form-group user-input">
-                                            <input class="form-control" placeholder="Email" name="email" type="text" value="" id="emailId">
                                             <img src="~/Content/site/forgot-pasword-email.png" />
+                                            <input class="form-control" placeholder="Email" name="email" type="text" value="" id="emailId">
+                                            
                                         </div>
-                                        <div class="captcha-box">
+                                        <div class="g-recaptcha form-group" data-sitekey="6LeUTAoTAAAAAOvGucHt_lc8T63gI2V3xzccwJkr" ></div>
+                                       @* <div class="captcha-box">
                                             <img src="~/Content/site/captcha.png" />
                                         </div>
                                         <div class="form-group user-input">
                                             <input class="form-control" placeholder="Code" name="Code" type="text" value="">
                                             <img src="~/Content/site/captcha-code-bug.png" />
-                                        </div>
+                                        </div>*@
                                         <div class="login-btn-box col-md-5">
                                             <input id="forgotUserId" class="btn btn-flat flat-info btn-lg btn-block login-btn" type="submit" value="Submit">
                                         </div>
                                     </fieldset>
                                 </form>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1  username-pass-redirect hideElement " id="username-pass-redirect">
+                                <div class="col-md-12 padding-Fix" style="margin: auto;">
+                                    <div class="col-md-12 alert alert-success padding-Fix" role="alert" >
+                                        <div class="col-md-1">
+                                            <img src="~/Content/site/like.png" alt="" /></div>
+                                        <div class="col-md-11">
+                                            <span>User ID forgot request successfull,Check your inbox for User ID</span>
+
+                                        </div>
+
+                                    </div>
+                                    <input id="goToLoginPage" class="btn btn-flat flat-info btn-lg btn-block login-btn goToLoginPage" type="button" value="Go To Login">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,4 +79,5 @@
         </div>
     </div>
 </section>
+@Html.Hidden("RedirectToLogin", Url.Action("Index", "Home"));
  

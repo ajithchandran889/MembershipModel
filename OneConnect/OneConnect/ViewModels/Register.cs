@@ -16,5 +16,6 @@ namespace OneConnect.ViewModels
         [DataType(DataType.Password)]
         [Required]
         public string password { get; set; }
+        public string captchaResponse { get; set; }
     }
 }

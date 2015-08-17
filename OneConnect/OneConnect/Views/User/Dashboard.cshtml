@@ -16,7 +16,7 @@
                 {
                     <p>Logged In As @Model.accountInfo.name </p>
                 }
-                
+
             </div>
             <div class="col-md-6 col-sm-6 col-xs-5 pull-right">
                 <div class="logout-btn">
@@ -44,7 +44,9 @@
         <div class="row">
             <div class="col-md-3 col-sm-4 ">
                 <div class="thumbnail acs">
-                    <a href="#" class="accountSetting"> <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." /> </a>
+                    <a href="#" class="accountSetting">
+                        <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." />
+                    </a>
                     <div class="caption">
                         <h3>Account Settings</h3>
                     </div>
@@ -52,7 +54,8 @@
             </div>
             <div class="col-md-6 col-sm-4 ">
                 <div class="thumbnail">
-                    <a href="#" class="userSetting"><img class="userSetting" src="~/Content/site/user-settings.png" alt="..."></a>
+                    <a href="#" class="userSetting">
+                        <img class="userSetting" src="~/Content/site/user-settings.png" alt="..."></a>
                     <div class="caption">
                         <h3>User Settings</h3>
                     </div>
@@ -60,7 +63,8 @@
             </div>
             <div class="col-md-3 col-sm-4 grp-setting-rht">
                 <div class="thumbnail">
-                    <a href="#" class="groupSetting"><img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
+                    <a href="#" class="groupSetting">
+                        <img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
                     <div class="caption">
                         <h3>Group Settings</h3>
                     </div>
@@ -81,7 +85,7 @@
         <div class="row">
             <div class="col-md-1  col-md-offset-5   col-sm-offset-5 col-sm-6  col-xs-6 col-xs-offset-4">
                 <div class="blue-line-short">
-                    <div class="blue-spacing">	</div>
+                    <div class="blue-spacing"></div>
                 </div>
             </div>
         </div>
@@ -91,7 +95,6 @@
             </div>
         </div>
         <div id="errDiv">
-
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -116,26 +119,28 @@
                             <div class="row">
                                 <div id="successMessageEditAccount" class="hideElement">
                                     <div class="alert alert-success" role="alert">
-                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span>
+                                            <img src="~/Content/site/like.png" alt="" />
+                                        </span>
                                         Successfully updated account info
                                     </div>
                                 </div>
                                 <div class="bs-example col-md-7">
                                     <form class="form-horizontal" id="accountEditForm">
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">User ID : </label>
                                             <div class="col-xs-8 col-md-9">
-                                                <label  class="control-label ">@Model.accountInfo.customUserId</label>
+                                                <label class="control-label ">@Model.accountInfo.customUserId</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4  col-md-3 col-sm-3">Email :</label>
+                                            <label class="control-label col-xs-4  col-md-3 col-sm-3">Email :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <label class="control-label ">@Model.accountInfo.email</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="text" id="accountName" class="form-control" placeholder="Name" value="@Model.accountInfo.name">
                                             </div>
@@ -147,46 +152,50 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="text" id="userAddress" class="form-control"  placeholder="Full Address, Free Text" value="@Model.accountInfo.address">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="text" id="userContact" class="form-control" placeholder="Abc Corporation LTD" value="@Model.accountInfo.contact">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
                                             <div class="col-xs-2">
-                                                <input id="checkboxAccountStatus" type="checkbox" class="checkboxid css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status) { <text> checked="checked" </text>   }>
+                                                <input id="checkboxAccountStatus" type="checkbox" class="checkboxid css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status)
+                                                                                                                                                                     { <text> checked="checked" </text>   }>
                                                 @*<input type="checkbox" class="form-control edit-tick-mark"  >*@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3"> </label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3"></label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <img class="captcha" src="~/Content/site/captcha.png" alt="" />
+                                                <div class="g-recaptcha " data-sitekey="6LeUTAoTAAAAAOvGucHt_lc8T63gI2V3xzccwJkr"></div>
+                                                @*<img class="captcha" src="~/Content/site/captcha.png" alt="" />*@
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        @* <div class="form-group">
                                             <label  class="control-label col-xs-4 col-md-3 col-sm-3">Code :</label>
                                             <div class="col-xs-5 col-md-5">
                                                 <input type="text" class="form-control"  placeholder="Code">
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div class="form-group account-settings-btn">
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-info  saveAccountInfoEdit">
-                                                    <img src="~/Content/site/save.png" class="saveAccountInfoEdit" alt="">	Save Your Changes
+                                                    <img src="~/Content/site/save.png" class="saveAccountInfoEdit" alt="">
+                                                    Save Your Changes
                                                 </a>
                                             </div>
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-danger" id="clearChanges">
-                                                    <img src="~/Content/site/cancel.png" alt="">	Clear Changes
+                                                    <img src="~/Content/site/cancel.png" alt="">
+                                                    Clear Changes
                                                 </a>
                                             </div>
                                         </div>
@@ -199,7 +208,9 @@
                             <div class="row">
                                 <div id="successMessagePasswordChange" class="hideElement">
                                     <div class="alert alert-success" role="alert">
-                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span>
+                                            <img src="~/Content/site/like.png" alt="" />
+                                        </span>
                                         Successsfully changed password
                                     </div>
                                 </div>
@@ -212,13 +223,13 @@
                                     <form class="form-horizontal" id="changePasswordForm">
 
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Old:</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Old:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control"  placeholder="" name="oldPassword" id="oldPassword">
+                                                <input type="password" class="form-control" placeholder="" name="oldPassword" id="oldPassword">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">New:</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">New:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="password" class="form-control" placeholder="" name="newPassword" id="newPassword">
                                             </div>
@@ -234,12 +245,14 @@
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-info changePassword">
-                                                    <img src="~/Content/site/save.png" alt="" class="changePassword">	Save Your Changes
+                                                    <img src="~/Content/site/save.png" alt="" class="changePassword">
+                                                    Save Your Changes
                                                 </a>
                                             </div>
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-danger" id="changePwdClearChanges">
-                                                    <img src="~/Content/site/cancel.png" alt="">	Clear Changes
+                                                    <img src="~/Content/site/cancel.png" alt="">
+                                                    Clear Changes
                                                 </a>
                                             </div>
                                         </div>
@@ -252,7 +265,9 @@
                             <div class="row">
                                 <div id="successMessageEmailChange" class="hideElement">
                                     <div class="alert alert-success" role="alert">
-                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span>
+                                            <img src="~/Content/site/like.png" alt="" />
+                                        </span>
                                         Successsfully sent request to change email
                                     </div>
                                 </div>
@@ -276,13 +291,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4  col-md-3 col-sm-3">New Email:</label>
+                                            <label class="control-label col-xs-4  col-md-3 col-sm-3">New Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="email" name="newEmailId" id="newEmailId" class="form-control" placeholder="New Email">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
+                                            <label class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
                                                 <input type="password" class="form-control" name="currentUserPassword" id="currentUserPassword" placeholder="">
                                             </div>
@@ -292,12 +307,14 @@
 
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-info changeEmail">
-                                                    <img src="~/Content/site/save.png" alt="" class="changeEmail">	Save Your Changes
+                                                    <img src="~/Content/site/save.png" alt="" class="changeEmail">
+                                                    Save Your Changes
                                                 </a>
                                             </div>
                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                 <a class="btn btn-danger" id="chnageEmailClearForm">
-                                                    <img src="~/Content/site/cancel.png" alt="">	Clear Changes
+                                                    <img src="~/Content/site/cancel.png" alt="">
+                                                    Clear Changes
                                                 </a>
                                             </div>
                                         </div>
@@ -310,7 +327,8 @@
                 </div>
                 <!-- /tabs -->
             </div>
-        </div><!-- /row -->
+        </div>
+        <!-- /row -->
     </section>
     <section id="userSettings" class="account-settings hideElement">
         <div class="row">
@@ -360,10 +378,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in Model.userList) 
+                                            @foreach (var item in Model.userList)
                                             {
                                                 <tr>
-                                                    <td scope="row"><label>@item.customUserId</label></td>
+                                                    <td scope="row">
+                                                        <label>@item.customUserId</label></td>
                                                     @*<td>Username 01</td>*@
                                                     <td>
                                                         <label id="@item.userId">@item.emailId</label>
@@ -375,18 +394,22 @@
                                                         @*<span>
                                                             <img src="~/Content/site/status-uncheck.png">
                                                         </span>*@
-                                                        <input id="checkboxid" type="checkbox" class="checkboxid css-checkbox" userid="@item.userId" @if (item.status) { <text> checked="checked" </text> }>
+                                                        <input id="checkboxid" type="checkbox" class="checkboxid css-checkbox" userid="@item.userId" @if (item.status)
+                                                                                                                                                     { <text> checked="checked" </text> }>
                                                     </td>
                                                     @*<td>
                                                         <input id="checkboxid" type="checkbox" class="css-checkbox">
                                                     </td>*@
                                                     <td>
                                                         <span class="edit">
-                                                            <a href="" id="editUser_@(item.userId)" class="editUser" userid="@item.userId"><img src="~/Content/site/edit.png"></a>
-                                                            <a href="" id="saveChanges_@(item.userId)" class="hideElement saveChanges" userid="@item.userId"><img src="~/Content/site/save.png"></a>
+                                                            <a href="" id="editUser_@(item.userId)" class="editUser" userid="@item.userId">
+                                                                <img src="~/Content/site/edit.png"></a>
+                                                            <a href="" id="saveChanges_@(item.userId)" class="hideElement saveChanges" userid="@item.userId">
+                                                                <img src="~/Content/site/save.png"></a>
                                                         </span>
                                                         <span class="delete">
-                                                            <a href="##"><img src="~/Content/site/delete.png"></a>
+                                                            <a href="##">
+                                                                <img src="~/Content/site/delete.png"></a>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -395,7 +418,8 @@
                                     </table>
                                 </div>
                                 <div class="row edit-fields">
-                                    <span> <img src="~/Content/site/star.png" alt="" /></span>
+                                    <span>
+                                        <img src="~/Content/site/star.png" alt="" /></span>
                                     <span>: Editable Fields</span>
                                 </div>
 
@@ -405,7 +429,9 @@
                             <div class="row">
                                 <div id="successMessageAddedNewUser" class="hideElement">
                                     <div class="alert alert-success" role="alert">
-                                        <span><img src="~/Content/site/like.png" alt="" />	</span>
+                                        <span>
+                                            <img src="~/Content/site/like.png" alt="" />
+                                        </span>
                                         Successsfully added new user
                                     </div>
                                 </div>
@@ -485,14 +511,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="  pull-right">
+                <div class="  pull-right" id="account-settings-btn">
                     <div class="form-group account-settings-btn">
                         <div class=" ">
-                            <a class="btn btn-warning">
-                                <img class="pluse" src="~/Content/site/minus.png" alt="">Hide Inactive Groups
+                            <a class="btn btn-warning" id="HideAndShowInActive">
+                                <img class="minus HideAndShowInActive" src="~/Content/site/minus.png" alt=""><span class="HideAndShowInActive">Hide Inactive Groups</span>
                             </a>
-                            <a class="btn btn-success">
-                                <img class="minus" src="~/Content/site/pluse.png" alt="">Add New Group
+                            <a class="btn btn-success addNewGroups" id="AddNewGroup">
+                                <img class="pluse addNewGroups" src="~/Content/site/pluse.png" alt="" data-member="@Url.Action("GroupListPartial")"><span class="addNewGroups">Add New Group</span>
                             </a>
                         </div>
 
@@ -501,33 +527,43 @@
             </div>
         </div>
         <div class="row member-group-settings">
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <img class="support" src="~/Content/site/support.png" alt="...">
-                    <div class="caption">
-                        <h4>Sample Group 1</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
+            <div class="row member-group-master" id="member-group-master">
+                @foreach (var item in Model.groupList)
+                {
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail">
+                            <input id="groupId_@(item.groupId)" type="text" class="hideElement" value="@item.groupId"/>
+                            @if(item.isActive){
+                            <img class="support" src="~/Content/site/support.png"  alt="...">
+                            }else{
+                                <img class="support" src="~/Content/site/inactive-group.png"  alt="...">
+                            }
+                            <div class="caption">
+                                <h4>@item.groupName</h4>
+                                <p>@item.description</p>
 
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Products :18</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit Group
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Users :37</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit User
-                                </a>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                        <h5>Products :18</h5>
+                                        <a href="#" class="btn btn-default grey" role="button">
+                                            <img src="~/Content/site/setting.png" alt="" />
+                                            Edit Group
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+                                        <h5>Users :37</h5>
+                                        <a href="#" class="btn btn-default grey" role="button">
+                                            <img src="~/Content/site/setting.png" alt="" />
+                                            Edit User
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
-            <div class="col-sm-6 col-md-3">
+            @*<div class="col-sm-6 col-md-3">
                 <div class="thumbnail">
                     <img class="support" src="~/Content/site/social-media.png" alt="...">
                     <div class="caption">
@@ -604,6 +640,464 @@
                         </div>
                     </div>
                 </div>
+            </div>*@
+
+            <div class="row member-group-details hideElement" id="member-group-details">
+                @*<div class="col-md-12">
+                    <div class="tabbable tabs-left group-settings-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tabGS_1" data-toggle="tab">Group Details</a> </li>
+                            <li><a href="#tabGS_2" data-toggle="tab">Products</a> </li>
+                            <li><a href="#tabGS_3" data-toggle="tab">User</a> </li>
+                            <li><a href="#tabGS_4" data-toggle="tab">Users Roles</a> </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active group-setting-form" id="tabGS_1">
+                                <div class="row">
+                                    <div class="bs-example group-details group-details-gp col-md-10">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+
+                                                <div class="col-xs-12 col-md-9 col-sm-9">
+                                                    <input type="email" class="form-control" id="inputEmail" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-md-12 col-sm-12">
+                                                    <textarea></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-8 col-md-9 col-sm-9">
+                                                    <label class="control-label ">Active :</label>
+                                                    <img src="images/site/check.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group account-settings-btn">
+                                                <div class="col-xs-12 col-sm-5 col-md-3  ">
+                                                    <a class="btn btn-info">
+                                                        <img src="images/site/save.png" alt="">Save Your Changes</a>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-5 col-md-4   ">
+                                                    <a class="btn btn-danger">
+                                                        <img src="images/site/cancel.png" alt="">Cancel Changes</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabGS_2">
+                                <div class="row">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                                    </p>
+                                    <div class="bs-example  ">
+                                        <div class="row table-responsive groups_details_products">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Name</th>
+                                                        <th>Info/Notes</th>
+                                                        <th>Subscription</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span class="unsubscribe">Unsubscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span class="unsubscribe">Unsubscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">Product 01</td>
+                                                        <td>Information 01</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabGS_3">
+                                <div class="row">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                                    </p>
+                                    <div class="bs-example  ">
+                                        <div class="row table-responsive  groups_details_users">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Username</th>
+                                                        <th>Email</th>
+                                                        <th>Subscription</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span class="unsubscribe">Unsubscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span class="unsubscribe">Unsubscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 01</td>
+                                                        <td>user01@gmail.com</td>
+                                                        <td>
+                                                            <span class="subscribe">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
+                                                            </span>
+                                                            <span>Subscribe</span>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabGS_4">
+                                <div class="row">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                                    </p>
+                                    <div class="bs-example  group-details-userroles">
+                                        <div class="row table-responsive">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="5">Product 1</th>
+                                                        <th colspan="3">Product 2</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="row"></td>
+                                                        <td>Role 1</td>
+                                                        <td>Role 2</td>
+                                                        <td>Role 3</td>
+                                                        <td>Role 4</td>
+                                                        <td>Role 5</td>
+                                                        <td>Role 6</td>
+                                                        <td>Role 7</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td scope="row">User 02</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 03</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 04</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 05</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">User 06</td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-group account-settings-btn">
+                                            <div class="col-xs-12 col-sm-5 col-md-3  ">
+                                                <a class="btn btn-info">
+                                                    <img src="images/site/save.png" alt="">Save Your Changes</a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5 col-md-4   ">
+                                                <a class="btn btn-danger">
+                                                    <img src="images/site/cancel.png" alt="">Cancel Changes</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>*@
             </div>
         </div>
     </section>
