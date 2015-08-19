@@ -367,7 +367,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="onekonnect.pfx" />
     <EntityDeploy Include="OnekonnectEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>OnekonnectEntities.Designer.cs</LastGenOutput>
@@ -444,7 +443,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>onekonnect.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>

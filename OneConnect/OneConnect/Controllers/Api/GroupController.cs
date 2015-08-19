@@ -19,19 +19,19 @@ namespace OneConnect.Controllers.Api
         public IEnumerable<GroupDetails> GetGroups()
         {
             IEnumerable<GroupDetails> list = null;
-            try
-            {
-                AccountController acc = new AccountController();
-                string userId = acc.GetUserIdByName(User.Identity.Name);
+            //try
+            //{
+            //    AccountController acc = new AccountController();
+            //    string userId = acc.GetUserIdByName(User.Identity.Name);
 
-                list = (from g in DBEntities.Groups
-                        where g.GroupOwner == userId 
-                        select new { r = g }).Select(t => new GroupDetails { groupId = t.r.Id, groupName = t.r.Name, description = t.r.Description,isActive=(bool)t.r.IsActive}).ToList();
+            //    list = (from g in DBEntities.Groups
+            //            where g.GroupOwner == userId 
+            //            select new { r = g }).Select(t => new GroupDetails { groupId = t.r.Id, groupName = t.r.Name, description = t.r.Description,isActive=(bool)t.r.IsActive}).ToList();
 
-            }
-            catch (Exception e)
-            {
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //}
             return list;
         }
 
