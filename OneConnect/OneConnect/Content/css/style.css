@@ -593,7 +593,7 @@ textarea {
     height: 200px;
 }
 
-.group-settings-tabs #b p, .group-settings-tabs #c p, .group-settings-tabs #d p {
+.group-settings-tabs #tabGS_2 p, .group-settings-tabs #tabGS_3 p, .group-settings-tabs #tabGS_4 p {
     margin-top: 10px;
     font-size: 12px;
     text-transform: capitalize;
