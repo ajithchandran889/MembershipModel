@@ -32,6 +32,10 @@ namespace OneConnect
                 routeTemplate: "api/{controller}/{action}"
             );
             config.Routes.MapHttpRoute(
+                name: "GetProducts",
+                routeTemplate: "api/{controller}/{action}"
+            );
+            config.Routes.MapHttpRoute(
                 name: "Group",
                 routeTemplate: "api/{controller}/{action}/{token}",
                 defaults: new { id = RouteParameter.Optional }

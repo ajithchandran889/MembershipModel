@@ -229,3 +229,6 @@ D:\9495177881\ajith\MembershipModel\OneConnect\OneConnect\bin\Antlr3.Runtime.pdb
 D:\9495177881\ajith\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.dll
 D:\9495177881\ajith\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.pdb
 D:\9495177881\ajith\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.csprojResolveAssemblyReference.cache
+D:\9495177881\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.csprojResolveAssemblyReference.cache
+D:\9495177881\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.dll
+D:\9495177881\MembershipModel\OneConnect\OneConnect\obj\Debug\OneConnect.pdb
