@@ -104,9 +104,259 @@ namespace OneConnect.Controllers
         }
 
         
-        public PartialViewResult GroupListPartial()
+        public PartialViewResult GroupListPartial(bool isActiveOnly)
         {
-            return PartialView("_PartialCreateGroup");
+            if (IsAuthenticated())
+            {
+                using (var client = new HttpClient())
+                {
+                    dynamic myModel = new ExpandoObject();
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+                    var groupListUrl = Url.RouteUrl(
+                                "GetGroupsWithStatus",
+                                new { httproute = "", controller = "Group", action = "GetGroupsWithStatus", isActiveOnly = isActiveOnly },
+                                Request.Url.Scheme
+                            );
+                    IEnumerable<GroupDetails> groupDetails = null;
+                    using (var response = client.GetAsync(groupListUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            groupDetails = response.Content.ReadAsAsync<List<GroupDetails>>().Result.ToList();
+
+                        }
+
+
+                    }
+                    myModel.groupList = groupDetails == null ? new List<GroupDetails>() : groupDetails;
+
+                    return PartialView("_PartialGroupMaster", myModel);
+                }
+
+            }
+            return null;
+        }
+
+        //public PartialViewResult AddGroupPartial()
+        //{
+        //    if (IsAuthenticated())
+        //    {
+        //        using (var client = new HttpClient())
+        //        {
+        //            dynamic myModel = new ExpandoObject();
+        //            client.DefaultRequestHeaders.Authorization =
+        //                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+        //            var groupProductsUrl = Url.RouteUrl(
+        //                "GetGroupProductDetails",
+        //                new { httproute = "", controller = "Group", action = "GetGroupProductDetails", id = 0 },
+        //                Request.Url.Scheme
+        //            );
+        //            IEnumerable<GroupProductDetails> groupProducts = new List<GroupProductDetails>();
+        //            using (var response = client.GetAsync(groupProductsUrl).Result)
+        //            {
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+
+        //                    groupProducts = response.Content.ReadAsAsync<List<GroupProductDetails>>().Result.ToList();
+
+        //                }
+
+        //            }
+
+        //            var groupMembersUrl = Url.RouteUrl(
+        //               "GetGroupMemberDetails",
+        //               new { httproute = "", controller = "Group", action = "GetGroupMemberDetails", id = 0 },
+        //               Request.Url.Scheme
+        //           );
+        //            IEnumerable<GroupMemberDetails> groupMembers = new List<GroupMemberDetails>();
+        //            using (var response = client.GetAsync(groupMembersUrl).Result)
+        //            {
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+
+        //                    groupMembers = response.Content.ReadAsAsync<List<GroupMemberDetails>>().Result.ToList();
+
+        //                }
+
+        //            }
+
+        //            GroupInfo groupInfo = new GroupInfo();
+
+        //            GroupDetails groupDetails = new GroupDetails();
+
+        //            groupInfo.groupDetails = groupDetails;
+
+        //            groupInfo.groupProducts = groupProducts.ToList();
+
+        //            groupInfo.groupMembers = groupMembers.ToList();
+
+        //            return PartialView("_PartialCreateGroup", groupInfo);
+        //        }
+
+        //    }
+        //    return null;
+            
+        //}
+
+
+        //public PartialViewResult EditGroupPartial(int groupId)
+        //{
+        //    if (IsAuthenticated())
+        //    {
+        //        using (var client = new HttpClient())
+        //        {
+        //            dynamic myModel = new ExpandoObject();
+        //            client.DefaultRequestHeaders.Authorization =
+        //                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+
+        //            var groupInfoUrl = Url.RouteUrl(
+        //                        "GetGroupInfo",
+        //                        new { httproute = "", controller = "Group", action = "GetGroupInfo",id=groupId},
+        //                        Request.Url.Scheme
+        //                    );
+        //            GroupDetails groupDetails = new GroupDetails();
+        //            using (var response = client.GetAsync(groupInfoUrl).Result)
+        //            {
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+
+        //                    groupDetails = response.Content.ReadAsAsync<GroupDetails>().Result;
+
+                           
+
+        //                }
+
+        //            }
+
+        //            var groupProductsUrl = Url.RouteUrl(
+        //                "GetGroupProductDetails",
+        //                new { httproute = "", controller = "Group", action = "GetGroupProductDetails", id = groupId },
+        //                Request.Url.Scheme
+        //            );
+        //            IEnumerable<GroupProductDetails> groupProducts = new List<GroupProductDetails>();
+        //            using (var response = client.GetAsync(groupProductsUrl).Result)
+        //            {
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+
+        //                    groupProducts = response.Content.ReadAsAsync<List<GroupProductDetails>>().Result.ToList();
+
+        //                }
+
+        //            }
+
+        //            var groupMembersUrl = Url.RouteUrl(
+        //               "GetGroupMemberDetails",
+        //               new { httproute = "", controller = "Group", action = "GetGroupMemberDetails", id = groupId },
+        //               Request.Url.Scheme
+        //           );
+        //            IEnumerable<GroupMemberDetails> groupMembers = new List<GroupMemberDetails>();
+        //            using (var response = client.GetAsync(groupMembersUrl).Result)
+        //            {
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+
+        //                    groupMembers = response.Content.ReadAsAsync<List<GroupMemberDetails>>().Result.ToList();
+
+        //                }
+
+        //            }
+
+        //            GroupInfo groupInfo = new GroupInfo();
+
+        //            groupInfo.groupDetails = groupDetails;
+
+        //            groupInfo.groupProducts = groupProducts.ToList();
+
+        //            groupInfo.groupMembers = groupMembers.ToList();
+
+        //            return PartialView("_PartialCreateGroup", groupInfo);
+        //        }
+        //    }
+
+        //    return null;
+        //}
+
+        public PartialViewResult AddGroupPartial()
+        {
+            if (IsAuthenticated())
+            {
+                using (var client = new HttpClient())
+                {
+                    dynamic myModel = new ExpandoObject();
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+
+                    var groupInfoUrl = Url.RouteUrl(
+                                "GetGroupInfo",
+                                new { httproute = "", controller = "Group", action = "GetGroupInfo", id = 0 },
+                                Request.Url.Scheme
+                            );
+                    GroupInfo groupInfo = new GroupInfo();
+                    using (var response = client.GetAsync(groupInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            groupInfo = response.Content.ReadAsAsync<GroupInfo>().Result;
+
+
+
+                        }
+
+                    }
+
+                    return PartialView("_PartialCreateGroup", groupInfo);
+                }
+            }
+
+            return null;
+        }
+
+        public PartialViewResult EditGroupPartial(int groupId)
+        {
+            if (IsAuthenticated())
+            {
+                using (var client = new HttpClient())
+                {
+                    dynamic myModel = new ExpandoObject();
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+
+                    var groupInfoUrl = Url.RouteUrl(
+                                "GetGroupInfo",
+                                new { httproute = "", controller = "Group", action = "GetGroupInfo", id = groupId },
+                                Request.Url.Scheme
+                            );
+                    GroupInfo groupInfo = new GroupInfo();
+                    using (var response = client.GetAsync(groupInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            groupInfo = response.Content.ReadAsAsync<GroupInfo>().Result;
+
+
+
+                        }
+
+                    }
+
+                    return PartialView("_PartialCreateGroup", groupInfo);
+                }
+            }
+
+            return null;
         }
 
         public bool IsAuthenticated()

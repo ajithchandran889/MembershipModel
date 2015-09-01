@@ -1,46 +1,66 @@
-﻿<div class="row member-group-details" id="member-group-details">
+﻿@model OneConnect.ViewModels.GroupInfo
+
+<div class="row member-group-details" id="member-group-details">
     <div class="col-md-12">
         <div class="tabbable tabs-left group-settings-tabs">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tabGS_1" data-toggle="tab">Group Details</a> </li>
-                <li><a href="#tabGS_2" data-toggle="tab">Products</a> </li>
-                <li><a href="#tabGS_3" data-toggle="tab">User</a> </li>
-                <li><a href="#tabGS_4" data-toggle="tab">Users Roles</a> </li>
+                <li><a   @if (@Model.groupDetails.groupId != 0)
+                         { <text> href="#tabGS_2" data-toggle="tab"</text> }>Products</a> </li>
+                <li><a @if (@Model.groupDetails.groupId != 0)
+                       { <text> href="#tabGS_3" data-toggle="tab"</text> }>User</a> </li>
+                <li><a @if (@Model.groupDetails.groupId != 0)
+                       { <text> href="#tabGS_4" data-toggle="tab"</text> }>Users Roles</a> </li>
 
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active group-setting-form" id="tabGS_1">
                     <div class="row">
+                        <div id="successMessageGroupInfoSave" class="hideElement">
+                            <div class="alert alert-success" role="alert">
+                                <span>
+                                    <img src="~/Content/site/like.png" alt="" />
+                                </span>
+                                Successfully updated changes in group info
+                            </div>
+                        </div>
                         <div class="bs-example group-details group-details-gp col-md-10">
                             <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
                                 <div class="form-group">
 
                                     <div class="col-xs-12 col-md-9 col-sm-9">
-                                        <input type="text" class="form-control" name="inputGroupName" id="inputGroupName" placeholder="Group Name">
+                                        <input type="text" class="form-control" name="txtGroupName" id="txtGroupName" placeholder="Group Name" value="@Model.groupDetails.groupName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-12 col-md-12 col-sm-12">
-                                        <textarea id="inputDescription"></textarea>
+                                        @Html.TextArea("inputDescription", @Model.groupDetails.description, new { @id = "txtGroupDescription", @title = "Description" })
+
                                     </div>
+
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-8 col-md-9 col-sm-9">
                                         <label class="control-label ">Active :</label>
-                                        <span style="margin-left:10px">
-                                            <input id="cbxActive" type="checkbox" class="css-checkbox" checked="checked">
+                                        <span style="margin-left: 10px">
+                                            <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive">
                                         </span>
                                         @*<img src="images/site/check.png" alt="" />*@
                                     </div>
                                 </div>
                                 <div class="form-group account-settings-btn">
                                     <div class="col-xs-12 col-sm-5 col-md-3  ">
-                                        <a class="btn btn-info" id="saveAddUser">
+                                        <a class="btn btn-info" id="addNewGroupFormSave">
                                             <img src="~/Content/site/save.png" alt="">Save Your Changes</a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-5 col-md-4   ">
-                                        <a class="btn btn-danger" id="cancelAddUser">
+                                    <div class="col-xs-12 col-sm-5 col-md-3   ">
+                                        <a class="btn btn-danger" id="addNewGroupFormCancel">
                                             <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-2   ">
+                                        <a class="btn btn-danger" id="addNewGroupFormDelete" groupId="@Model.groupDetails.groupId" @if (@Model.groupDetails.groupId == 0)
+                                                                                                                                   { <text> style="display:none;"</text> } >
+                                            <img src="~/Content/site/delete.png" alt="">Delete</a>
                                     </div>
                                 </div>
                             </form>
@@ -52,7 +72,17 @@
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
                         </p>
+                        <div id="groupProductSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
+                            <span>
+                                <img src="~/Content/site/like.png" alt="" />
+                            </span>
+                            <span id="gpsSuccessMessage"></span>
+                        </div>
+                        <div id="groupProductSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
+                            <span id="gpsFailureMessage"></span>
+                        </div>
                         <div class="bs-example  ">
+
                             <div class="row table-responsive groups_details_products">
 
                                 <table class="table table-striped">
@@ -64,66 +94,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
-                                                </span>
-                                                <span class="unsubscribe">Unsubscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
-                                                </span>
-                                                <span class="unsubscribe">Unsubscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Product 01</td>
-                                            <td>Information 01</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
+                                        @foreach (var groupProduct in @Model.groupProducts)
+                                        {
+                                            
+                                            <tr>
+                                                <td scope="row">@groupProduct.productName</td>
+                                                <td>@groupProduct.productDescription</td>
+                                                <td>
+                                                    <span class="subscribe">
+                                                        <input id="chk_grp_prd_@(groupProduct.productId)" type="checkbox" @if (groupProduct.isSubscribed)
+                                                                                                                          { <text> checked="checked" </text> } class="groupProductCheckbox un-subs css-checkbox " productId="@groupProduct.productId" groupId="@Model.groupDetails.groupId" >
+                                                    </span>
+                                                    <span id="chk_grp_prd_label_@(groupProduct.productId)">@if (groupProduct.isSubscribed)
+                                                                                                           { <text> Subscribe </text>}
+                                                                                                           else
+                                                                                                           {<text> Unsubscribe </text>}</span>
+
+                                                </td>
+                                            </tr>
+                                        }
 
                                     </tbody>
                                 </table>
@@ -136,6 +125,15 @@
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
                         </p>
+                        <div id="groupMemberSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
+                            <span>
+                                <img src="~/Content/site/like.png" alt="" />
+                            </span>
+                            <span id="gpmSuccessMessage"></span>
+                        </div>
+                        <div id="groupMemberSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
+                            <span id="gpmFailureMessage"></span>
+                        </div>
                         <div class="bs-example  ">
                             <div class="row table-responsive  groups_details_users">
 
@@ -148,66 +146,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
-                                                </span>
-                                                <span class="unsubscribe">Unsubscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="un-subs css-checkbox">
-                                                </span>
-                                                <span class="unsubscribe">Unsubscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">User 01</td>
-                                            <td>user01@gmail.com</td>
-                                            <td>
-                                                <span class="subscribe">
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="un-subs css-checkbox">
-                                                </span>
-                                                <span>Subscribe</span>
-                                            </td>
-                                        </tr>
+                                        @foreach (var groupMember in @Model.groupMembers)
+                                        {
+                                            <tr>
+
+                                                <td scope="row">@groupMember.userName</td>
+                                                <td>@groupMember.userEmail</td>
+                                                <td>
+                                                    <span class="subscribe">
+                                                        <input id="chk_grp_usr_@(groupMember.userId)" type="checkbox" @if (groupMember.isSubscribed)
+                                                                                                                      { <text> checked="checked" </text> } class="groupUserCheckbox un-subs css-checkbox " userId="@groupMember.userId" groupId="@Model.groupDetails.groupId" >
+                                                    </span>
+                                                    <span id="chk_grp_usr_label_@(groupMember.userId)">@if (groupMember.isSubscribed)
+                                                                                                       { <text> Subscribe </text>}
+                                                                                                       else
+                                                                                                       {<text> Unsubscribe </text>}</span>
+
+                                                </td>
+                                            </tr>
+                                        }
 
                                     </tbody>
                                 </table>
@@ -220,68 +177,106 @@
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
                         </p>
-                        <div class="bs-example  group-details-userroles">
+                        <div class="bs-example  group-details-userroles" @if (@Model.groupMembers.Where(t => t.isSubscribed == true).Count() > 0 && @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0).Count() > 0)
+                                                                         {<text> style="display:block;"</text>}else{<text> style="display:none;"</text>}>
                             <div class="row table-responsive">
 
-                                <table class="table table-striped">
+                                <table class="table table-striped" id="groupMemberRoleTable">
                                     <thead>
                                         <tr>
-                                            <th colspan="5">Product 1</th>
-                                            <th colspan="3">Product 2</th>
+                                            <th scope="row"></th>
+                                            @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                                            {
+                                                
+                                                <th colspan="@groupProduct.productRole.Count()">@groupProduct.productName</th>
+                                                
+                                            }
+                                            @*<th colspan="5">Product 1</th>
+                                            <th colspan="3">Product 2</th>*@
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td scope="row"></td>
-                                            <td>Role 1</td>
+                                            @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                                            {
+                                                foreach (var productRole in @groupProduct.productRole)
+                                                {
+                                                <td>@productRole.roleName</td>
+                                                }
+                                            }
+
+                                            @*<td>Role 1</td>
                                             <td>Role 2</td>
                                             <td>Role 3</td>
                                             <td>Role 4</td>
                                             <td>Role 5</td>
                                             <td>Role 6</td>
-                                            <td>Role 7</td>
+                                            <td>Role 7</td>*@
                                         </tr>
+                                        @foreach (var groupMember in @Model.groupMembers.Where(t => t.isSubscribed == true))
+                                        {
+                                            <tr>
 
-                                        <tr>
-                                            <td scope="row">User 02</td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <input id="checkboxid" type="checkbox" class="css-checkbox">
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                                <td scope="row">@groupMember.userName</td>
+                                                @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                                                {
+                                                    foreach (var productRole in @groupProduct.productRole)
+                                                    {
+                                                    <td>
+                                                        <span>
+                                                            @if(@Model.groupMemberRoles.Where(gmr => gmr.groupMemberId == @groupMember.id && gmr.groupProductId == @groupProduct.id && gmr.roleId == @productRole.id).Count()>0){
+
+                                                            <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                                            }else{
+                                                            <input id="checkboxid" type="checkbox"  class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                                            }
+                                                        </span>
+                                                    </td>
+                                                    }
+
+                                                }
+                                            </tr>
+                                        }
+
+                                        @*<td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <input id="checkboxid" type="checkbox" class="css-checkbox">
+                                            </span>
+                                        </td>
+                                        </tr>*@
+                                        @*<tr>
                                             <td scope="row">User 03</td>
                                             <td>
                                                 <span>
@@ -432,20 +427,20 @@
                                                     <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox">
                                                 </span>
                                             </td>
-                                        </tr>
+                                        </tr>*@
 
 
                                     </tbody>
                                 </table>
                             </div>
                             <div class="form-group account-settings-btn">
-                                <div class="col-xs-12 col-sm-5 col-md-3  ">
+                                <div class="col-xs-12 col-sm-5 col-md-3  " id="groupMemberRoleSave">
                                     <a class="btn btn-info">
-                                        <img src="images/site/save.png" alt="">Save Your Changes</a>
+                                        <img src="~/Content/site/save.png" alt="">Save Your Changes</a>
                                 </div>
-                                <div class="col-xs-12 col-sm-5 col-md-4   ">
+                                <div class="col-xs-12 col-sm-5 col-md-4   " id="groupMemberRoleCancel">
                                     <a class="btn btn-danger">
-                                        <img src="images/site/cancel.png" alt="">Cancel Changes</a>
+                                        <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
                                 </div>
                             </div>
 
@@ -458,4 +453,5 @@
         </div>
     </div>
 </div>
+@Html.Hidden("hfdGroupId", @Model.groupDetails.groupId);
 

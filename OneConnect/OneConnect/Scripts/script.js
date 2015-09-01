@@ -28,7 +28,7 @@
             password: $("#password").val(),
             captchaResponse: $("#g-recaptcha-response").val()
         };
-        
+
         var dataReg = JSON.stringify(register);
         $.ajax({
             type: "POST",
@@ -100,8 +100,8 @@ $("#loginForm").submit(function (e) {
         password: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-            error.insertAfter(element);
-        },
+        error.insertAfter(element);
+    },
     submitHandler: function () {
 
         $.ajax({
@@ -139,15 +139,15 @@ $(document).on("click", "#logOutBtn", function (event) {
             $.cookie('isAuthenticated', false, { path: '/' });
             $.cookie('token', null, { path: '/' });
             $.cookie('userId', null, { path: '/' });
-            var url = $("#RedirectToHome").val(); 
+            var url = $("#RedirectToHome").val();
             window.location.href = url;
         },
         error: function (x, y, z) {
             alert("error");
-            
+
         }
     });
-    
+
 });
 $(document).on("click", ".accountSetting", function (event) {
     $("#accountSettings").show();
@@ -165,57 +165,7 @@ $(document).on("click", ".userSetting", function (event) {
     $("img.userSetting").attr("src", "/Content/site/user-settings-hover.png");
     $("img.groupSetting").attr("src", "/Content/site/group-settings.png");
 });
-$(document).on("click", ".groupSetting", function (event) {
-    $("#accountSettings").hide();
-    $("#groupSettigs").show();
-    $("#userSettings").hide();
-    $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
-    $("img.userSetting").attr("src", "/Content/site/user-settings.png");
-    $("img.groupSetting").attr("src", "/Content/site/group-settings-hover.png");
-});
-$(document).on("click", "#AddNewGroup", function (event) {
-    $("#member-group-master").hide();
-   
-    $("#account-settings-btn").hide();
-    
-    var url = $("img.addNewGroups").attr("data-member");
 
-    $("#member-group-details").load(url);
-
-    $("#member-group-details").show();
-
-    /*if ($("#AddNewGroup").hasClass("selected")) {
-        $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
-        $("span.addNewGroups").html("Add New Group");
-        $("#AddNewGroup").removeClass("selected");
-        
-
-    } else {
-        $("img.addNewGroups").attr("src", "/Content/site/minus.png");
-        $("span.addNewGroups").html("Go To Group List");
-        $("#AddNewGroup").addClass("selected");
-        $("#member-group-master").hide();
-        $("#member-group-details").show();
-    }*/
-
-});
-
-$(document).on("click", "#HideAndShowInActive", function (event) {
-    
-
-    if ($("#HideAndShowInActive").hasClass("selected")) {
-        $("img.HideAndShowInActive").attr("src", "/Content/site/minus.png");
-        $("span.HideAndShowInActive").html("Hide Inactive Groups");
-        $("#HideAndShowInActive").removeClass("selected");
-        
-
-    } else {
-        $("img.HideAndShowInActive").attr("src", "/Content/site/pluse.png");
-        $("span.HideAndShowInActive").html("Show Inactive Groups");
-        $("#HideAndShowInActive").addClass("selected");
-    }
-
-});
 
 $("#addNewUserForm").submit(function (e) {
     e.preventDefault();
@@ -244,32 +194,32 @@ $("#addNewUserForm").submit(function (e) {
         {
             emailId: $("#inputEmail").val(),
             password: $("#inputPassword").val()
-        }; 
-    var dataReg = JSON.stringify(register); 
-    $.ajax({
-        type: "POST",
-        url: "/api/Account/UserRegister/",
-        data: dataReg,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-        },
-        success: function (response) {
-            $("#successMessageAddedNewUser").show();
-        },
-        error: function (x, y, z) {
-            $("#errorsMessageAddedNewUser").show();
-        }
-    });
-    return false;
+        };
+        var dataReg = JSON.stringify(register);
+        $.ajax({
+            type: "POST",
+            url: "/api/Account/UserRegister/",
+            data: dataReg,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+            },
+            success: function (response) {
+                $("#successMessageAddedNewUser").show();
+            },
+            error: function (x, y, z) {
+                $("#errorsMessageAddedNewUser").show();
+            }
+        });
+        return false;
 
     }
 });
 
 $(document).on("click", ".addNewUser", function (event) {
     $("#addNewUserForm").submit();
-    
+
 });
 $("#changePasswordForm").submit(function (e) {
     e.preventDefault();
@@ -317,14 +267,14 @@ $("#changePasswordForm").submit(function (e) {
                 xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
             },
             success: function (response) {
-                $("#successMessagePasswordChange").show(); 
+                $("#successMessagePasswordChange").show();
             },
             error: function (x, y, z) {
                 $("#errorMessagePasswordChange").show();
             }
         });
         return false;
-       
+
 
     }
 });
@@ -396,16 +346,16 @@ $("#changeEmailForm").submit(function (e) {
     }
 });
 $(document).on("click", ".changeEmail", function (event) {
-    
+
     $("#changeEmailForm").submit();
 });
 $('.checkboxid').change(function () {
+
     var userId = $(this).attr("userId");
     if ($(this).is(":checked")) {
         var status = 1;
     }
-    else
-    {
+    else {
         var status = 0;
     }
     var usrAct =
@@ -435,7 +385,7 @@ $(document).on("click", ".editUser", function () {
     var userId = $(this).attr("userId");
     var editBtnId = "#editUser_" + userId;
     var saveBtnId = "#saveChanges_" + userId;
-    var emailId = "#"+userId;
+    var emailId = "#" + userId;
     var editEmailId = "#email_" + userId;
     $(editBtnId).hide();
     $(emailId).hide();
@@ -447,13 +397,13 @@ $(document).on("click", ".saveChanges", function () {
     var userId = $(this).attr("userId");
     var editBtnId = "#editUser_" + userId;
     var saveBtnId = "#saveChanges_" + userId;
-    var emailId = "#"+userId;
+    var emailId = "#" + userId;
     var editEmailId = "#email_" + userId;
-    if(isValidEmailAddress($(editEmailId).val()))
-    {
+    if (isValidEmailAddress($(editEmailId).val())) {
         var usrEmail =
         {
             userId: userId,
+
             emailId: $(editEmailId).val()
         };
         var dataUsrEmail = JSON.stringify(usrEmail);
@@ -477,12 +427,11 @@ $(document).on("click", ".saveChanges", function () {
                 alert("error");
             }
         });
-        
+
     }
-    else
-    {
+    else {
         alert("Invalid email address");
-        
+
     }
     return false;
 });
@@ -497,9 +446,8 @@ $(document).ready(function () {
     });
 });
 $(document).on("click", ".saveAccountInfoEdit", function () {
-    
-    if (somethingChanged)
-    {
+
+    if (somethingChanged) {
         var status = false;
         if ($("#checkboxAccountStatus").is(':checked')) {
             status = true;
@@ -551,36 +499,36 @@ $("#forgotUserIdForm").submit(function (e) {
     },
     submitHandler: function () {
 
-            var forgotUserId =
-               {
-                   emailId: $("#emailId").val(),
-                   captchaResponse: $("#g-recaptcha-response").val()
-               };
-            var dataforgotUserId = JSON.stringify(forgotUserId);
-            $.ajax({
-                type: "POST",
-                url: "/api/Account/ForgotUserId/",
-                data: dataforgotUserId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    $("#errorMessage").hide();
-                    //$("#successMessage").show();
-                    $("#emailId").val("");
-                    grecaptcha.reset();
-                    $("#username-pass").hide();
-                    $("#username-pass-redirect").show();
-                },
-                error: function (x, y, z) {
-                    var errorMsg = x.responseText;
-                    $("#failureMessage").text(errorMsg.replace(/"/g, ''));
-                    $("#errorMessage").show();
-                    $("#successMessage").hide();
-                    $("#username-pass").show();
-                    $("#username-pass-redirect").hide();
-                }
-            });
-            return false;
+        var forgotUserId =
+           {
+               emailId: $("#emailId").val(),
+               captchaResponse: $("#g-recaptcha-response").val()
+           };
+        var dataforgotUserId = JSON.stringify(forgotUserId);
+        $.ajax({
+            type: "POST",
+            url: "/api/Account/ForgotUserId/",
+            data: dataforgotUserId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#errorMessage").hide();
+                //$("#successMessage").show();
+                $("#emailId").val("");
+                grecaptcha.reset();
+                $("#username-pass").hide();
+                $("#username-pass-redirect").show();
+            },
+            error: function (x, y, z) {
+                var errorMsg = x.responseText;
+                $("#failureMessage").text(errorMsg.replace(/"/g, ''));
+                $("#errorMessage").show();
+                $("#successMessage").hide();
+                $("#username-pass").show();
+                $("#username-pass-redirect").hide();
+            }
+        });
+        return false;
 
     }
 });
@@ -701,7 +649,7 @@ $(document).on("click", "#resetEmail", function () {
 $(document).on("click", "#clearChanges", function (event) {
     $("#accountEditForm")[0].reset();
     return false;
-}); 
+});
 $(document).on("click", "#changePwdClearChanges", function (event) {
     $("#changePasswordForm")[0].reset();
     return false;
@@ -720,65 +668,434 @@ $(document).on("click", ".goToLoginPage", function (event) {
 });
 
 
+/******************GROUP*************************/
+$(document).on("click", ".groupSetting", function (event) {
+    $("#accountSettings").hide();
+    $("#groupSettigs").show();
+    $("#userSettings").hide();
+    $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
+    $("img.userSetting").attr("src", "/Content/site/user-settings.png");
+    $("img.groupSetting").attr("src", "/Content/site/group-settings-hover.png");
+});
+$(document).on("click", "#AddNewGroup", function (event) {
 
 
+    if ($("#AddNewGroup").hasClass("selected")) {
+        $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
+        $("span.addNewGroups").html("Add New Group");
+        $("#AddNewGroup").removeClass("selected");
+        $("#member-group-details").hide();
 
-$("#addNewGroupForm").submit(function (e) {
-    e.preventDefault();
-}).validate({
-    rules: {
-        inputGroupName: { required: true }
-    },
-    messages: {
-        inputGroupName: {
-            required: "Please enter group name"
-        }
-    },
-    tooltip_options: {
-        inputGroupName: { trigger: 'focus' }
-    },
-    errorPlacement: function (error, element) {
-        error.insertAfter(element);
-    },
-    submitHandler: function () {
+        $("#HideAndShowInActive").show();
 
-        var forgotPassword =
-       {
-           groupName: $("#inputGroupName").val()
-       };
-        var dataforgotPassword = JSON.stringify(forgotPassword);
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/api/Account/ForgotPassword/",
-        //    data: dataforgotPassword,
-        //    contentType: "application/json; charset=utf-8",
-        //    dataType: "json",
-        //    success: function (response) {
-        //        $("#errorMessage").hide();
-        //        //$("#successMessage").show();
-        //        $("#userId").val("");
-        //        $("#emailId").val("");
-        //        grecaptcha.reset();
-        //        $("#username-pass").hide();
-        //        $("#username-pass-redirect").show();
-        //    },
-        //    error: function (x, y, z) {
-        //        var errorMsg = x.responseText;
-        //        $("#failureMessage").text(errorMsg.replace(/"/g, ''));
-        //        $("#errorMessage").show();
-        //        $("#successMessage").hide();
-        //        $("#username-pass").show();
-        //        $("#username-pass-redirect").hide();
-        //    }
-        //});
-        return false;
+        var url = $("img.addNewGroups").attr("data-member");
+
+        $("#member-group-master").load(url);
+
+        $("#member-group-master").show();
+
+        $("img.addNewGroups").attr("data-member", "/User/AddGroupPartial")
+
+
+    } else {
+        $("img.addNewGroups").attr("src", "/Content/site/minus.png");
+        $("span.addNewGroups").html("Go To Group List");
+        $("#AddNewGroup").addClass("selected");
+        $("#member-group-master").hide();
+
+        $("#HideAndShowInActive").hide();
+
+        var url = $("img.addNewGroups").attr("data-member");
+
+        $("#member-group-details").load(url);
+
+        $("#member-group-details").show();
+
+        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial")
 
     }
+
 });
 
-$(document).on("click", "#saveAddUser", function (event) {
-    alert(1);
-    $("#addNewGroupForm").submit();
-    alert(2);
+$(document).on("click", "#HideAndShowInActive", function (event) {
 
+
+    if ($("#HideAndShowInActive").hasClass("selected")) {
+        $("img.HideAndShowInActive").attr("src", "/Content/site/minus.png");
+        $("span.HideAndShowInActive").html("Hide Inactive Groups");
+        $("#HideAndShowInActive").removeClass("selected");
+
+        var url = "/User/GroupListPartial?isActiveOnly=" + false;
+
+        $("#member-group-master").load(url);
+
+        $("#member-group-master").show();
+
+
+    } else {
+        $("img.HideAndShowInActive").attr("src", "/Content/site/pluse.png");
+        $("span.HideAndShowInActive").html("Show Inactive Groups");
+        $("#HideAndShowInActive").addClass("selected");
+
+
+        var url = "/User/GroupListPartial?isActiveOnly=" + true;
+
+        $("#member-group-master").load(url);
+
+        $("#member-group-master").show();
+    }
+
+});
+
+$(document).on("click", "#addNewGroupFormSave", function (event) {
+    $("#addNewGroupForm").submit();
+
+});
+
+
+
+$(document).on("submit", "#addNewGroupForm", function (e) {
+
+    var status = 0;
+    if ($("#cbxGroupActive").is(':checked')) {
+        status = 1;
+    }
+    var groupDetails =
+    {
+        groupId: $("#hfdGroupId").val(),
+        groupName: $("#txtGroupName").val(),
+        description: $("#txtGroupDescription").val(),
+        isActive: status
+    };
+    var groupDetailsJSON = JSON.stringify(groupDetails);
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/SaveGroup/",
+        data: groupDetailsJSON,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            var url = "/User/EditGroupPartial?groupId=" + response;
+            $("#member-group-details").load(url);
+            $("#successMessageGroupInfoSave").show();
+        },
+        error: function (x, y, z) {
+
+            alert("error");
+        }
+    });
+    return false;
+});
+
+$(document).on("click", "#addNewGroupFormCancel", function (e) {
+
+    var groupId = $("#hfdGroupId").val();
+    var url = "";
+    if (groupId == 0) {
+        url = "/User/AddGroupPartial";
+
+
+    } else {
+        url = "/User/EditGroupPartial?groupId=" + groupId;
+    }
+    $("#member-group-details").load(url);
+    return false;
+});
+$(document).on("click", "#addNewGroupFormDelete", function (e) {
+
+    var groupDetails =
+        {
+            groupId: $("#hfdGroupId").val()
+        };
+    var groupDetailsJSON = JSON.stringify(groupDetails);
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/DeleteGroup/",
+        data: groupDetailsJSON,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
+            $("span.addNewGroups").html("Add New Group");
+            $("#AddNewGroup").removeClass("selected");
+            $("#member-group-details").hide();
+
+            $("#HideAndShowInActive").show();
+
+            var url = $("img.addNewGroups").attr("data-member");
+            $("#member-group-master").load(url);
+
+            $("#member-group-master").show();
+
+            $("#member-group-details").load("/User/AddGroupPartial");
+
+            $("img.addNewGroups").attr("data-member", "/User/AddGroupPartial");
+
+
+        },
+        error: function (x, y, z) {
+
+            alert("error");
+        }
+    });
+    return false;
+});
+$(document).on("click", ".editGroup", function () {
+
+    var groupId = $(this).attr("groupId");
+    var editBtnId = "#editGroup_" + groupId;
+
+
+
+    $("img.addNewGroups").attr("src", "/Content/site/minus.png");
+    $("span.addNewGroups").html("Go To Group List");
+    $("#AddNewGroup").addClass("selected");
+    $("#member-group-master").hide();
+
+    $("#HideAndShowInActive").hide();
+    var url = $(this).attr("data-member");
+    $("#member-group-details").load(url);
+
+    $("#member-group-details").show();
+
+    if ($("#HideAndShowInActive").hasClass("selected")) {
+
+        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + true)
+
+    } else {
+
+        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + false)
+
+    }
+
+
+
+    return false;
+});
+
+
+$(document).on("change", ".groupProductCheckbox", function (e) {
+    //if (event.stopPropagation) {    // standard
+    //    event.stopPropagation();
+    //} else {    // IE6-8
+    //    event.cancelBubble = true;
+    //}
+
+    var productId = $(this).attr("productId");
+    var groupId = $(this).attr("groupId");
+    var chkLabelId = "#chk_grp_prd_label_" + productId;
+    var status = 0;
+    if ($(this).is(":checked")) {
+
+        status = 1;
+    }
+    else {
+        status = 0;
+    }
+
+    var grpPrdDetails =
+        {
+            productId: productId,
+            groupId: groupId,
+            isSubscribed: status
+        };
+    var dataGrpPrdDetails = JSON.stringify(grpPrdDetails);
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/GroupProductSubscription/",
+        data: dataGrpPrdDetails,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            if (response == "unsubscribed") {
+
+                $(chkLabelId).html("Unsubscribe");
+                var currGroupId = $("#hfdGroupId").val();
+                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
+                $("#member-group-details").load(url);
+                $("#groupProductSubscriptionSuccess").show();
+                $("#groupProductSubscriptionFailure").hide();
+                $("#gpsSuccessMessage").text("Product unsubscribed from this group");
+
+            } else if (response == "subscribed") {
+
+                $(chkLabelId).html("Subscribe");
+                var currGroupId = $("#hfdGroupId").val();
+                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
+                $("#member-group-details").load(url);
+                $("#groupProductSubscriptionSuccess").show();
+                $("#groupProductSubscriptionFailure").hide();
+                $("#gpsSuccessMessage").text("Product subscribed to this group");
+
+            } else {
+
+                e.preventDefault();
+                $("#groupProductSubscriptionFailure").show();
+                $("#groupProductSubscriptionSuccess").hide();
+                $("#gpsFailureMessage").text("Operation failed");
+
+            }
+
+        },
+        error: function (x, y, z) {
+            var errorMsg = x.responseText;
+            event.stopPropagation();
+            event.preventDefault();
+            $("#groupProductSubscriptionFailure").show();
+            $("#groupProductSubscriptionSuccess").hide();
+            $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+            return false;
+        }
+    });
+
+    return false;
+});
+$(document).on("change", ".groupUserCheckbox", function (event) {
+
+    var userId = $(this).attr("userId");
+    var groupId = $(this).attr("groupId");
+    var chkLabelId = "#chk_grp_usr_label_" + userId;
+    var status = 0;
+    if ($(this).is(":checked")) {
+
+        status = 1;
+    }
+    else {
+        status = 0;
+    }
+
+    var grpUsrDetails =
+        {
+            userId: userId,
+            groupId: groupId,
+            isSubscribed: status
+        };
+    var dataGrpUsrDetails = JSON.stringify(grpUsrDetails);
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/GroupMemberSubscription/",
+        data: dataGrpUsrDetails,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            if (response == "unsubscribed") {
+
+                $(chkLabelId).html("Unsubscribe");
+                var currGroupId = $("#hfdGroupId").val();
+                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
+                $("#member-group-details").load(url);
+                $("#groupMemberSubscriptionSuccess").show();
+                $("#groupMemberSubscriptionFailure").hide();
+                $("#gpmSuccessMessage").text("User unsubscribed from this group");
+
+            } else if (response == "subscribed") {
+
+                $(chkLabelId).html("Subscribe");
+                var currGroupId = $("#hfdGroupId").val();
+                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
+                $("#member-group-details").load(url);
+                $("#groupMemberSubscriptionSuccess").show();
+                $("#groupMemberSubscriptionFailure").hide();
+                $("#gpmSuccessMessage").text("User subscribed to this group");
+
+            } else {
+
+                e.preventDefault();
+                $("#groupMemberSubscriptionFailure").show();
+                $("#groupMemberSubscriptionSuccess").hide();
+                $("#gpmFailureMessage").text("Operation failed");
+
+            }
+
+        },
+        error: function (x, y, z) {
+            var errorMsg = x.responseText;
+            event.stopPropagation();
+            event.preventDefault();
+            $("#groupMemberSubscriptionFailure").show();
+            $("#groupMemberSubscriptionSuccess").hide();
+            $("#gpmFailureMessage").text(errorMsg.replace(/"/g, ''));
+            return false;
+        }
+    });
+
+    return false;
+});
+
+$(document).on("click", "#groupMemberRoleSave", function (event) {
+    var groupMemberRoleDetails = [];
+
+    $('#groupMemberRoleTable').find('tr').each(function () {
+        var row = $(this);
+        row.find('input[type="checkbox"]').each(function () {
+
+            if (this.checked) {
+
+                var groupMemberRole =
+                                {
+                                    groupMemberId: $(this).attr("groupMemberId"),
+                                    groupProductId: $(this).attr("groupProductId"),
+                                    roleId: $(this).attr("roleId"),
+                                    isSubscribed: 1
+                                };
+                groupMemberRoleDetails.push(groupMemberRole);
+            }
+        })
+    });
+
+    var groupMemberRoleDetailsSave=
+        {
+            groupId: $("#hfdGroupId").val(),
+            groupMemberRoleDetails:groupMemberRoleDetails
+        }
+
+    var groupMemberRoleDetailsSaveJSON = JSON.stringify(groupMemberRoleDetailsSave);
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/SaveGroupMemberRole/",
+        data: groupMemberRoleDetailsSaveJSON,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            var currGroupId = $("#hfdGroupId").val();
+            var url = "/User/EditGroupPartial?groupId=" + currGroupId;
+            $("#member-group-details").load(url);
+            //$("#successMessageGroupInfoSave").show();
+        },
+        error: function (x, y, z) {
+
+            alert("error");
+        }
+    });
+    return false;
+
+});
+$(document).on("click", "#groupMemberRoleCancel", function (e) {
+
+    var groupId = $("#hfdGroupId").val();
+    var url = "";
+    if (groupId == 0) {
+        url = "/User/AddGroupPartial";
+
+
+    } else {
+        url = "/User/EditGroupPartial?groupId=" + groupId;
+    }
+    $("#member-group-details").load(url);
+    return false;
 });

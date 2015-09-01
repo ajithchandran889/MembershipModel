@@ -1162,3 +1162,18 @@ hr.signup {
 .errorMessage {
     color: red;
 }
+
+.group-header {
+    min-height: 85px;
+    padding-top: 22px;
+    padding-left: 23px;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+}
+
+    .group-header h4 {
+        text-align:left !important;
+        color:#fff !important;
+    }
+

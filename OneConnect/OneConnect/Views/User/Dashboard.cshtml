@@ -174,7 +174,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3"></label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <div class="g-recaptcha " data-sitekey="6LeUTAoTAAAAAOvGucHt_lc8T63gI2V3xzccwJkr"></div>
+                                                <div class="g-recaptcha " data-sitekey=" @System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPublicKey"]"></div>
                                                 @*<img class="captcha" src="~/Content/site/captcha.png" alt="" />*@
                                             </div>
                                         </div>
@@ -518,7 +518,7 @@
                                 <img class="minus HideAndShowInActive" src="~/Content/site/minus.png" alt=""><span class="HideAndShowInActive">Hide Inactive Groups</span>
                             </a>
                             <a class="btn btn-success addNewGroups" id="AddNewGroup">
-                                <img class="pluse addNewGroups" src="~/Content/site/pluse.png" alt="" data-member="@Url.Action("GroupListPartial")"><span class="addNewGroups">Add New Group</span>
+                                <img class="pluse addNewGroups" src="~/Content/site/pluse.png" alt="" data-member="@Url.Action("AddGroupPartial")"><span class="addNewGroups">Add New Group</span>
                             </a>
                         </div>
 
@@ -527,25 +527,31 @@
             </div>
         </div>
         <div class="row member-group-settings">
-            <div class="row member-group-master" id="member-group-master">
-                @foreach (var item in Model.groupList)
+            <div class="row member-group-master" id="member-group-master" >
+                @Html.Action("GroupListPartial" ,new {isActiveOnly=false} )
+
+                @*@foreach (var item in Model.groupList)
                 {
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <input id="groupId_@(item.groupId)" type="text" class="hideElement" value="@item.groupId"/>
-                            @if(item.isActive){
-                            <img class="support" src="~/Content/site/support.png"  alt="...">
-                            }else{
-                                <img class="support" src="~/Content/site/inactive-group.png"  alt="...">
+
+                            @if (item.isActive)
+                            {
+                                <div class="group-header" style="background-image: url(/content/site/support.png)"><h4>@item.groupName</h4></div>
+                            }
+                            else
+                            {
+                                <div class="group-header" style="background-image: url(/content/site/inactive-group.png)"><h4>@item.groupName</h4></div>
                             }
                             <div class="caption">
-                                <h4>@item.groupName</h4>
+                                
                                 <p>@item.description</p>
 
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6 text-center">
                                         <h5>Products :18</h5>
-                                        <a href="#" class="btn btn-default grey" role="button">
+                                        <a href="#" class="btn btn-default grey editGroup" role="button" id="editGroup_@(item.groupId)"  groupId="@item.groupId" data-member="@Url.Action("EditGroupPartial",new {groupId=@item.groupId})">
                                             <img src="~/Content/site/setting.png" alt="" />
                                             Edit Group
                                         </a>
@@ -561,86 +567,9 @@
                             </div>
                         </div>
                     </div>
-                }
+                }*@
             </div>
-            @*<div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <img class="support" src="~/Content/site/social-media.png" alt="...">
-                    <div class="caption">
-                        <h4>Sample Group 2</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
-
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Products :25</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit Group
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Users :19</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit User
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <img class="support" src="images/site/onekonnect.png" alt="...">
-                    <div class="caption">
-                        <h4>Sample Group 3</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
-
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Products :41</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit Group
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Users :73</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit User
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <img class="support" src="~/Content/site/inactive-group.png" alt="...">
-                    <div class="caption">
-                        <h4>Sample Group 1</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,</p>
-
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Products :18</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit Group
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 text-center">
-                                <h5>Users :37</h5>
-                                <a href="#" class="btn btn-default grey" role="button">
-                                    <img src="~/Content/site/setting.png" alt="" />
-                                    Edit User
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
+            
 
             <div class="row member-group-details hideElement" id="member-group-details">
                 @*<div class="col-md-12">
