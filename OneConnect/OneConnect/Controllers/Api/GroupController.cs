@@ -12,7 +12,7 @@ namespace OneConnect.Controllers.Api
     public class GroupController : ApiController
     {
         OneKonnectEntities DBEntities = new OneKonnectEntities();
-        //POST api/Group/GetGroupsakwdksdjfhjksdhfkjdhsjk
+        //POST api/Group/GetGroups
         [HttpGet]
         [Authorize]
         [Route("GetGroups")]

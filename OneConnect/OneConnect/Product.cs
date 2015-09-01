@@ -29,6 +29,15 @@ namespace OneConnect
         public string LastModifiedBy { get; set; }
         public Nullable<System.DateTime> LastModifiedAt { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public string imageUrl { get; set; }
+        public Nullable<decimal> goldMonthly { get; set; }
+        public Nullable<decimal> goldYearly { get; set; }
+        public Nullable<decimal> silverMonthly { get; set; }
+        public Nullable<decimal> silverYearly { get; set; }
+        public Nullable<decimal> silverPerUserMonthy { get; set; }
+        public Nullable<decimal> goldPerUserMonthy { get; set; }
+        public Nullable<decimal> silverperUserYearly { get; set; }
+        public Nullable<decimal> goldPerUserYearly { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

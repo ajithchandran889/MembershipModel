@@ -11,6 +11,7 @@
     <link href="~/Content/css/sticky-footer.css" rel="stylesheet">
     <link href="~/Content/css/navbar.css" rel="stylesheet">
     <link href="~/Content/css/style.css" rel="stylesheet">
+    <link href="~/Content/css/jquery-ui.css" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript">
         var RecaptchaOptions = {
@@ -46,7 +47,9 @@
                                 <li><a href="product.html">About Us</a></li>*@
                                 <li><a href="contact-us.html">Products</a></li>
                                 @*<li><a href="sign-in.html">Portfolio</a></li>*@
-                                <li><a href="sign-in.html">Membership</a></li>
+                                <li>
+                                    @Html.ActionLink("Membership","Index","Credit")
+                                </li>
                                 <li><a href="sign-in.html">FAQ</a></li>
                                 @*<li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
                                 <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>*@
@@ -84,7 +87,9 @@
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.cookie.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-ui.js" type="text/javascript"></script>
     <script src="~/Scripts/script.js" type="text/javascript"></script>
+    <script src="~/Scripts/product.js" type="text/javascript"></script>
     
 </body>
 </html>

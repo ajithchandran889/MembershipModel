@@ -33,7 +33,10 @@ namespace OneConnect
                 name: "GetAccountInfo",
                 routeTemplate: "api/{controller}/{action}"
             );
-
+            config.Routes.MapHttpRoute(
+                name: "GetProducts",
+                routeTemplate: "api/{controller}/{action}"
+            );
             config.Routes.MapHttpRoute(
                name: "GetGroups",
                routeTemplate: "api/{controller}/{action}"
