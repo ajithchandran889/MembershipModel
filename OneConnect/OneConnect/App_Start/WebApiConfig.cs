@@ -21,7 +21,13 @@ namespace OneConnect
                 routeTemplate: "api/{controller}/{action}/{token}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            
+
+            config.Routes.MapHttpRoute(
+                name: "GetSubscribedProducts",
+                routeTemplate: "api/{controller}/{action}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
             config.Routes.MapHttpRoute(
                 name: "GetUsers",
                 routeTemplate: "api/{controller}/{action}"
@@ -66,7 +72,16 @@ namespace OneConnect
                routeTemplate: "api/{controller}/{action}/{id}",
                defaults: new { id = RouteParameter.Optional }
            );
-
+             config.Routes.MapHttpRoute(
+               name: "Subscribe",
+               routeTemplate: "api/{controller}/{action}",
+               defaults: new { id = RouteParameter.Optional }
+           );
+             config.Routes.MapHttpRoute(
+               name: "GetProductsPrice",
+               routeTemplate: "api/{controller}/{action}",
+               defaults: new { id = RouteParameter.Optional }
+            );
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

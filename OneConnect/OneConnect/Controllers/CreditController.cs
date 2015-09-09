@@ -28,11 +28,17 @@ namespace OneConnect.Controllers
                         new { httproute = "", controller = "Products", action = "GetProducts" },
                         Request.Url.Scheme
                     );
+                var getProductsPriceUrl = Url.RouteUrl(
+                        "GetProductsPrice",
+                        new { httproute = "", controller = "Products", action = "GetProductsPrice" },
+                        Request.Url.Scheme
+                    );
                 var token = HttpContext.Request.Cookies["token"].Value;
                 dynamic myModel = new ExpandoObject();
 
                 myModel.accountInfo = Account.GetAccountInfo(accountInfoUrl,token);
                 myModel.products = Products.GetProducts(getProductsUrl, token);
+                myModel.productsPrice = Products.GetProductsPriceDetails(getProductsPriceUrl, token);
                 return View(myModel);
             }
             else

@@ -1,4 +1,5 @@
-﻿@model OneConnect.ViewModels.AccountInfo
+﻿
+@model OneConnect.ViewModels.AccountInfo
 
 <form class="form-horizontal">
     <div class="form-group">
@@ -19,28 +20,28 @@
         <label class="control-label col-xs-4 col-md-3 col-sm-3">Name :</label>
         <div class="col-xs-8 col-md-9 col-sm-9">
             <span><img src="~/Content/site/card.png" /></span>
-            <label class="control-label ">@(Model.name ?? "NA")</label>
+            <label class="control-label ">@(Model.name ?? "Nil")</label>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-4 col-md-3 col-sm-3">Company :</label>
         <div class="col-xs-8 col-md-9 col-sm-9 ">
             <span><img src="~/Content/site/company.png" /></span>
-            <label class="control-label ">@(Model.company ?? "NA")</label>
+            <label class="control-label ">@(Model.company ?? "Nil")</label>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-4 col-md-3 col-sm-3">Address :</label>
         <div class="col-xs-8 col-md-9 col-sm-9">
             <span><img src="~/Content/site/address.png" /></span>
-            <label class="control-label ">@(Model.address ?? "NA")</label>
+            <label class="control-label ">@(Model.address ?? "Nil")</label>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-4 col-md-3 col-sm-3">Contact :</label>
         <div class="col-xs-8 col-md-9 col-sm-9">
             <span><img src="~/Content/site/contact.png" /></span>
-            <label class="control-label ">@(Model.contact ?? "NA")</label>
+            <label class="control-label ">@(Model.contact ?? "Nil")</label>
         </div>
     </div>
     <div class="form-group">

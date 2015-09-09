@@ -1326,3 +1326,11 @@ hr.signup {
 .errorMessage {
     color: red;
 }
+a:hover {
+ cursor:pointer;
+}
+
+.errorMessageDropDown
+{
+    border-color: red;
+}

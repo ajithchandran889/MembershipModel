@@ -84,9 +84,28 @@ namespace OneConnect.Controllers
 
                     }
 
+                    var subscribedProductsUrl = Url.RouteUrl(
+                        "GetSubscribedProducts",
+                        new { httproute = "", controller = "Products", action = "GetSubscribedProducts" },
+                        Request.Url.Scheme
+                    );
+                    IEnumerable<SubscribedProductDetails> subscribedProductDetails = null;
+                    using (var response = client.GetAsync(subscribedProductsUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            subscribedProductDetails = response.Content.ReadAsAsync<List<SubscribedProductDetails>>().Result.ToList();
+
+                        }
+
+                    }
+
                     myModel.userList = userDetails;
                     myModel.accountInfo = accounInfo;
                     myModel.groupList = groupDetails;
+                    myModel.subscribedProducts = subscribedProductDetails;
                     return View(myModel);
                 }
                 

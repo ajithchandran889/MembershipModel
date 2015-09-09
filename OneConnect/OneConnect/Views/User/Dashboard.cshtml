@@ -106,6 +106,7 @@
                         <li><a href="#b" data-toggle="tab">Edit Details</a></li>
                         <li><a href="#c" data-toggle="tab">Change Password</a></li>
                         <li><a href="#d" data-toggle="tab">Change Email</a></li>
+                        <li><a href="#e" data-toggle="tab">Subscribed Prods</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active account-setting-form" id="a">
@@ -323,6 +324,68 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="e">
+                            <div class="row">
+                                <div class="">
+                                    <div class="table-responsive">
+
+
+                                        <table id="mytable" class="table table-bordred table-striped">
+
+                                            <thead>
+                                            <th>Product detail</th>
+                                            <th>Subscription Modal</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.subscribedProducts)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="col-md-3">
+                                                                <div class="s_product">
+
+                                                                    <img src="@item.productImageUrl">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-9 s_p_detail">
+                                                                <h2>@item.productName</h2>
+                                                                <p>@item.productDescription</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <label class="control-label ">@item.subscriptionType</label>
+                                                        </td>
+
+
+                                                        <td>
+                                                            <label class="control-label ">@item.toDate.ToString("dd MMM yyyy")</label>
+                                                        </td>
+                                                        <td>
+                                                            <label class="control-label ">@item.fromDate.ToString("dd MMM yyyy")</label>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+                                        <div class="clearfix"></div>
+
+
+                                    </div>
+
+                                </div>
+
+                                        <div class="col-xs-12 col-sm-5 col-md-5" style="width:18% !important;float:right;">
+                                            <a class="btn btn-info" href="/Credit/">
+                                                Subscribe New
+                                            </a>
+                                        </div>
+                                   
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /tabs -->
@@ -369,10 +432,10 @@
                                         <thead>
                                             <tr>
                                                 <th>User ID</th>
-                                                @*<th>Username</th>*@
+                                                <th>Name</th>
                                                 <th>Email</th>
-                                                @*<th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
-                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>*@
+                                                <th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
+                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>
                                                 <th>Status</th>
                                                 <th>Options</th>
                                             </tr>
@@ -382,14 +445,24 @@
                                             {
                                                 <tr>
                                                     <td scope="row">
-                                                        <label>@item.customUserId</label></td>
-                                                    @*<td>Username 01</td>*@
+                                                        <label>@item.customUserId</label>
+                                                    </td>
+                                                    <td>
+                                                        <label id="nameLabel_@item.userId">@(item.name ?? "Nil")</label>
+                                                        <input id="name_@(item.userId)" type="text" class="hideElement" value="@item.name" />
+                                                    </td>
                                                     <td>
                                                         <label id="@item.userId">@item.emailId</label>
-                                                        <input id="email_@(item.userId)" type="text" class="hideElement" value="@item.emailId"/>
                                                     </td>
-                                                    @*<td>Full Address, 1270</td>
-                                                    <td>onekonnect</td>*@
+                                                    <td>
+                                                        <label id="addressLabel_@item.userId">@(item.address ?? "Nil")</label>
+                                                        <input id="address_@(item.userId)" type="text" class="hideElement" value="@item.address" />
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <label id="contactLabel_@item.userId">@(item.contact ?? "Nil")</label>
+                                                        <input id="contact_@(item.userId)" type="text" class="hideElement" value="@item.contact" />
+                                                    </td>
                                                     <td>
                                                         @*<span>
                                                             <img src="~/Content/site/status-uncheck.png">
@@ -1031,4 +1104,3 @@
         </div>
     </section>
 </div>
-@Html.Hidden("RedirectToHome", Url.Action("Index", "Home"));

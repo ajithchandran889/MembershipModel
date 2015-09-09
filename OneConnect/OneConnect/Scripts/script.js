@@ -118,7 +118,13 @@ $("#loginForm").submit(function (e) {
                 var url = $("#RedirectToDash").val();
                 window.location.href = url;
             },
-            error: function (x, y, z) {
+            error: function (response) {
+                
+                var errormsg = response.responseText; 
+                var temp = $.parseJSON(errormsg);
+                var html = "<span>"+temp.error_description+"</span>";
+                $("#errorMessage").empty();
+                $("#errorMessage").append(html);
                 $("#errorMessage").show();
             }
         });
@@ -128,6 +134,7 @@ $("#loginForm").submit(function (e) {
 });
 
 $(document).on("click", "#logOutBtn", function (event) {
+    
     $.ajax({
         type: "GET",
         url: "/api/Account/Logout/",
@@ -385,43 +392,75 @@ $(document).on("click", ".editUser", function () {
     var userId = $(this).attr("userId");
     var editBtnId = "#editUser_" + userId;
     var saveBtnId = "#saveChanges_" + userId;
-    var emailId = "#" + userId;
-    var editEmailId = "#email_" + userId;
+    //var emailId = "#" + userId;
+    //var editEmailId = "#email_" + userId;
+    var nameId = "#nameLabel_" + userId;
+    var editnameId = "#name_" + userId;
+    var addressId = "#addressLabel_" + userId;
+    var editAddressId = "#address_" + userId;
+    var contactId = "#contactLabel_" + userId;
+    var editContactId = "#contact_" + userId;
     $(editBtnId).hide();
-    $(emailId).hide();
     $(saveBtnId).show();
-    $(editEmailId).show();
+    $(nameId).hide();
+    $(editnameId).show();
+    $(addressId).hide();
+    $(editAddressId).show();
+    $(contactId).hide();
+    $(editContactId).show();
     return false;
 });
 $(document).on("click", ".saveChanges", function () {
     var userId = $(this).attr("userId");
     var editBtnId = "#editUser_" + userId;
     var saveBtnId = "#saveChanges_" + userId;
-    var emailId = "#" + userId;
-    var editEmailId = "#email_" + userId;
-    if (isValidEmailAddress($(editEmailId).val())) {
-        var usrEmail =
+    //var emailId = "#" + userId;
+    //var editEmailId = "#email_" + userId;
+    var nameId = "#nameLabel_" + userId;
+    var editnameId = "#name_" + userId;
+    var addressId = "#addressLabel_" + userId;
+    var editAddressId = "#address_" + userId;
+    var contactId = "#contactLabel_" + userId;
+    var editContactId = "#contact_" + userId;
+    if ($(editnameId).val() != "" || $(editAddressId).val() != "" || $(editContactId).val() != "") {
+    var UserEditInfo =
         {
             userId: userId,
-
-            emailId: $(editEmailId).val()
+            name: $(editnameId).val(),
+            address: $(editAddressId).val(),
+            contact: $(editContactId).val()
         };
-        var dataUsrEmail = JSON.stringify(usrEmail);
+    var dataUserEditInfo = JSON.stringify(UserEditInfo);
         $.ajax({
             type: "POST",
-            url: "/api/Account/ChangeEmail/",
-            data: dataUsrEmail,
+            url: "/api/Account/ChangeUserInfo/",
+            data: dataUserEditInfo,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
             },
             success: function (response) {
-                $(emailId).text($(editEmailId).val());
+                if ($(editnameId).val()!="")
+                {
+                    $(nameId).text($(editnameId).val());
+                }
+                if ($(editAddressId).val() != "")
+                {
+                    $(addressId).text($(editAddressId).val());
+                }
+                if ($(editContactId).val() != "")
+                {
+                    $(contactId).text($(editContactId).val());
+                }
                 $(editBtnId).show();
-                $(emailId).show();
                 $(saveBtnId).hide();
-                $(editEmailId).hide();
+                $(nameId).show();
+                $(editnameId).hide();
+                $(addressId).show();
+                $(editAddressId).hide();
+                $(contactId).show();
+                $(editContactId).hide();
             },
             error: function (x, y, z) {
                 alert("error");
@@ -430,8 +469,14 @@ $(document).on("click", ".saveChanges", function () {
 
     }
     else {
-        alert("Invalid email address");
-
+        $(editBtnId).show();
+        $(saveBtnId).hide();
+        $(nameId).show();
+        $(editnameId).hide();
+        $(addressId).show();
+        $(editAddressId).hide();
+        $(contactId).show();
+        $(editContactId).hide();
     }
     return false;
 });

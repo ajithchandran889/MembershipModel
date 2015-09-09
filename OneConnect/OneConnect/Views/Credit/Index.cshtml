@@ -77,24 +77,29 @@
                                 <td>
                                     <select class="form-control" id="subscribeModel_@item.productId">
                                         <option value="0" selected>Select Subscription modal</option>
-                                        <option value="1">Gold - Monthly:$@(Math.Round(item.goldMonthly, 2))</option>
-                                        <option value="2">Gold - Yearly:$@(Math.Round(item.goldYearly, 2))</option>
-                                        <option value="3">Slilver - Monthly:$@(Math.Round(item.silverMonthly, 2))</option>
-                                        <option value="4">Slilver - Yearly:$@(Math.Round(item.silverYearly, 2))</option>
+                                        @foreach (var itemPrice in Model.productsPrice)
+                                        {
+                                            if (itemPrice.productId == item.productId && !itemPrice.isPerUser)
+                                            {
+                                                <option value="@itemPrice.typeId">@itemPrice.displayName:$@(Math.Round(itemPrice.price, 2))</option>
+                                            }
+                                            
+                                            
+                                        }
                                     </select>
                                 </td>
 
 
                                 <td>
                                     <input id="product_@item.productId" name="selectProducts" type="checkbox" class="css-checkbox" productid="@item.productId">
-                                    <input type="hidden" id="silverMonthly_@item.productId" value="@item.silverMonthly" />
-                                    <input type="hidden" id="silverYearly_@item.productId" value="@item.silverYearly" />
-                                    <input type="hidden" id="silverValuePerUserMonthly_@item.productId" value="@item.silverPerUserMonthly"/>
-                                    <input type="hidden" id="silverValuePerUserYearly_@item.productId" value="@item.silverPerUserYearly" />
-                                    <input type="hidden" id="goldMonthly_@item.productId" value="@item.goldMonthly" />
-                                    <input type="hidden" id="goldYearly_@item.productId" value="@item.goldYearly" />
-                                    <input type="hidden" id="goldValuePerUserMonthly_@item.productId" value="@item.goldPerUserMonthly" />
-                                    <input type="hidden" id="goldValuePerUserYearly_@item.productId" value="@item.goldPerUserYearly" />
+                                    @{string _tempId = "_" + item.productId;}
+                                    @foreach (var itemPrice in Model.productsPrice)
+                                    {
+                                        if (itemPrice.productId == item.productId)
+                                            {
+                                                <input type="hidden" id="@itemPrice.typeName@_tempId" value="@itemPrice.price" />
+                                            }
+                                    }
                                     <input type="hidden" id="productName_@item.productId" value="@item.productName" />
                                 </td>
 

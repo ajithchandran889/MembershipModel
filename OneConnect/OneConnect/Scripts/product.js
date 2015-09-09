@@ -1,4 +1,5 @@
-﻿jsonObj = [];
+﻿
+jsonObj = [];
 $(document).ready(function () {
     $(".fromDate").datepicker();
     $(".toDate").datepicker();
@@ -22,23 +23,39 @@ $(document).on("click", "#selectUsers", function (event) {
                 item["subscription"] = $(id).val();
                 var priceIdPerUser = "";
                 var priceIdSubsrciption = "";
-                if ($(id).val() == 1)
+                if ($(id).val() == 2)
                 {
                     priceid = "#goldValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#goldMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 2)
+                else if ($(id).val() == 3)
                 {
                     priceid = "#goldValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#goldYearly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 3) {
+                else if ($(id).val() == 4) {
                     priceid = "#silverValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#silverMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 4) {
+                else if ($(id).val() == 5) {
                     priceid = "#silverValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#silverYearly_" + $(this).attr("productid");
+                }
+                else if ($(id).val() == 6) {
+                    priceid = "#premiumValuePerUserMonthly_" + $(this).attr("productid");
+                    priceIdSubsrciption = "#premiumMonthly_" + $(this).attr("productid");
+                }
+                else if ($(id).val() == 7) {
+                    priceid = "#premiumValuePerUserYearly_" + $(this).attr("productid");
+                    priceIdSubsrciption = "#premiumYearly_" + $(this).attr("productid");
+                }
+                else if ($(id).val() == 8) {
+                    priceid = "#basicValuePerUserMonthly_" + $(this).attr("productid");
+                    priceIdSubsrciption = "#basicMonthly_" + $(this).attr("productid");
+                }
+                else if ($(id).val() == 9) {
+                    priceid = "#basicValuePerUserYearly_" + $(this).attr("productid");
+                    priceIdSubsrciption = "#basicYearly_" + $(this).attr("productid");
                 }
                 item["subscriptionPrice"] = $(priceIdSubsrciption).val();
                 item["perUserPrice"] = $(priceid).val();
@@ -87,7 +104,15 @@ $(document).on("click", "#payment", function (event) {
         var userId = "";
         $.each(jsonProdUsers, function (key1, value1) {
             if (value1.productId == value.id) {
-                userId += userId + "_$_" + value1.userId + "_&_" + value1.productId;
+                if (userId != "")
+                {
+                    userId += "$" + value1.userId;
+                }
+                else
+                {
+                    userId = value1.userId;
+                }
+                
             }
         });
         item['userIds'] = userId;
@@ -105,6 +130,7 @@ $(document).on("click", "#payment", function (event) {
             xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
         },
         success: function (response) {
+            $("#custom").val(response);
             $("#paymentForm").submit();
             //alert(response);
             //$("#successMessageAddedNewUser").show();

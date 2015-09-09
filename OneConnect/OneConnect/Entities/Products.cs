@@ -34,5 +34,30 @@ namespace OneConnect.Entities
                 return products;
             }
         }
+        public static List<ProductPriceDetails> GetProductsPriceDetails(string getProductsPriceUrl, string token)
+        {
+            using (var client = new HttpClient())
+            {
+                dynamic myModel = new ExpandoObject();
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                List<ProductPriceDetails> productsPrice = null;
+                using (var response = client.GetAsync(getProductsPriceUrl).Result)
+                {
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        productsPrice = response.Content.ReadAsAsync<List<ProductPriceDetails>>().Result;
+
+                    }
+
+                }
+
+                return productsPrice;
+            }
+        }
+        
     }
 }

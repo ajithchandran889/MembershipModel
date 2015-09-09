@@ -408,6 +408,37 @@ namespace OneConnect.Controllers.Api
 
 
         }
+        //POST api/Account/ChangeUserInfo
+        [HttpPost]
+        [Authorize]
+        [Route("ChangeUserInfo")]
+        public HttpResponseMessage ChangeUserInfo(UserEditInfo usrInfo)
+        {
+
+            try
+            {
+                var userInfo = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == usrInfo.userId).SingleOrDefault();
+                userInfo.Name = usrInfo.name;
+                userInfo.ContactInfo = usrInfo.contact;
+                userInfo.Address = usrInfo.address;
+                //userInfo.UserName = usEmail.emailId;
+                DBEntities.UsersAditionalInfoes.Attach(userInfo);
+                var entry = DBEntities.Entry(userInfo);
+                entry.Property(u => u.Name).IsModified = true;
+                entry.Property(u => u.ContactInfo).IsModified = true;
+                entry.Property(u => u.Address).IsModified = true;
+                //entry.Property(u => u.UserName).IsModified = true;
+                DBEntities.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, 1);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
+            }
+
+
+
+        }
         public string GetUserIdByName(string name)
         {
             try
@@ -416,6 +447,19 @@ namespace OneConnect.Controllers.Api
                 return user.Id;
             }
             catch(Exception e)
+            {
+
+            }
+            return null;
+        }
+        public string GetCustomUserId(string userId)
+        {
+            try
+            {
+                var user = DBEntities.UsersAditionalInfoes.Where(u => u.AspNetUserId == userId).FirstOrDefault();
+                return user.CustomUserId;
+            }
+            catch (Exception e)
             {
 
             }
