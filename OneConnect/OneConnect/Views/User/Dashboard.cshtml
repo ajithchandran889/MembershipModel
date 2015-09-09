@@ -42,34 +42,61 @@
     </section>
     <section class="settings">
         <div class="row">
-            <div class="col-md-3 col-sm-4 ">
-                <div class="thumbnail acs">
-                    <a href="#" class="accountSetting">
-                        <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." />
-                    </a>
-                    <div class="caption">
-                        <h3>Account Settings</h3>
+            @if ((Model.accountInfo.isOwner))
+            {
+                <div class="col-md-3 col-sm-4 ">
+                    <div class="thumbnail acs">
+                        <a href="#" class="accountSetting">
+                            <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." />
+                        </a>
+                        <div class="caption">
+                            <h3>Account Settings</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-4 ">
-                <div class="thumbnail">
-                    <a href="#" class="userSetting">
-                        <img class="userSetting" src="~/Content/site/user-settings.png" alt="..."></a>
-                    <div class="caption">
-                        <h3>User Settings</h3>
+            
+                <div class="col-md-6 col-sm-4 ">
+                    <div class="thumbnail">
+                        <a href="#" class="userSetting">
+                            <img class="userSetting" src="~/Content/site/user-settings.png" alt="..."></a>
+                        <div class="caption">
+                            <h3>User Settings</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-4 grp-setting-rht">
-                <div class="thumbnail">
-                    <a href="#" class="groupSetting">
-                        <img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
-                    <div class="caption">
-                        <h3>Group Settings</h3>
+            
+                <div class="col-md-3 col-sm-4 grp-setting-rht">
+                    <div class="thumbnail">
+                        <a href="#" class="groupSetting">
+                            <img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
+                        <div class="caption">
+                            <h3>Group Settings</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="col-md-6 col-sm-6 ">
+                    <div class="thumbnail acs">
+                        <a href="#" class="accountSetting">
+                            <img class="accountSetting" src="~/Content/site/account-settings-hover.png" alt="..." />
+                        </a>
+                        <div class="caption">
+                            <h3>Account Settings</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 grp-setting-rht">
+                    <div class="thumbnail">
+                        <a href="#" class="groupSetting">
+                            <img class="groupSetting" src="~/Content/site/group-settings.png" alt="..."></a>
+                        <div class="caption">
+                            <h3>Group Settings</h3>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
         @*<div class="blue-line">
             <div class="blue-spacing"></div>
@@ -117,13 +144,14 @@
                         </div>
                         <div class="tab-pane" id="b">
                             <div class="row">
-                                <div id="successMessageEditAccount" class="hideElement">
-                                    <div class="alert alert-success" role="alert">
-                                        <span>
-                                            <img src="~/Content/site/like.png" alt="" />
-                                        </span>
-                                        Successfully updated account info
-                                    </div>
+                                <div id="successMessageEditAccount" class="alert alert-success hideElement" role="alert">
+                                    <span>
+                                        <img src="~/Content/site/like.png" alt="" />
+                                    </span>
+                                    <span id="gpsSuccessMessage"></span>
+                                </div>
+                                <div id="failureMessageEditAccount" class="alert alert-danger hideElement" role="alert">
+                                    <span id="gpsFailureMessage"></span>
                                 </div>
                                 <div class="bs-example col-md-7">
                                     <form class="form-horizontal" id="accountEditForm">
@@ -163,11 +191,14 @@
                                                 <input type="text" id="userContact" class="form-control" placeholder="Abc Corporation LTD" value="@Model.accountInfo.contact">
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
-                                            <div class="col-xs-2">
-                                                <input id="checkboxAccountStatus" type="checkbox" class="checkboxid css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status)
-                                                                                                                                                                     { <text> checked="checked" </text>   }>
+                                            <div class="col-xs-8 col-md-9 col-sm-9" style="padding-top:5px;">
+                                                <span>
+                                                    <input id="checkboxAccountStatus" type="checkbox" class="css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status)
+                                                                                                                                                              { <text> checked="checked" </text>   } @if (!Model.accountInfo.isOwner)
+                                                                                                                                                                                                            { <text> disabled="disabled" </text>   }></span>
                                                 @*<input type="checkbox" class="form-control edit-tick-mark"  >*@
                                             </div>
                                         </div>
@@ -369,10 +400,11 @@
                                         <thead>
                                             <tr>
                                                 <th>User ID</th>
-                                                @*<th>Username</th>*@
+                                                <th>Username</th>
                                                 <th>Email</th>
-                                                @*<th>Contact Address <span><img class="star" src="~/Content/site/star.png"></span></th>
-                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>*@
+                                                <th>Contact Address <span>
+                                                    <img class="star" src="~/Content/site/star.png"></span></th>
+                                                <th>Company<span><img class="star" src="~/Content/site/star.png"></span></th>
                                                 <th>Status</th>
                                                 <th>Options</th>
                                             </tr>
@@ -383,19 +415,19 @@
                                                 <tr>
                                                     <td scope="row">
                                                         <label>@item.customUserId</label></td>
-                                                    @*<td>Username 01</td>*@
+                                                    <td>@item.name</td>
                                                     <td>
                                                         <label id="@item.userId">@item.emailId</label>
                                                         <input id="email_@(item.userId)" type="text" class="hideElement" value="@item.emailId"/>
                                                     </td>
-                                                    @*<td>Full Address, 1270</td>
-                                                    <td>onekonnect</td>*@
+                                                    <td>@item.address</td>
+                                                    <td>@item.companyName</td>
                                                     <td>
                                                         @*<span>
                                                             <img src="~/Content/site/status-uncheck.png">
                                                         </span>*@
                                                         <input id="checkboxid" type="checkbox" class="checkboxid css-checkbox" userid="@item.userId" @if (item.status)
-                                                                                                                                                     { <text> checked="checked" </text> }>
+                                                                                                                                                     { <text> checked="checked" </text> } disabled="disabled">
                                                     </td>
                                                     @*<td>
                                                         <input id="checkboxid" type="checkbox" class="css-checkbox">
@@ -517,9 +549,12 @@
                             <a class="btn btn-warning" id="HideAndShowInActive">
                                 <img class="minus HideAndShowInActive" src="~/Content/site/minus.png" alt=""><span class="HideAndShowInActive">Hide Inactive Groups</span>
                             </a>
-                            <a class="btn btn-success addNewGroups" id="AddNewGroup">
-                                <img class="pluse addNewGroups" src="~/Content/site/pluse.png" alt="" data-member="@Url.Action("AddGroupPartial")"><span class="addNewGroups">Add New Group</span>
-                            </a>
+                            @if ((Model.accountInfo.isOwner))
+                            {
+                                <a class="btn btn-success addNewGroups" id="AddNewGroup">
+                                    <img class="pluse addNewGroups" src="~/Content/site/pluse.png" alt="" data-member="@Url.Action("AddGroupPartial")"><span class="addNewGroups">Add New Group</span>
+                                </a>
+                            }
                         </div>
 
                     </div>
@@ -527,8 +562,8 @@
             </div>
         </div>
         <div class="row member-group-settings">
-            <div class="row member-group-master" id="member-group-master" >
-                @Html.Action("GroupListPartial" ,new {isActiveOnly=false} )
+            <div class="row member-group-master" id="member-group-master">
+                @Html.Action("GroupListPartial", new { isActiveOnly = false })
 
                 @*@foreach (var item in Model.groupList)
                 {
@@ -569,7 +604,7 @@
                     </div>
                 }*@
             </div>
-            
+
 
             <div class="row member-group-details hideElement" id="member-group-details">
                 @*<div class="col-md-12">

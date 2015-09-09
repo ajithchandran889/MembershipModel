@@ -26,41 +26,64 @@
                         </div>
                         <div class="bs-example group-details group-details-gp col-md-10">
                             <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
-                                <div class="form-group">
+                                <div class="row">
+                                    <div class="form-group">
 
-                                    <div class="col-xs-12 col-md-9 col-sm-9">
-                                        <input type="text" class="form-control" name="txtGroupName" id="txtGroupName" placeholder="Group Name" value="@Model.groupDetails.groupName">
+                                        <div class="col-xs-12 col-md-9 col-sm-9">
+                                            <input type="text" class="form-control" name="txtGroupName" id="txtGroupName" placeholder="Group Name" value="@Model.groupDetails.groupName">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-12 col-sm-12">
-                                        @Html.TextArea("inputDescription", @Model.groupDetails.description, new { @id = "txtGroupDescription", @title = "Description" })
+                                    </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-md-12 col-sm-12">
+                                            @Html.TextArea("inputDescription", @Model.groupDetails.description, new { @id = "txtGroupDescription", @title = "Description" })
+
+                                        </div>
 
                                     </div>
+                                    </div>
+                                    <div class="row"  >
+                                        <div class="form-group">
 
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-8 col-md-9 col-sm-9">
-                                        <label class="control-label ">Active :</label>
-                                        <span style="margin-left: 10px">
-                                            <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive">
-                                        </span>
-                                        @*<img src="images/site/check.png" alt="" />*@
+                                            <div class="col-xs-3 col-md-3 col-sm-4">
+                                                <label class="control-label ">Group Admin :</label>
+                                            </div>
+                                            <div class="col-xs-4 col-md-4 col-sm-5">
+                                                @if (!(Model.accInfo.isOwner)){
+                                                @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -",new { @class = "form-control",id="ddlGroupAdmin",disabled="disabled" })
+                                                }else{
+                                                     @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -",new { @class = "form-control",id="ddlGroupAdmin" })
+                                               
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group account-settings-btn">
-                                    <div class="col-xs-12 col-sm-5 col-md-3  ">
-                                        <a class="btn btn-info" id="addNewGroupFormSave">
-                                            <img src="~/Content/site/save.png" alt="">Save Your Changes</a>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-xs-8 col-md-9 col-sm-9">
+                                            <label class="control-label ">Active :</label>
+                                            <span style="margin-left: 10px">
+                                                <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive" @if (!(Model.accInfo.isOwner)){<text>disabled="disabled"</text>}>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-5 col-md-3   ">
-                                        <a class="btn btn-danger" id="addNewGroupFormCancel">
-                                            <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-5 col-md-2   ">
-                                        <a class="btn btn-danger" id="addNewGroupFormDelete" groupId="@Model.groupDetails.groupId" @if (@Model.groupDetails.groupId == 0)
-                                                                                                                                   { <text> style="display:none;"</text> } >
-                                            <img src="~/Content/site/delete.png" alt="">Delete</a>
+                                <div class="row">
+                                    <div class="form-group account-settings-btn">
+                                        <div class="col-xs-12 col-sm-5 col-md-3  ">
+                                            <a class="btn btn-info" id="addNewGroupFormSave">
+                                                <img src="~/Content/site/save.png" alt="">Save Your Changes</a>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-5 col-md-3   ">
+                                            <a class="btn btn-danger" id="addNewGroupFormCancel">
+                                                <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
+                                        </div>
+                                        @*<div class="col-xs-12 col-sm-5 col-md-2   ">
+                                            <a class="btn btn-danger" id="addNewGroupFormDelete" groupId="@Model.groupDetails.groupId" @if (@Model.groupDetails.groupId == 0)
+                                                                                                                                       { <text> style="display:none;"</text> } >
+                                                <img src="~/Content/site/delete.png" alt="">Delete</a>
+                                        </div>*@
                                     </div>
                                 </div>
                             </form>
@@ -178,7 +201,9 @@
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
                         </p>
                         <div class="bs-example  group-details-userroles" @if (@Model.groupMembers.Where(t => t.isSubscribed == true).Count() > 0 && @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0).Count() > 0)
-                                                                         {<text> style="display:block;"</text>}else{<text> style="display:none;"</text>}>
+                                                                         {<text> style="display:block;"</text>}
+                                                                         else
+                                                                         {<text> style="display:none;"</text>}>
                             <div class="row table-responsive">
 
                                 <table class="table table-striped" id="groupMemberRoleTable">
@@ -226,11 +251,14 @@
                                                     {
                                                     <td>
                                                         <span>
-                                                            @if(@Model.groupMemberRoles.Where(gmr => gmr.groupMemberId == @groupMember.id && gmr.groupProductId == @groupProduct.id && gmr.roleId == @productRole.id).Count()>0){
+                                                            @if (@Model.groupMemberRoles.Where(gmr => gmr.groupMemberId == @groupMember.id && gmr.groupProductId == @groupProduct.id && gmr.roleId == @productRole.id).Count() > 0)
+                                                            {
 
-                                                            <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
-                                                            }else{
-                                                            <input id="checkboxid" type="checkbox"  class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                                                <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                                            }
+                                                            else
+                                                            {
+                                                                <input id="checkboxid" type="checkbox"  class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
                                                             }
                                                         </span>
                                                     </td>

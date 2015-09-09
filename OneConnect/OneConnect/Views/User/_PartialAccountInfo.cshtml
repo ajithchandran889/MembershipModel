@@ -49,13 +49,13 @@
             @{string src = string.Empty;}
             @if (Model.status)
             {
-                src = "/Content/site/active.png";
+                src = "/Content/site/role-checked.png";
             }
             else
             {
-                src = "/Content/site/deactive.png";
+                src = "/Content/site/role-unchecked.png";
             }
-            <span><img class="active-checkbox" src=@src /></span>
+            <span style="margin-left: 10px"><img class="active-checkbox" src=@src /></span>
         </div>
     </div>
 
