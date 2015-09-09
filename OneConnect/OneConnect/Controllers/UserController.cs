@@ -66,23 +66,7 @@ namespace OneConnect.Controllers
 
                     }
 
-                    var groupListUrl = Url.RouteUrl(
-                        "GetGroups",
-                        new { httproute = "", controller = "Group", action = "GetGroups" },
-                        Request.Url.Scheme
-                    );
-                    IEnumerable<GroupDetails> groupDetails = null;
-                    using (var response = client.GetAsync(groupListUrl).Result)
-                    {
 
-                        if (response.IsSuccessStatusCode)
-                        {
-
-                            groupDetails = response.Content.ReadAsAsync<List<GroupDetails>>().Result.ToList();
-
-                        }
-
-                    }
 
                     var subscribedProductsUrl = Url.RouteUrl(
                         "GetSubscribedProducts",
@@ -104,7 +88,7 @@ namespace OneConnect.Controllers
 
                     myModel.userList = userDetails;
                     myModel.accountInfo = accounInfo;
-                    myModel.groupList = groupDetails;
+                    //myModel.groupList = groupDetails;
                     myModel.subscribedProducts = subscribedProductDetails;
                     return View(myModel);
                 }
@@ -122,7 +106,7 @@ namespace OneConnect.Controllers
             return PartialView("_PartialAccountInfo",accountInfo);
         }
 
-        
+
         public PartialViewResult GroupListPartial(bool isActiveOnly)
         {
             if (IsAuthenticated())
@@ -159,150 +143,7 @@ namespace OneConnect.Controllers
             return null;
         }
 
-        //public PartialViewResult AddGroupPartial()
-        //{
-        //    if (IsAuthenticated())
-        //    {
-        //        using (var client = new HttpClient())
-        //        {
-        //            dynamic myModel = new ExpandoObject();
-        //            client.DefaultRequestHeaders.Authorization =
-        //                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
-        //            var groupProductsUrl = Url.RouteUrl(
-        //                "GetGroupProductDetails",
-        //                new { httproute = "", controller = "Group", action = "GetGroupProductDetails", id = 0 },
-        //                Request.Url.Scheme
-        //            );
-        //            IEnumerable<GroupProductDetails> groupProducts = new List<GroupProductDetails>();
-        //            using (var response = client.GetAsync(groupProductsUrl).Result)
-        //            {
 
-        //                if (response.IsSuccessStatusCode)
-        //                {
-
-        //                    groupProducts = response.Content.ReadAsAsync<List<GroupProductDetails>>().Result.ToList();
-
-        //                }
-
-        //            }
-
-        //            var groupMembersUrl = Url.RouteUrl(
-        //               "GetGroupMemberDetails",
-        //               new { httproute = "", controller = "Group", action = "GetGroupMemberDetails", id = 0 },
-        //               Request.Url.Scheme
-        //           );
-        //            IEnumerable<GroupMemberDetails> groupMembers = new List<GroupMemberDetails>();
-        //            using (var response = client.GetAsync(groupMembersUrl).Result)
-        //            {
-
-        //                if (response.IsSuccessStatusCode)
-        //                {
-
-        //                    groupMembers = response.Content.ReadAsAsync<List<GroupMemberDetails>>().Result.ToList();
-
-        //                }
-
-        //            }
-
-        //            GroupInfo groupInfo = new GroupInfo();
-
-        //            GroupDetails groupDetails = new GroupDetails();
-
-        //            groupInfo.groupDetails = groupDetails;
-
-        //            groupInfo.groupProducts = groupProducts.ToList();
-
-        //            groupInfo.groupMembers = groupMembers.ToList();
-
-        //            return PartialView("_PartialCreateGroup", groupInfo);
-        //        }
-
-        //    }
-        //    return null;
-            
-        //}
-
-
-        //public PartialViewResult EditGroupPartial(int groupId)
-        //{
-        //    if (IsAuthenticated())
-        //    {
-        //        using (var client = new HttpClient())
-        //        {
-        //            dynamic myModel = new ExpandoObject();
-        //            client.DefaultRequestHeaders.Authorization =
-        //                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
-
-        //            var groupInfoUrl = Url.RouteUrl(
-        //                        "GetGroupInfo",
-        //                        new { httproute = "", controller = "Group", action = "GetGroupInfo",id=groupId},
-        //                        Request.Url.Scheme
-        //                    );
-        //            GroupDetails groupDetails = new GroupDetails();
-        //            using (var response = client.GetAsync(groupInfoUrl).Result)
-        //            {
-
-        //                if (response.IsSuccessStatusCode)
-        //                {
-
-        //                    groupDetails = response.Content.ReadAsAsync<GroupDetails>().Result;
-
-                           
-
-        //                }
-
-        //            }
-
-        //            var groupProductsUrl = Url.RouteUrl(
-        //                "GetGroupProductDetails",
-        //                new { httproute = "", controller = "Group", action = "GetGroupProductDetails", id = groupId },
-        //                Request.Url.Scheme
-        //            );
-        //            IEnumerable<GroupProductDetails> groupProducts = new List<GroupProductDetails>();
-        //            using (var response = client.GetAsync(groupProductsUrl).Result)
-        //            {
-
-        //                if (response.IsSuccessStatusCode)
-        //                {
-
-        //                    groupProducts = response.Content.ReadAsAsync<List<GroupProductDetails>>().Result.ToList();
-
-        //                }
-
-        //            }
-
-        //            var groupMembersUrl = Url.RouteUrl(
-        //               "GetGroupMemberDetails",
-        //               new { httproute = "", controller = "Group", action = "GetGroupMemberDetails", id = groupId },
-        //               Request.Url.Scheme
-        //           );
-        //            IEnumerable<GroupMemberDetails> groupMembers = new List<GroupMemberDetails>();
-        //            using (var response = client.GetAsync(groupMembersUrl).Result)
-        //            {
-
-        //                if (response.IsSuccessStatusCode)
-        //                {
-
-        //                    groupMembers = response.Content.ReadAsAsync<List<GroupMemberDetails>>().Result.ToList();
-
-        //                }
-
-        //            }
-
-        //            GroupInfo groupInfo = new GroupInfo();
-
-        //            groupInfo.groupDetails = groupDetails;
-
-        //            groupInfo.groupProducts = groupProducts.ToList();
-
-        //            groupInfo.groupMembers = groupMembers.ToList();
-
-        //            return PartialView("_PartialCreateGroup", groupInfo);
-        //        }
-        //    }
-
-        //    return null;
-        //}
 
         public PartialViewResult AddGroupPartial()
         {
@@ -333,6 +174,88 @@ namespace OneConnect.Controllers
                         }
 
                     }
+
+                    var accountInfoUrl = Url.RouteUrl(
+                        "GetAccountInfo",
+                        new { httproute = "", controller = "Account", action = "GetAccountInfo" },
+                        Request.Url.Scheme
+                    );
+                    AccountInfo accounInfo = null;
+                    using (var response = client.GetAsync(accountInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            accounInfo = response.Content.ReadAsAsync<AccountInfo>().Result;
+
+                        }
+
+                    }
+                    IEnumerable<UserDetails> userDetails = null;
+                    if (accounInfo != null)
+                    {
+                        if (accounInfo.isOwner)
+                        {
+
+                            var userDetailUrl = Url.RouteUrl(
+                               "GetUsers",
+                               new { httproute = "", controller = "User", action = "GetUsers" },
+                               Request.Url.Scheme
+                           );
+
+                            using (var response = client.GetAsync(userDetailUrl).Result)
+                            {
+
+                                if (response.IsSuccessStatusCode)
+                                {
+
+                                    userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+
+                                }
+
+                            }
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        else
+                        {
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        if (accounInfo.isOwner && groupInfo.groupDetails.groupId == 0)
+                        {
+                            groupInfo.groupDetails.groupAdmin = accounInfo.userId;
+                        }
+
+                    }
+
+                    groupInfo.users = userDetails == null ? new List<UserDetails>() : userDetails.ToList();
+                    groupInfo.accInfo = accounInfo == null ? new AccountInfo() : accounInfo;
 
                     return PartialView("_PartialCreateGroup", groupInfo);
                 }
@@ -370,6 +293,87 @@ namespace OneConnect.Controllers
                         }
 
                     }
+                    var accountInfoUrl = Url.RouteUrl(
+                       "GetAccountInfo",
+                       new { httproute = "", controller = "Account", action = "GetAccountInfo" },
+                       Request.Url.Scheme
+                   );
+                    AccountInfo accounInfo = null;
+                    using (var response = client.GetAsync(accountInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            accounInfo = response.Content.ReadAsAsync<AccountInfo>().Result;
+
+                        }
+
+                    }
+                    IEnumerable<UserDetails> userDetails = null;
+                    if (accounInfo != null)
+                    {
+                        if (accounInfo.isOwner)
+                        {
+
+                            var userDetailUrl = Url.RouteUrl(
+                               "GetUsers",
+                               new { httproute = "", controller = "User", action = "GetUsers" },
+                               Request.Url.Scheme
+                           );
+
+                            using (var response = client.GetAsync(userDetailUrl).Result)
+                            {
+
+                                if (response.IsSuccessStatusCode)
+                                {
+
+                                    userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+
+                                }
+
+                            }
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        else
+                        {
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        if (accounInfo.isOwner && groupInfo.groupDetails.groupId == 0)
+                        {
+                            groupInfo.groupDetails.groupAdmin = accounInfo.userId;
+                        }
+
+                    }
+
+                    groupInfo.users = userDetails == null ? new List<UserDetails>() : userDetails.ToList();
+                    groupInfo.accInfo = accounInfo == null ? new AccountInfo() : accounInfo;
 
                     return PartialView("_PartialCreateGroup", groupInfo);
                 }

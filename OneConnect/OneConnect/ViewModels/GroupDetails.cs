@@ -11,9 +11,16 @@ namespace OneConnect.ViewModels
         public int groupId { get; set; }
         public string groupName { get; set; }
         public string description { get; set; }
+        public string groupAdmin { get; set; }
+
         public bool isActive{ get; set; }
 
         public int productCount { get; set; }
         public int memberCount { get; set; }
+
+        public GroupDetails()
+        {
+            isActive = true;
+        }
     }
 }

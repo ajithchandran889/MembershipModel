@@ -497,31 +497,55 @@ $(document).on("click", ".saveAccountInfoEdit", function () {
         if ($("#checkboxAccountStatus").is(':checked')) {
             status = true;
         }
-        var postData =
-        {
-            name: $("#accountName").val(),
-            company: $("#companyName").val(),
-            address: $("#userAddress").val(),
-            contact: $("#userContact").val(),
-            status: status
-        };
-        var postDataJSON = JSON.stringify(postData);
-        $.ajax({
-            type: "POST",
-            url: "/api/Account/EditAccountInfo/",
-            data: postDataJSON,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-            },
-            success: function (response) {
-                $("#successMessageEditAccount").show();
-            },
-            error: function (x, y, z) {
-                alert("error");
+        var confirmed = 0;
+
+        if (status == false) {
+            if (confirm("Once you deactivate your account groups,user and member product access right deactivated! Are you sure?") == true) {
+                confirmed = 1;
+            } else {
+                confirmed = 0;
             }
-        });
+        } else {
+            confirmed = 1;
+        }
+        if (confirmed == 1) {
+            var postData =
+            {
+                name: $("#accountName").val(),
+                company: $("#companyName").val(),
+                address: $("#userAddress").val(),
+                contact: $("#userContact").val(),
+                status: status,
+                captchaResponse: $("#g-recaptcha-response").val()
+            };
+            var postDataJSON = JSON.stringify(postData);
+            $.ajax({
+                type: "POST",
+                url: "/api/Account/EditAccountInfo/",
+                data: postDataJSON,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+                },
+                success: function (response) {
+                    if (status == false) {
+                        $("#logOutBtn").click();
+                    }
+                    $("#successMessageEditAccount").show();
+                    $("#failureMessageEditAccount").hide();
+                    $("#gpsSuccessMessage").text("Account info updated successfully");
+                    grecaptcha.reset();
+                },
+                error: function (x, y, z) {
+                    var errorMsg = x.responseText;
+                    $("#successMessageEditAccount").hide();
+                    $("#failureMessageEditAccount").show();
+                    $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+                    grecaptcha.reset();
+                }
+            });
+        }
     }
     return false;
 });
@@ -721,6 +745,29 @@ $(document).on("click", ".groupSetting", function (event) {
     $("img.accountSetting").attr("src", "/Content/site/account-settings.png");
     $("img.userSetting").attr("src", "/Content/site/user-settings.png");
     $("img.groupSetting").attr("src", "/Content/site/group-settings-hover.png");
+
+
+    $("#member-group-details").hide();
+
+    $("#HideAndShowInActive").show();
+
+    var url = "";
+
+
+    if ($("#HideAndShowInActive").hasClass("selected")) {
+        url = "/User/GroupListPartial?isActiveOnly=" + true;
+        $("#member-group-master").load(url);
+
+    } else {
+        url = "/User/GroupListPartial?isActiveOnly=" + false;
+        $("#member-group-master").load(url);
+
+    }
+    $("img.addNewGroups").attr("data-member", "/User/AddGroupPartial")
+    
+
+    $("#member-group-master").show();
+
 });
 $(document).on("click", "#AddNewGroup", function (event) {
 
@@ -736,6 +783,7 @@ $(document).on("click", "#AddNewGroup", function (event) {
         var url = $("img.addNewGroups").attr("data-member");
 
         $("#member-group-master").load(url);
+        
 
         $("#member-group-master").show();
 
@@ -756,7 +804,16 @@ $(document).on("click", "#AddNewGroup", function (event) {
 
         $("#member-group-details").show();
 
-        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial")
+        if ($("#HideAndShowInActive").hasClass("selected")) {
+
+            $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + true)
+
+        } else {
+
+            $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + false)
+
+        }
+
 
     }
 
@@ -805,33 +862,48 @@ $(document).on("submit", "#addNewGroupForm", function (e) {
     if ($("#cbxGroupActive").is(':checked')) {
         status = 1;
     }
-    var groupDetails =
-    {
-        groupId: $("#hfdGroupId").val(),
-        groupName: $("#txtGroupName").val(),
-        description: $("#txtGroupDescription").val(),
-        isActive: status
-    };
-    var groupDetailsJSON = JSON.stringify(groupDetails);
-    $.ajax({
-        type: "POST",
-        url: "/api/Group/SaveGroup/",
-        data: groupDetailsJSON,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-        },
-        success: function (response) {
-            var url = "/User/EditGroupPartial?groupId=" + response;
-            $("#member-group-details").load(url);
-            $("#successMessageGroupInfoSave").show();
-        },
-        error: function (x, y, z) {
 
-            alert("error");
+    var confirmed = 0;
+
+    if (status == 0) {
+        if (confirm("Once you deactivate a group all products and member access right deleted! Are you sure?") == true) {
+            confirmed = 1;
+        } else {
+            confirmed = 0;
         }
-    });
+    } else {
+        confirmed = 1;
+    }
+    if (confirmed == 1) {
+        var groupDetails =
+        {
+            groupId: $("#hfdGroupId").val(),
+            groupName: $("#txtGroupName").val(),
+            description: $("#txtGroupDescription").val(),
+            isActive: status,
+            groupAdmin: $("#ddlGroupAdmin :selected").val()
+        };
+        var groupDetailsJSON = JSON.stringify(groupDetails);
+        $.ajax({
+            type: "POST",
+            url: "/api/Group/SaveGroup/",
+            data: groupDetailsJSON,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+            },
+            success: function (response) {
+                var url = "/User/EditGroupPartial?groupId=" + response;
+                $("#member-group-details").load(url);
+                $("#successMessageGroupInfoSave").show();
+            },
+            error: function (x, y, z) {
+
+                alert("error");
+            }
+        });
+    }
     return false;
 });
 
@@ -849,48 +921,48 @@ $(document).on("click", "#addNewGroupFormCancel", function (e) {
     $("#member-group-details").load(url);
     return false;
 });
-$(document).on("click", "#addNewGroupFormDelete", function (e) {
+//$(document).on("click", "#addNewGroupFormDelete", function (e) {
 
-    var groupDetails =
-        {
-            groupId: $("#hfdGroupId").val()
-        };
-    var groupDetailsJSON = JSON.stringify(groupDetails);
-    $.ajax({
-        type: "POST",
-        url: "/api/Group/DeleteGroup/",
-        data: groupDetailsJSON,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-        },
-        success: function (response) {
-            $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
-            $("span.addNewGroups").html("Add New Group");
-            $("#AddNewGroup").removeClass("selected");
-            $("#member-group-details").hide();
+//    var groupDetails =
+//        {
+//            groupId: $("#hfdGroupId").val()
+//        };
+//    var groupDetailsJSON = JSON.stringify(groupDetails);
+//    $.ajax({
+//        type: "POST",
+//        url: "/api/Group/DeleteGroup/",
+//        data: groupDetailsJSON,
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        beforeSend: function (xhr) {
+//            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+//        },
+//        success: function (response) {
+//            $("img.addNewGroups").attr("src", "/Content/site/pluse.png");
+//            $("span.addNewGroups").html("Add New Group");
+//            $("#AddNewGroup").removeClass("selected");
+//            $("#member-group-details").hide();
 
-            $("#HideAndShowInActive").show();
+//            $("#HideAndShowInActive").show();
 
-            var url = $("img.addNewGroups").attr("data-member");
-            $("#member-group-master").load(url);
+//            var url = $("img.addNewGroups").attr("data-member");
+//            $("#member-group-master").load(url);
 
-            $("#member-group-master").show();
+//            $("#member-group-master").show();
 
-            $("#member-group-details").load("/User/AddGroupPartial");
+//            $("#member-group-details").load("/User/AddGroupPartial");
 
-            $("img.addNewGroups").attr("data-member", "/User/AddGroupPartial");
+//            $("img.addNewGroups").attr("data-member", "/User/AddGroupPartial");
 
 
-        },
-        error: function (x, y, z) {
+//        },
+//        error: function (x, y, z) {
 
-            alert("error");
-        }
-    });
-    return false;
-});
+//            alert("error");
+//        }
+//    });
+//    return false;
+//});
 $(document).on("click", ".editGroup", function () {
 
     var groupId = $(this).attr("groupId");
@@ -1100,10 +1172,10 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
         })
     });
 
-    var groupMemberRoleDetailsSave=
+    var groupMemberRoleDetailsSave =
         {
             groupId: $("#hfdGroupId").val(),
-            groupMemberRoleDetails:groupMemberRoleDetails
+            groupMemberRoleDetails: groupMemberRoleDetails
         }
 
     var groupMemberRoleDetailsSaveJSON = JSON.stringify(groupMemberRoleDetailsSave);

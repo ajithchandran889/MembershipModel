@@ -80,6 +80,11 @@ input, button, select, textarea {
 
 
 /* LOGIN BOX*/
+ .login-btn {
+        width: 84%;
+        padding: 5px 5px;
+        margin-right: 0;
+    }
 .login-box .login-body .username-pass {
     padding: 15px 20px 2px 25px;
     width: 60%;
@@ -593,7 +598,7 @@ textarea {
     height: 200px;
 }
 
-.group-settings-tabs #b p, .group-settings-tabs #c p, .group-settings-tabs #d p {
+.group-settings-tabs #tabGS_2 p, .group-settings-tabs #tabGS_3 p, .group-settings-tabs #tabGS_4 p {
     margin-top: 10px;
     font-size: 12px;
     text-transform: capitalize;
@@ -630,7 +635,7 @@ input[type="checkbox"] {
     height: 13px;
     outline: none;
     cursor: pointer;
-    background-image: url(../site/status-uncheck.png);
+    background-image: url(../site/role-unchecked.png);
     background-repeat: no-repeat;
 }
 .edit-tick-mark {
@@ -645,7 +650,7 @@ input[type="checkbox"] {
 }
 
     input[type="checkbox"]:checked {
-        background-image: url(../site/status-checked.png);
+        background-image: url(../site/role-checked.png);
         background-repeat: no-repeat;
     }
 
@@ -689,10 +694,26 @@ input[type="checkbox"] {
         background-image: url(../site/subs.png);
         background-repeat: no-repeat;
     }
+account-setting-form
 
 .group-details-userroles input[type=checkbox]:focus, input[type=radio]:focus {
     outline: none;
 }
+.group-setting-form input[type="checkbox"] {
+    -webkit-appearance: none;
+    display: inline-block;
+    width: 15px;
+    height: 13px;
+    outline: none;
+    cursor: pointer;
+    background-image: url(../site/role-unchecked.png);
+    background-repeat: no-repeat;
+}
+
+.group-setting-form input[type="checkbox"]:checked {
+        background-image: url(../site/role-checked.png);
+        background-repeat: no-repeat;
+    }
 
 .group-details-userroles input[type="checkbox"] {
     -webkit-appearance: none;
@@ -766,7 +787,6 @@ hr.signup {
 
     .login-box .login-body .username-pass .login-btn {
         width: 100% !important;
-        ;
     }
 
     .login-box .login-body .username-pass .frgt-uname-pass {

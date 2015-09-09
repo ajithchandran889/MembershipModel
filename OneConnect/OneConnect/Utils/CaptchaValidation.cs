@@ -18,6 +18,8 @@ namespace OneConnect.Utils
                     string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
 
             CaptchaResponse captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+            //CaptchaResponse captchaResponse = new CaptchaResponse();
+            //captchaResponse.Success = true;
 
             return captchaResponse;
         }

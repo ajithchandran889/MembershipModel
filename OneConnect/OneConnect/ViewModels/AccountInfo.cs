@@ -15,5 +15,8 @@ namespace OneConnect.ViewModels
         public string address { get; set; }
         public string contact { get; set; }
         public bool status { get; set; }
+        public bool isOwner { get; set; }
+        public string captchaResponse { get; set; }
+        public string owner { get; set; }
     }
 }
