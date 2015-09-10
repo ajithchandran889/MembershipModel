@@ -43,7 +43,7 @@ namespace OneConnect.Controllers
                         if (response.IsSuccessStatusCode)
                         {
 
-                             userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+                            userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
 
                         }
 
@@ -106,6 +106,35 @@ namespace OneConnect.Controllers
             return PartialView("_PartialAccountInfo",accountInfo);
         }
 
+        public PartialViewResult UserListPartial()
+        {
+            dynamic myModel = new ExpandoObject();
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+                var userDetailUrl = Url.RouteUrl(
+                    "GetUsers",
+                    new { httproute = "", controller = "User", action = "GetUsers" },
+                    Request.Url.Scheme
+                );
+                IEnumerable<UserDetails> userDetails = null;
+                using (var response = client.GetAsync(userDetailUrl).Result)
+                {
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+
+                    }
+
+                }
+
+                myModel.userList = userDetails;
+            }
+            return PartialView("_PartialUserList", myModel);
+        }
 
         public PartialViewResult GroupListPartial(bool isActiveOnly)
         {

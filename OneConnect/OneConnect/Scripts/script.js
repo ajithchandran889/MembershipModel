@@ -213,7 +213,10 @@ $("#addNewUserForm").submit(function (e) {
                 xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
             },
             success: function (response) {
+                url = "/User/UserListPartial";
+                $("#userListDIv").load(url);
                 $("#successMessageAddedNewUser").show();
+
             },
             error: function (x, y, z) {
                 $("#errorsMessageAddedNewUser").show();

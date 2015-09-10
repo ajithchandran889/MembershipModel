@@ -295,7 +295,7 @@ namespace OneConnect.Controllers.Api
                 else
                 {
 
-                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("U")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).SingleOrDefault();
+                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("U")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).FirstOrDefault();
                     int newIdCount = 0;
                     if (lastid == null)
                     {
