@@ -1,4 +1,5 @@
-﻿$("#registerForm").submit(function (e) {
+﻿
+$("#registerForm").submit(function (e) {
     e.preventDefault();
 }).validate({
     rules: {
@@ -30,6 +31,7 @@
         };
 
         var dataReg = JSON.stringify(register);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Account/InitialRegister/",
@@ -44,6 +46,7 @@
                 grecaptcha.reset();
                 $("#username-pass").hide();
                 $("#username-pass-redirect").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 var errorMsg = x.responseText;
@@ -74,6 +77,7 @@
                 if (errorsString != "") {
                     //$("#errDiv").html(errorsString);
                 }
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -103,7 +107,7 @@ $("#loginForm").submit(function (e) {
         error.insertAfter(element);
     },
     submitHandler: function () {
-
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/token",
@@ -117,6 +121,7 @@ $("#loginForm").submit(function (e) {
                 $.cookie('userId', $("#userId").val(), { path: '/' });
                 var url = $("#RedirectToDash").val();
                 window.location.href = url;
+                $('#sl-loadingscreen').hide();
             },
             error: function (response) {
                 
@@ -126,6 +131,7 @@ $("#loginForm").submit(function (e) {
                 $("#errorMessage").empty();
                 $("#errorMessage").append(html);
                 $("#errorMessage").show();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -134,7 +140,7 @@ $("#loginForm").submit(function (e) {
 });
 
 $(document).on("click", "#logOutBtn", function (event) {
-    
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "GET",
         url: "/api/Account/Logout/",
@@ -147,9 +153,11 @@ $(document).on("click", "#logOutBtn", function (event) {
             $.cookie('token', null, { path: '/' });
             $.cookie('userId', null, { path: '/' });
             var url = $("#RedirectToHome").val();
+            $('#sl-loadingscreen').hide();
             window.location.href = url;
         },
         error: function (x, y, z) {
+            $('#sl-loadingscreen').hide();
             alert("error");
 
         }
@@ -203,6 +211,7 @@ $("#addNewUserForm").submit(function (e) {
             password: $("#inputPassword").val()
         };
         var dataReg = JSON.stringify(register);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Account/UserRegister/",
@@ -216,10 +225,12 @@ $("#addNewUserForm").submit(function (e) {
                 url = "/User/UserListPartial";
                 $("#userListDIv").load(url);
                 $("#successMessageAddedNewUser").show();
+                $('#sl-loadingscreen').hide();
 
             },
             error: function (x, y, z) {
                 $("#errorsMessageAddedNewUser").show();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -267,6 +278,7 @@ $("#changePasswordForm").submit(function (e) {
            ConfirmPassword: $("#confirmPassword").val()
        };
         var dataChangePwd = JSON.stringify(changePassowrd);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Account/ChangePassword/",
@@ -278,9 +290,11 @@ $("#changePasswordForm").submit(function (e) {
             },
             success: function (response) {
                 $("#successMessagePasswordChange").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 $("#errorMessagePasswordChange").show();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -334,6 +348,7 @@ $("#changeEmailForm").submit(function (e) {
              hostName: window.location.origin,
          };
         var dataChangePwd = JSON.stringify(ChangeEmail);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Account/ChangeEmailWithPassword/",
@@ -345,9 +360,11 @@ $("#changeEmailForm").submit(function (e) {
             },
             success: function (response) {
                 $("#successMessageEmailChange").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 $("#errorMessageEmailChange").show();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -374,6 +391,7 @@ $('.checkboxid').change(function () {
             status: status
         };
     var dataUsrAct = JSON.stringify(usrAct);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Account/DisableEnableUser/",
@@ -384,8 +402,10 @@ $('.checkboxid').change(function () {
             xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
         },
         success: function (response) {
+            $('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
+            $('#sl-loadingscreen').hide();
             alert("error");
         }
     });
@@ -434,6 +454,7 @@ $(document).on("click", ".saveChanges", function () {
             contact: $(editContactId).val()
         };
     var dataUserEditInfo = JSON.stringify(UserEditInfo);
+    $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Account/ChangeUserInfo/",
@@ -464,8 +485,10 @@ $(document).on("click", ".saveChanges", function () {
                 $(editAddressId).hide();
                 $(contactId).show();
                 $(editContactId).hide();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
+                $('#sl-loadingscreen').hide();
                 alert("error");
             }
         });
@@ -522,6 +545,7 @@ $(document).on("click", ".saveAccountInfoEdit", function () {
                 captchaResponse: $("#g-recaptcha-response").val()
             };
             var postDataJSON = JSON.stringify(postData);
+            $('#sl-loadingscreen').show();
             $.ajax({
                 type: "POST",
                 url: "/api/Account/EditAccountInfo/",
@@ -539,6 +563,7 @@ $(document).on("click", ".saveAccountInfoEdit", function () {
                     $("#failureMessageEditAccount").hide();
                     $("#gpsSuccessMessage").text("Account info updated successfully");
                     grecaptcha.reset();
+                    $('#sl-loadingscreen').hide();
                 },
                 error: function (x, y, z) {
                     var errorMsg = x.responseText;
@@ -546,6 +571,7 @@ $(document).on("click", ".saveAccountInfoEdit", function () {
                     $("#failureMessageEditAccount").show();
                     $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
                     grecaptcha.reset();
+                    $('#sl-loadingscreen').hide();
                 }
             });
         }
@@ -570,7 +596,7 @@ $("#forgotUserIdForm").submit(function (e) {
         error.insertAfter(element);
     },
     submitHandler: function () {
-
+        $('#sl-loadingscreen').show();
         var forgotUserId =
            {
                emailId: $("#emailId").val(),
@@ -590,6 +616,7 @@ $("#forgotUserIdForm").submit(function (e) {
                 grecaptcha.reset();
                 $("#username-pass").hide();
                 $("#username-pass-redirect").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 var errorMsg = x.responseText;
@@ -598,6 +625,7 @@ $("#forgotUserIdForm").submit(function (e) {
                 $("#successMessage").hide();
                 $("#username-pass").show();
                 $("#username-pass-redirect").hide();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -628,7 +656,7 @@ $("#forgotPasswordForm").submit(function (e) {
         error.insertAfter(element);
     },
     submitHandler: function () {
-
+        $('#sl-loadingscreen').show();
         var forgotPassword =
        {
            userId: $("#userId").val(),
@@ -651,6 +679,7 @@ $("#forgotPasswordForm").submit(function (e) {
                 grecaptcha.reset();
                 $("#username-pass").hide();
                 $("#username-pass-redirect").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 var errorMsg = x.responseText;
@@ -659,6 +688,7 @@ $("#forgotPasswordForm").submit(function (e) {
                 $("#successMessage").hide();
                 $("#username-pass").show();
                 $("#username-pass-redirect").hide();
+                $('#sl-loadingscreen').hide();
             }
         });
         return false;
@@ -672,6 +702,7 @@ $(document).on("click", "#recoverPassword", function () {
            newPassword: $("#new").val(),
            recoveryToken: $("#recoveryToken").val()
        };
+    $('#sl-loadingscreen').show();
     var dataRecoverPassword = JSON.stringify(recoverPassword);
     $.ajax({
         type: "POST",
@@ -683,11 +714,13 @@ $(document).on("click", "#recoverPassword", function () {
             alert("success");
             $("#errorMessage").hide();
             $("#successMessage").show();
+            $('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
             alert("error");
             $("#errorMessage").show();
             $("#successMessage").hide();
+            $('#sl-loadingscreen').hide();
         }
     });
     return false;
@@ -699,6 +732,7 @@ $(document).on("click", "#resetEmail", function () {
            token: $("#emailToken").val()
        };
     var datachangeEmail = JSON.stringify(changeEmail);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Account/changeEmailConfirmation/",
@@ -709,11 +743,13 @@ $(document).on("click", "#resetEmail", function () {
             alert("success");
             $("#errorMessage").hide();
             $("#successMessage").show();
+            $('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
             alert("error");
             $("#errorMessage").show();
             $("#successMessage").hide();
+            $('#sl-loadingscreen').hide();
         }
     });
     return false;
@@ -887,6 +923,7 @@ $(document).on("submit", "#addNewGroupForm", function (e) {
             groupAdmin: $("#ddlGroupAdmin :selected").val()
         };
         var groupDetailsJSON = JSON.stringify(groupDetails);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "POST",
             url: "/api/Group/SaveGroup/",
@@ -900,9 +937,10 @@ $(document).on("submit", "#addNewGroupForm", function (e) {
                 var url = "/User/EditGroupPartial?groupId=" + response;
                 $("#member-group-details").load(url);
                 $("#successMessageGroupInfoSave").show();
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
-
+                $('#sl-loadingscreen').hide();
                 alert("error");
             }
         });
@@ -1026,6 +1064,7 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             isSubscribed: status
         };
     var dataGrpPrdDetails = JSON.stringify(grpPrdDetails);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Group/GroupProductSubscription/",
@@ -1064,7 +1103,7 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
                 $("#gpsFailureMessage").text("Operation failed");
 
             }
-
+            $('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
             var errorMsg = x.responseText;
@@ -1073,6 +1112,7 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             $("#groupProductSubscriptionFailure").show();
             $("#groupProductSubscriptionSuccess").hide();
             $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+            $('#sl-loadingscreen').hide();
             return false;
         }
     });
@@ -1100,6 +1140,7 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
             isSubscribed: status
         };
     var dataGrpUsrDetails = JSON.stringify(grpUsrDetails);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Group/GroupMemberSubscription/",
@@ -1138,7 +1179,7 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#gpmFailureMessage").text("Operation failed");
 
             }
-
+            $('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
             var errorMsg = x.responseText;
@@ -1147,6 +1188,7 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
             $("#groupMemberSubscriptionFailure").show();
             $("#groupMemberSubscriptionSuccess").hide();
             $("#gpmFailureMessage").text(errorMsg.replace(/"/g, ''));
+            $('#sl-loadingscreen').hide();
             return false;
         }
     });
@@ -1182,6 +1224,7 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
         }
 
     var groupMemberRoleDetailsSaveJSON = JSON.stringify(groupMemberRoleDetailsSave);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Group/SaveGroupMemberRole/",
@@ -1195,10 +1238,11 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
             var currGroupId = $("#hfdGroupId").val();
             var url = "/User/EditGroupPartial?groupId=" + currGroupId;
             $("#member-group-details").load(url);
+            $('#sl-loadingscreen').hide();
             //$("#successMessageGroupInfoSave").show();
         },
         error: function (x, y, z) {
-
+            $('#sl-loadingscreen').hide();
             alert("error");
         }
     });

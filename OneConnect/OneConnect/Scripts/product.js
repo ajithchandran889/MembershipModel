@@ -120,6 +120,7 @@ $(document).on("click", "#payment", function (event) {
     });
     console.log("purchaseDetails"); console.log(purchaseDetails);
     var dataPur = JSON.stringify(purchaseDetails);
+    $('#sl-loadingscreen').show();
     $.ajax({
         type: "POST",
         url: "/api/Products/PurchaseProductDetails",
@@ -132,10 +133,12 @@ $(document).on("click", "#payment", function (event) {
         success: function (response) {
             $("#custom").val(response);
             $("#paymentForm").submit();
+            $('#sl-loadingscreen').hide();
             //alert(response);
             //$("#successMessageAddedNewUser").show();
         },
         error: function (x, y, z) {
+            $('#sl-loadingscreen').hide();
             //$("#errorsMessageAddedNewUser").show();
         }
     });
@@ -241,6 +244,7 @@ $(document).ready(function () {
     if (url.indexOf('http://' + host + '/Credit/SelectUsers') !== -1) {
         var temp = sessionStorage.getItem('productDetails');
         var productDetails = $.parseJSON(temp);
+        $('#sl-loadingscreen').show();
         $.ajax({
             type: "GET",
             url: "/api/User/GetUsers/",
@@ -274,8 +278,10 @@ $(document).ready(function () {
                 html += '</tbody>' +
            '</table>';
                 $("#selectUsersContent").append(html);
+                $('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
+                $('#sl-loadingscreen').hide();
             }
         });
         
