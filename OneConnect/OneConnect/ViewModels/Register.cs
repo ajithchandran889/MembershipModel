@@ -17,5 +17,6 @@ namespace OneConnect.ViewModels
         [Required]
         public string password { get; set; }
         public string captchaResponse { get; set; }
+        public string hostName { get; set; }
     }
 }

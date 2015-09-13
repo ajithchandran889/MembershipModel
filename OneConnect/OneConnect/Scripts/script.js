@@ -208,7 +208,8 @@ $("#addNewUserForm").submit(function (e) {
         var register =
         {
             emailId: $("#inputEmail").val(),
-            password: $("#inputPassword").val()
+            password: $("#inputPassword").val(),
+            hostName: window.location.origin
         };
         var dataReg = JSON.stringify(register);
         $('#sl-loadingscreen').show();

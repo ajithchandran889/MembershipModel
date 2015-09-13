@@ -123,30 +123,11 @@ namespace OneConnect.Controllers.Api
                             DBEntities.Registrations.Add(registerRow);
                             DBEntities.SaveChanges();
                             string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.Token);
-                            var url = new Uri(Url.Link("UserActivationRoute", new { token = registerationToken }));
-                            //var url = new Uri(Url.Link("UserActivationRoute", new { Controller = "Account", Action = "UserActivation", token = registerationToken });
-
-                            //MailMessage mail = new MailMessage();
-                            //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                            //mail.From = new MailAddress("fayizmuhamed@gmail.com");
-                            //mail.To.Add(reg.emailId);
-                            //mail.Subject = "Registration link";
-
-                            //mail.IsBodyHtml = true;
+                            var url = reg.hostName + "/Home/ChangeEmail?token=" + registerationToken;
                             string htmlBody;
-
-                            htmlBody = "Click the link to activate your OneKonnect account:<a href='" + url + "'>Click here<a/>";
-
-                            //mail.Body = htmlBody;
-
-
+                            htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registration").Select(e => e.templateBody).SingleOrDefault();
+                            htmlBody = htmlBody.Replace("url", url);
                             MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Registration link", true, htmlBody);
-
-                            //SmtpServer.Port = 587;
-                            //SmtpServer.Credentials = new System.Net.NetworkCredential("fayizmuhamed@gmail.com", "9495177881");
-                            //SmtpServer.EnableSsl = true;
-
-                            //SmtpServer.Send(mail);
                             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
                         }
                     }
@@ -224,25 +205,10 @@ namespace OneConnect.Controllers.Api
                     userData.IsDeleted = true;
                     DBEntities.Entry(userData).State = EntityState.Modified;
                     DBEntities.SaveChanges();
-                    //MailMessage mail = new MailMessage();
-                    //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    //mail.From = new MailAddress("ajithchandran046@gmail.com");
-                    //mail.To.Add(userData.Email);
-                    //mail.Subject = "Login Information";
-
-                    //mail.IsBodyHtml = true;
                     string htmlBody;
-
-                    htmlBody = "User Id:" + user.CustomUserId;
-
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessfull").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = htmlBody + user.CustomUserId;
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, "Login Information", true, htmlBody);
-                    //mail.Body = htmlBody;
-
-                    //SmtpServer.Port = 587;
-                    //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                    //SmtpServer.EnableSsl = true;
-
-                    //SmtpServer.Send(mail);
                     return Request.CreateResponse<string>(HttpStatusCode.OK, "Registration successfull and user id mailed to you");
                 }
                 else
@@ -328,22 +294,9 @@ namespace OneConnect.Controllers.Api
                     DBEntities.UsersAditionalInfoes.Add(user);
                     DBEntities.SaveChanges();
                     string htmlBody;
-                    htmlBody = "OneKonnect account created";
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "AccountCreated").Select(e => e.templateBody).SingleOrDefault();
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Account created", true, htmlBody);
 
-                    //MailMessage mail = new MailMessage();
-                    //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    //mail.From = new MailAddress("ajithchandran046@gmail.com");
-                    //mail.To.Add(reg.emailId);
-                    //mail.To.Add(User.Identity.Name);
-                    //mail.Subject = "Account created";
-                    //mail.IsBodyHtml = true;
-
-                    //mail.Body = htmlBody;
-                    //SmtpServer.Port = 587;
-                    //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                    //SmtpServer.EnableSsl = true;
-                    //SmtpServer.Send(mail);
                 }
                 return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
 
@@ -537,27 +490,12 @@ namespace OneConnect.Controllers.Api
                 entry.Property(u => u.newEmailRequested).IsModified = true;
                 DBEntities.SaveChanges();
                 emailToken = HttpContext.Current.Server.UrlEncode(emailToken);
-                //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
-                //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
                 var url = model.hostName + "/Home/ChangeEmail?token=" + emailToken;
 
                 string htmlBody;
-                htmlBody = "<b>We received your request to change email Id  associated with OneKonnect account,Please confirm your request by click on this </b><br/>link:" + url;
-
+                htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "changeEmail").Select(e => e.templateBody).SingleOrDefault();
+                htmlBody = htmlBody.Replace("urlValue", url);
                 MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], model.oldEmailId, "Change Email Confirmation", true, htmlBody);
-                //MailMessage mail = new MailMessage();
-                //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                //mail.From = new MailAddress("ajithchandran046@gmail.com");
-                //mail.To.Add(model.oldEmailId);
-                //mail.Subject = "Change Email link:";
-                //mail.IsBodyHtml = true;
-
-                //mail.Body = htmlBody;
-                //SmtpServer.Port = 587;
-                //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                //SmtpServer.EnableSsl = true;
-                //SmtpServer.Send(mail);
-
                 return Request.CreateResponse<string>(HttpStatusCode.OK, "Successfully changed your email");
             }
             else
@@ -711,32 +649,14 @@ namespace OneConnect.Controllers.Api
                     }
 
                     string htmlBody;
-                    htmlBody = "Your OneKonnect user id's are:";
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "ForgotUserId").Select(e => e.templateBody).SingleOrDefault();
                     foreach (var userId in info)
                     {
-                        htmlBody += userId.UserName;
+                        htmlBody += userId.UserName+"<br/>";
                     }
 
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotUserId.emailId, "OneKonnect Account Details", true, htmlBody);
 
-                    ////string userIds = (string[])info;
-                    //MailMessage mail = new MailMessage();
-                    //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    //mail.From = new MailAddress("ajithchandran046@gmail.com");
-                    //mail.To.Add(forgotUserId.emailId);
-                    //mail.Subject = "Onekonnect UserIds";
-                    //mail.IsBodyHtml = true;
-                    //string htmlBody;
-                    //htmlBody = "your user id's are:";
-                    //foreach(var userId in info)
-                    //{
-                    //    htmlBody += userId.UserName;
-                    //}
-                    //mail.Body = htmlBody;
-                    //SmtpServer.Port = 587;
-                    //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                    //SmtpServer.EnableSsl = true;
-                    //SmtpServer.Send(mail);
                 }
             }
             catch (Exception e)
@@ -805,29 +725,12 @@ namespace OneConnect.Controllers.Api
                     entry.Property(u => u.passwordRecoveryToken).IsModified = true;
                     DBEntities.SaveChanges();
                     passwordToken = HttpContext.Current.Server.UrlEncode(passwordToken);
-                    //string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
-                    //var url = Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
-                    //var url = this.Url.Link("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = passwordToken });
                     var url = forgotPassowrd.hostName + "/Home/RceoverPassword?token=" + passwordToken;
-                    //var url = Url.Route("PasswordReovery", new { Controller = "Home", Action = "RceoverPassword", token = "passwordToken" });
                     string htmlBody;
-                    htmlBody = "To recover you OneKonnect Account Please click on link :" + url;
-
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "ForgotPassword").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = htmlBody.Replace("urlLink", url);
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotPassowrd.emailId, "Password Reset Link", true, htmlBody);
 
-                    //MailMessage mail = new MailMessage();
-                    //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    //mail.From = new MailAddress("ajithchandran046@gmail.com");
-                    //mail.To.Add(forgotPassowrd.emailId);
-                    //mail.Subject = "Password reset link:";
-                    //mail.IsBodyHtml = true;
-                    //string htmlBody;
-                    //htmlBody = "link:"+url;
-                    //mail.Body = htmlBody;
-                    //SmtpServer.Port = 587;
-                    //SmtpServer.Credentials = new System.Net.NetworkCredential("ajithchandran046@gmail.com", "ajith136252");
-                    //SmtpServer.EnableSsl = true;
-                    //SmtpServer.Send(mail);
                     return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
                 }
             }
