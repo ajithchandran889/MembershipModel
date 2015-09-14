@@ -774,6 +774,51 @@ namespace OneConnect.Controllers.Api
         }
 
         
+        public bool DeleteUserMemberships(string userId)
+        {
+
+            try
+            {
+
+                IEnumerable<GroupMember> groupMembers = DBEntities.GroupMembers.Where(gm => gm.UserId == userId ).ToList();
+
+
+                foreach (GroupMember groupMember in groupMembers)
+                {
+                    IEnumerable<GroupMemberRole> groupMemberRoles = DBEntities.GroupMemberRoles.Where(gmr=>gmr.GroupMemberId==groupMember.Id).ToList();
+
+                    DBEntities.GroupMemberRoles.RemoveRange(groupMemberRoles);
+
+                    GroupMembersBackup groupMembersBackup = new GroupMembersBackup();
+                    groupMembersBackup.GroupId = groupMember.GroupId;
+                    groupMembersBackup.UserId = groupMember.UserId;
+                    groupMembersBackup.IsDeleted = groupMember.IsDeleted;
+                    groupMembersBackup.CreatedBy = groupMember.CreatedBy;
+                    groupMembersBackup.CreatedAt = groupMember.CreatedAt;
+                    groupMembersBackup.LastModifiedBy = userId;
+                    groupMembersBackup.LastModifiedAt = DateTime.Now;
+                    groupMembersBackup = DBEntities.GroupMembersBackups.Add(groupMembersBackup);
+
+                    if (groupMembersBackup != null)
+                    {
+                        DBEntities.GroupMembers.Remove(groupMember);
+                    }
+                    DBEntities.SaveChanges();
+                    
+
+
+                }
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+
+
+        }
 
         
     }

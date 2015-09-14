@@ -384,6 +384,10 @@ namespace OneConnect.Controllers.Api
                 entry.Property(u => u.Status).IsModified = true;
                 //entry.Property(u => u.UserName).IsModified = true;
                 DBEntities.SaveChanges();
+                GroupController groupController = new GroupController();
+
+                groupController.DeleteUserMemberships(userInfo.AspNetUserId);
+
                 return Request.CreateResponse(HttpStatusCode.OK, 1);
             }
             catch (Exception e)

@@ -456,16 +456,10 @@ $(document).on("click", ".editUser", function () {
     $(editnameId).text($(nameId).val());
     $(editAddressId).text($(addressId).val());
     $(editContactId).text($(contactId).val());
-    alert($(statusId).attr("userstatus"));
     if ($(statusId).attr("userstatus") == "true") {
-        //alert($(editStatusId));
-        alert($(editStatusId).checked);
-        $(editStatusId).attr('checked', true);
-        alert($(editStatusId).checked);
+        $(editStatusId).prop('checked', true);
     } else {
-        alert($(editStatusId).checked);
-        $(editStatusId).attr('checked', false);
-        alert($(editStatusId).checked);
+        $(editStatusId).prop('checked', false);
     }
     
 
@@ -535,73 +529,70 @@ $(document).on("click", ".saveChanges", function () {
         status = true;
     }
 
-    //if ($(editnameId).val() != "" || $(editAddressId).val() != "" || $(editContactId).val() != "") {
-    var UserEditInfo =
-        {
-            userId: userId,
-            name: $(editnameId).val(),
-            address: $(editAddressId).val(),
-            contact: $(editContactId).val(),
-            status: status
-        };
-    var dataUserEditInfo = JSON.stringify(UserEditInfo);
-    alert(JSON.stringify(dataUserEditInfo));
-    //$('#sl-loadingscreen').show();
-    $.ajax({
-        type: "POST",
-        url: "/api/Account/ChangeUserInfo/",
-        data: dataUserEditInfo,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-        },
-        success: function (response) {
-            $(nameId).text($(editnameId).val());
-            $(addressId).text($(editAddressId).val());
-            $(contactId).text($(editContactId).val());
-            if ($(editStatusId).is(':checked')) {
-                $(statusId).attr('userstatus', true);
+    var confirmed = 0;
 
-                $(statusId).find('img').attr('src', '/Content/site/role-checked.png');
-            } else {
-                $(statusId).find('img').attr('src', '/Content/site/role-unchecked.png');
-                $(statusId).attr('userstatus', false);
-            }
-
-            $(editBtnId).show();
-            $(saveBtnId).hide();
-            $(cancelBtnId).hide();
-            $(nameId).show();
-            $(editnameId).hide();
-            $(addressId).show();
-            $(editAddressId).hide();
-            $(contactId).show();
-            $(editContactId).hide();
-            $(statusId).show();
-            $(editStatusId).hide();
-            //$('#sl-loadingscreen').hide();
-        },
-        error: function (x, y, z) {
-            //$('#sl-loadingscreen').hide();
-            alert("error");
+    if (!status) {
+        if (confirm("Once you deactivate a user all his memberships and access rights will be deleted! Are you sure?") == true) {
+            confirmed = 1;
+        } else {
+            confirmed = 0;
         }
-    });
+    } else {
+        confirmed = 1;
+    }
+    if (confirmed == 1) {
 
-    /*}
-    else {
-        $(editBtnId).show();
-        $(saveBtnId).hide();
-        $(cancelBtnId).hide();
-        $(nameId).show();
-        $(editnameId).hide();
-        $(addressId).show();
-        $(editAddressId).hide();
-        $(contactId).show();
-        $(editContactId).hide();
-        $(statusId).show();
-        $(editStatusId).hide();
-    }*/
+        //if ($(editnameId).val() != "" || $(editAddressId).val() != "" || $(editContactId).val() != "") {
+        var UserEditInfo =
+            {
+                userId: userId,
+                name: $(editnameId).val(),
+                address: $(editAddressId).val(),
+                contact: $(editContactId).val(),
+                status: status
+            };
+        var dataUserEditInfo = JSON.stringify(UserEditInfo);
+        $.ajax({
+            type: "POST",
+            url: "/api/Account/ChangeUserInfo/",
+            data: dataUserEditInfo,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+            },
+            success: function (response) {
+                $(nameId).text($(editnameId).val());
+                $(addressId).text($(editAddressId).val());
+                $(contactId).text($(editContactId).val());
+                if ($(editStatusId).is(':checked')) {
+                    $(statusId).attr('userstatus', true);
+
+                    $(statusId).find('img').attr('src', '/Content/site/role-checked.png');
+                } else {
+                    $(statusId).find('img').attr('src', '/Content/site/role-unchecked.png');
+                    $(statusId).attr('userstatus', false);
+                }
+
+                $(editBtnId).show();
+                $(saveBtnId).hide();
+                $(cancelBtnId).hide();
+                $(nameId).show();
+                $(editnameId).hide();
+                $(addressId).show();
+                $(editAddressId).hide();
+                $(contactId).show();
+                $(editContactId).hide();
+                $(statusId).show();
+                $(editStatusId).hide();
+                //$('#sl-loadingscreen').hide();
+            },
+            error: function (x, y, z) {
+                //$('#sl-loadingscreen').hide();
+                alert("error");
+            }
+        });
+    }
     return false;
 });
 function isValidEmailAddress(emailAddress) {

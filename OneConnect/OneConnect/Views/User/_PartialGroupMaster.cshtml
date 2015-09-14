@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 text-center">
                                         <h5>Users :@item.memberCount</h5>
-                                        <a href="#" class="btn btn-default grey" role="button">
+                                        <a href="#" class="btn btn-default grey editGroup" role="button" id="editGroup_@(item.groupId)"  groupId="@item.groupId" data-member="@Url.Action("EditGroupPartial",new {groupId=@item.groupId})">
                                             <img src="~/Content/site/setting.png" alt="" />
                                             Edit User
                                         </a>
