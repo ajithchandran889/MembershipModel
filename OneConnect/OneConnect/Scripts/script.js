@@ -458,7 +458,7 @@ $(document).on("click", ".editUser", function () {
     $(editContactId).text($(contactId).val());
     alert($(statusId).attr("userstatus"));
     if ($(statusId).attr("userstatus") == "true") {
-        alert($(editStatusId));
+        //alert($(editStatusId));
         alert($(editStatusId).checked);
         $(editStatusId).attr('checked', true);
         alert($(editStatusId).checked);
