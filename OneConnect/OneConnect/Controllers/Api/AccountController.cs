@@ -421,12 +421,14 @@ namespace OneConnect.Controllers.Api
                 userInfo.Name = usrInfo.name;
                 userInfo.ContactInfo = usrInfo.contact;
                 userInfo.Address = usrInfo.address;
+                userInfo.Status = usrInfo.status;
                 //userInfo.UserName = usEmail.emailId;
                 DBEntities.UsersAditionalInfoes.Attach(userInfo);
                 var entry = DBEntities.Entry(userInfo);
                 entry.Property(u => u.Name).IsModified = true;
                 entry.Property(u => u.ContactInfo).IsModified = true;
                 entry.Property(u => u.Address).IsModified = true;
+                entry.Property(u => u.Status).IsModified = true;
                 //entry.Property(u => u.UserName).IsModified = true;
                 DBEntities.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, 1);
