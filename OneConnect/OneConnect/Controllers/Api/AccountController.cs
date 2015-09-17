@@ -126,8 +126,11 @@ namespace OneConnect.Controllers.Api
                             var url = reg.hostName + "/Home/ChangeEmail?token=" + registerationToken;
                             string htmlBody;
                             htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registration").Select(e => e.templateBody).SingleOrDefault();
-                            htmlBody = htmlBody.Replace("url", url);
-                            MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Registration link", true, htmlBody);
+                            htmlBody = htmlBody.Replace("{Name}","");
+                            htmlBody = htmlBody.Replace("{Activation Link}", url);
+                            htmlBody = htmlBody.Replace("{support email}", ConfigurationManager.AppSettings["supportEmail"]);
+                            string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "registration").Select(e => e.templateSubject).SingleOrDefault();
+                            MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, subject, true, htmlBody);
                             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
                         }
                     }
@@ -206,9 +209,14 @@ namespace OneConnect.Controllers.Api
                     DBEntities.Entry(userData).State = EntityState.Modified;
                     DBEntities.SaveChanges();
                     string htmlBody;
-                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessfull").Select(e => e.templateBody).SingleOrDefault();
-                    htmlBody = htmlBody + user.CustomUserId;
-                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, "Login Information", true, htmlBody);
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = htmlBody.Replace("<Name>", "");
+                    htmlBody = htmlBody.Replace("<User Id>", user.CustomUserId);
+                    htmlBody = htmlBody.Replace("<Password>", userModel.Password);
+
+                    string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateSubject).SingleOrDefault();
+
+                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, subject, true, htmlBody);
                     return Request.CreateResponse<string>(HttpStatusCode.OK, "Registration successfull and user id mailed to you");
                 }
                 else
@@ -293,9 +301,20 @@ namespace OneConnect.Controllers.Api
                     user.IsOwner = false;
                     DBEntities.UsersAditionalInfoes.Add(user);
                     DBEntities.SaveChanges();
+
+                    UsersAditionalInfo parentUserAdditionalInfo = DBEntities.UsersAditionalInfoes.Where(a => a.AspNetUserId == userId).SingleOrDefault();
+
+                    var parentUserInfo = DBEntities.AspNetUsers.Where(u => u.Id == userId).SingleOrDefault();
+                    
                     string htmlBody;
-                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "AccountCreated").Select(e => e.templateBody).SingleOrDefault();
-                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], reg.emailId, "Account created", true, htmlBody);
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "userAddOwner").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = htmlBody.Replace("<Name>", parentUserAdditionalInfo.Name);
+                    htmlBody = htmlBody.Replace("<Account Name>", parentUserAdditionalInfo.CustomUserId);
+                    htmlBody = htmlBody.Replace("<User Id>", user.CustomUserId);
+
+                    string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "userAddOwner").Select(e => e.templateSubject).SingleOrDefault();
+
+                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], parentUserInfo.Email, subject, true, htmlBody);
 
                 }
                 return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
@@ -500,9 +519,17 @@ namespace OneConnect.Controllers.Api
 
                 string htmlBody;
                 htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "changeEmail").Select(e => e.templateBody).SingleOrDefault();
-                htmlBody = htmlBody.Replace("urlValue", url);
-                MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], model.oldEmailId, "Change Email Confirmation", true, htmlBody);
-                return Request.CreateResponse<string>(HttpStatusCode.OK, "Successfully changed your email");
+                htmlBody = htmlBody.Replace("<Name>", userAdditionalInfo.Name);
+                htmlBody = htmlBody.Replace("<User Id>", userAdditionalInfo.CustomUserId);
+                htmlBody = htmlBody.Replace("<Old Email>", user.Email);
+                htmlBody = htmlBody.Replace("<New Email>", userAdditionalInfo.newEmailRequested);
+                htmlBody = htmlBody.Replace("<confirmLink>",  url);
+                htmlBody = htmlBody.Replace("<support email>", ConfigurationManager.AppSettings["supportEmail"]);
+
+                string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "changeEmail").Select(e => e.templateSubject).SingleOrDefault();
+
+                MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], model.oldEmailId, subject, true, htmlBody);
+                return Request.CreateResponse<string>(HttpStatusCode.OK, "Email change request received and confirmation mail send to your current mail id");
             }
             else
             {
@@ -655,13 +682,22 @@ namespace OneConnect.Controllers.Api
                     }
 
                     string htmlBody;
-                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "ForgotUserId").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "forgotUserId").Select(e => e.templateBody).SingleOrDefault();
+                    htmlBody = htmlBody.Replace("<Name>", "");
+                    
+
+                    string userIds = "";
                     foreach (var userId in info)
                     {
-                        htmlBody += userId.UserName+"<br/>";
+                        userIds += userId.UserName + "<br/>";
                     }
+                    htmlBody = htmlBody.Replace("<User Ids>", userIds);
+                    htmlBody = htmlBody.Replace("<Login Page>", "");
+                    htmlBody = htmlBody.Replace("<support email>", ConfigurationManager.AppSettings["supportEmail"]);
 
-                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotUserId.emailId, "OneKonnect Account Details", true, htmlBody);
+                    string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "forgotUserId").Select(e => e.templateSubject).SingleOrDefault();
+
+                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotUserId.emailId, subject, true, htmlBody);
 
                 }
             }
@@ -731,11 +767,17 @@ namespace OneConnect.Controllers.Api
                     entry.Property(u => u.passwordRecoveryToken).IsModified = true;
                     DBEntities.SaveChanges();
                     passwordToken = HttpContext.Current.Server.UrlEncode(passwordToken);
-                    var url = forgotPassowrd.hostName + "/Home/RceoverPassword?token=" + passwordToken;
+                    var url = forgotPassowrd.hostName + "/Home/RecoverPassword?token=" + passwordToken;
                     string htmlBody;
-                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "ForgotPassword").Select(e => e.templateBody).SingleOrDefault();
-                    htmlBody = htmlBody.Replace("urlLink", url);
-                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotPassowrd.emailId, "Password Reset Link", true, htmlBody);
+                    htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "forgotPassword").Select(e => e.templateBody).SingleOrDefault();
+                    
+                    htmlBody = htmlBody.Replace("<Name>", userAdditionalInfo.Name);
+                    htmlBody = htmlBody.Replace("<Change Password link>", url);
+                    htmlBody = htmlBody.Replace("<support email>", ConfigurationManager.AppSettings["supportEmail"]);
+
+                    string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "forgotPassword").Select(e => e.templateSubject).SingleOrDefault();
+
+                    MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], forgotPassowrd.emailId, subject, true, htmlBody);
 
                     return Request.CreateResponse<string>(HttpStatusCode.OK, "created");
                 }
@@ -747,11 +789,11 @@ namespace OneConnect.Controllers.Api
 
             return Request.CreateResponse<string>(HttpStatusCode.OK, "Ok");
         }
-        //POST api/Account/RceoverPassword
+        //POST api/Account/RecoverPassword
         [HttpPost]
         [AllowAnonymous]
-        [Route("RceoverPassword")]
-        public IHttpActionResult RceoverPassword(RecoverPassword recoverPassword)
+        [Route("RecoverPassword")]
+        public IHttpActionResult RecoverPassword(RecoverPassword recoverPassword)
         {
             try
             {
@@ -810,9 +852,20 @@ namespace OneConnect.Controllers.Api
                         var entry = DBEntities.Entry(user);
                         entry.Property(u => u.Email).IsModified = true;
                         DBEntities.SaveChanges();
-                    }
+                        string htmlBody;
+                        htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "changeEmailSuccessful").Select(e => e.templateBody).SingleOrDefault();
+                        htmlBody = htmlBody.Replace("<Name>", userData.Name);
+                        htmlBody = htmlBody.Replace("<User Id>",userData.CustomUserId);
+                        htmlBody = htmlBody.Replace("<Email Id>", user.Email);
 
+                        string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "changeEmailSuccessful").Select(e => e.templateSubject).SingleOrDefault();
+
+                        MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], user.Email, subject, true, htmlBody);
+                       
+                    }
                     return Ok();
+
+                    
                 }
 
             }

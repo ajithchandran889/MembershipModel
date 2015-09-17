@@ -35,7 +35,7 @@ namespace OneConnect.Controllers
             ViewBag.isSuccess = false;
             return View();
         }
-        public ActionResult RceoverPassword(string token)
+        public ActionResult RecoverPassword(string token)
         {
             ViewBag.isSuccess = false;
             ViewBag.passwordToken = token;

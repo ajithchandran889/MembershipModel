@@ -51,7 +51,8 @@ $("#registerForm").submit(function (e) {
         {
             emailId: $("#emailId").val(),
             password: $("#password").val(),
-            captchaResponse: $("#g-recaptcha-response").val()
+            captchaResponse: $("#g-recaptcha-response").val(),
+            hostName: window.location.origin
         };
 
         var dataReg = JSON.stringify(register);
@@ -795,7 +796,7 @@ $(document).on("click", "#recoverPassword", function () {
     var dataRecoverPassword = JSON.stringify(recoverPassword);
     $.ajax({
         type: "POST",
-        url: "/api/Account/RceoverPassword/",
+        url: "/api/Account/RecoverPassword/",
         data: dataRecoverPassword,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
