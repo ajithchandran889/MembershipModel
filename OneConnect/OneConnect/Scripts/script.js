@@ -71,10 +71,12 @@ $("#registerForm").submit(function (e) {
                 grecaptcha.reset();
                 $("#username-pass").hide();
                 $("#username-pass-redirect").show();
+                grecaptcha.reset();
                 //$('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 var errorMsg = x.responseText;
+                grecaptcha.reset();
                 $("#failureMessage").text(errorMsg.replace(/"/g, ''));
                 $("#registerFailure").show();
                 $("#successMessage").hide();
@@ -102,6 +104,7 @@ $("#registerForm").submit(function (e) {
                 if (errorsString != "") {
                     //$("#errDiv").html(errorsString);
                 }
+
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -206,28 +209,37 @@ $(document).on("click", ".userSetting", function (event) {
     $("img.groupSetting").attr("src", "/Content/site/group-settings.png");
 });
 
+$.validator.addMethod("addNewUser_mail_compare", function (value, element) {
+    return $('#inputEmail').val() == $('#inputConfirmEmail').val()
+}, "Mail and confirm mail mismatch");
 
 $("#addNewUserForm").submit(function (e) {
     e.preventDefault();
 }).validate({
     rules: {
-        emailId: { required: true },
-        password: { required: true }
+        inputEmail: { required: true },
+        inputConfirmEmail: { required: true, addNewUser_mail_compare:true},
+
+        inputPassword: { required: true }
     },
     messages: {
-        emailId: {
-            required: "Please enter your email Id"
+        inputEmail: {
+            required: "Please enter email Id for user"
         },
-        password: {
-            required: "Please enter your password"
+        inputConfirmEmail: {
+            required: "Please confirm new mail id"
+        },
+        inputPassword: {
+            required: "Please enter password for user"
         }
     },
     tooltip_options: {
-        emailId: { trigger: 'focus' },
-        password: { trigger: 'focus' }
+        inputEmail: { trigger: 'focus' },
+        inputConfirmEmail: { trigger: 'focus' },
+        inputPassword: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
         var register =
@@ -294,7 +306,7 @@ $("#changePasswordForm").submit(function (e) {
         confirmPassword: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
         var changePassowrd =
@@ -351,7 +363,7 @@ $("#changeEmailForm").submit(function (e) {
             required: "Please confirm your new email"
         },
         currentUserPassword: {
-            required: "Please confirm your password"
+            required: "Please enter your password for confirmation"
         }
 
     },
@@ -362,7 +374,7 @@ $("#changeEmailForm").submit(function (e) {
         currentUserPassword: { trigger: 'focus' }
     },
     errorPlacement: function (error, element) {
-        error.insertBefore(element);
+        error.insertAfter(element);
     },
     submitHandler: function () {
         var ChangeEmail =
@@ -690,7 +702,8 @@ $("#forgotUserIdForm").submit(function (e) {
         var forgotUserId =
            {
                emailId: $("#emailId").val(),
-               captchaResponse: $("#g-recaptcha-response").val()
+               captchaResponse: $("#g-recaptcha-response").val(),
+               hostName: window.location.origin
            };
         var dataforgotUserId = JSON.stringify(forgotUserId);
         $.ajax({
@@ -715,6 +728,7 @@ $("#forgotUserIdForm").submit(function (e) {
                 $("#successMessage").hide();
                 $("#username-pass").show();
                 $("#username-pass-redirect").hide();
+                grecaptcha.reset();
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -778,6 +792,7 @@ $("#forgotPasswordForm").submit(function (e) {
                 $("#successMessage").hide();
                 $("#username-pass").show();
                 $("#username-pass-redirect").hide();
+                grecaptcha.reset();
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -786,35 +801,64 @@ $("#forgotPasswordForm").submit(function (e) {
     }
 });
 
-$(document).on("click", "#recoverPassword", function () {
-    var recoverPassword =
+$.validator.addMethod("password_reset_compare", function (value, element) {
+    return $('#newPassword').val() == $('#confirmPassword').val()
+}, "Password and confirm password mismatch");
+
+$("#recoverPasswordForm").submit(function (e) {
+    e.preventDefault();
+}).validate({
+    rules: {
+        newPassword: { required: true },
+        confirmPassword: { required: true, password_reset_compare: true}
+    },
+    messages: {
+        newPassword: {
+            required: "Please enter new password"
+        },
+        confirmPassword: {
+            required: "Please enter confirm password"
+        }
+    },
+    tooltip_options: {
+        newPassword: { trigger: 'focus' },
+        confirmPassword: { trigger: 'focus' }
+    },
+    errorPlacement: function (error, element) {
+        error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var recoverPassword =
        {
-           newPassword: $("#new").val(),
+           newPassword: $("#newPassword").val(),
            recoveryToken: $("#recoveryToken").val()
        };
-    //$('#sl-loadingscreen').show();
-    var dataRecoverPassword = JSON.stringify(recoverPassword);
-    $.ajax({
-        type: "POST",
-        url: "/api/Account/RecoverPassword/",
-        data: dataRecoverPassword,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            alert("success");
-            $("#errorMessage").hide();
-            $("#successMessage").show();
-            //$('#sl-loadingscreen').hide();
-        },
-        error: function (x, y, z) {
-            alert("error");
-            $("#errorMessage").show();
-            $("#successMessage").hide();
-            //$('#sl-loadingscreen').hide();
-        }
-    });
-    return false;
+        //$('#sl-loadingscreen').show();
+        var dataRecoverPassword = JSON.stringify(recoverPassword);
+        $.ajax({
+            type: "POST",
+            url: "/api/Account/RecoverPassword/",
+            data: dataRecoverPassword,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#errorMessage").hide();
+                $("#successMessage").show();
+                var url = $("#RedirectToLogin").val();
+                window.location.href = url;
+                //$('#sl-loadingscreen').hide();
+            },
+            error: function (x, y, z) {
+                $("#errorMessage").show();
+                $("#successMessage").hide();
+                //$('#sl-loadingscreen').hide();
+            }
+        });
+        return false;
+
+    }
 });
+
 $(document).on("click", "#resetEmail", function () {
     var changeEmail =
        {
@@ -830,13 +874,15 @@ $(document).on("click", "#resetEmail", function () {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-            alert("success");
+            
             $("#errorMessage").hide();
             $("#successMessage").show();
+            var url = $("#RedirectToLogin").val();
+            window.location.href = url;
             //$('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
-            alert("error");
+           
             $("#errorMessage").show();
             $("#successMessage").hide();
             //$('#sl-loadingscreen').hide();

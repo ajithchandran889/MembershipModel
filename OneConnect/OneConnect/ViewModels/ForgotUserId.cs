@@ -9,5 +9,6 @@ namespace OneConnect.ViewModels
     {
         public string emailId { get; set; }
         public string captchaResponse { get; set; }
+        public string hostName { get; set; }
     }
 }

@@ -22,12 +22,12 @@
                                 <div id="successMessage" class="hideElement">
                                     <div class="alert alert-success" role="alert">
                                         <span><img src="~/Content/site/like.png" alt="" />	</span>
-                                        <span class="bold"> &nbsp;Thanks you!</span>	Done!
+                                        <span class="bold"> &nbsp;Your email id changed successfully!</span>
                                     </div>
                                 </div>
                                 <div id="errorMessage" class="hideElement">
-                                    <div class="alert alert-success" role="alert">
-                                        <span>Something went wrong!</span>
+                                    <div class="alert alert-danger" role="alert">
+                                        <span>Invalid Details!reset token may expired</span>
                                     </div>
                                 </div>
                             </div>
@@ -58,5 +58,5 @@
         </div>
     </div>
 </section>
-
+@Html.Hidden("RedirectToLogin", Url.Action("Index", "Home"));
 

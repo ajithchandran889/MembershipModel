@@ -136,7 +136,9 @@
                         <li><a href="#b" data-toggle="tab">Edit Details</a></li>
                         <li><a href="#c" data-toggle="tab">Change Password</a></li>
                         <li><a href="#d" data-toggle="tab">Change Email</a></li>
-                        <li><a href="#e" data-toggle="tab">Subscribed Prods</a></li>
+                        @if(Model.accountInfo.isOwner){
+                        <li ><a href="#e" data-toggle="tab">Subscribed Prods</a></li>
+                        }
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active account-setting-form" id="a">
@@ -357,7 +359,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="e">
+                        <div class="tab-pane" id="e" @if(!Model.accountInfo.isOwner){<text>style="display:none;"</text>}>
                             <div class="row">
                                 <div class="">
                                     <div class="table-responsive">
@@ -480,19 +482,19 @@
                                         <div class="form-group">
                                             <label for="inputEmail" class="control-label col-xs-4 col-md-3 col-sm-3">User Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="email" class="form-control" id="inputEmail" placeholder="" autocomplete="off">
+                                                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputConfirmEmail" class="control-label col-xs-4 col-md-3 col-sm-3">Confirm Email:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="email" class="form-control" id="inputConfirmEmail" placeholder="" autocomplete="off">
+                                                <input type="email" class="form-control" id="inputConfirmEmail" name="inputConfirmEmail" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPassword" class="control-label col-xs-4 col-md-3 col-sm-3">Password:</label>
                                             <div class="col-xs-8 col-md-9 col-sm-9">
-                                                <input type="password" class="form-control" id="inputPassword" placeholder="" autocomplete="off">
+                                                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="form-group account-settings-btn">
