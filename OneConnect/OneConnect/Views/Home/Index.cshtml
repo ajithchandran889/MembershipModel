@@ -31,7 +31,7 @@
                                         <div class="form-group user-input">
                                             @*<input class="form-control" placeholder="Email" name="email" type="text">*@
                                             @*<text>Signed In As  <strong>@User.Identity.Name</strong>*@
-                                            @Html.TextBoxFor(model =>model.userId, new { id = "userId", placeholder = "userId", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.userId, new { id = "userId", placeholder = "userId", @class = "form-control" })
                                             <img src="~/Content/site/forgot-pasword-user.png" />
                                         </div>
                                         <div class="form-group user-input">
@@ -47,7 +47,7 @@
                                                 @Html.ActionLink("Forgot user id?", "ForgotUserId")
                                             </p>
                                             <p>
-                                                
+
                                                 @Html.ActionLink("Forgot password?", "ForgotPassword")
                                             </p>
                                         </div>
