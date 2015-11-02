@@ -192,18 +192,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="AspNetRole.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AspNetUser.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AspNetUserClaim.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AspNetUserLogin.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\Api\AccountController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\Api\ProductsController.cs" />
@@ -213,69 +201,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="CreditAccount.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\Products.cs" />
-    <Compile Include="FinancialTransaction.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Group.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GroupMember.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GroupProduct.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LogHistory.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\AuthRepository.cs" />
-    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="OnekonnectEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnekonnectEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OnekonnectEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OnekonnectEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Product.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ProductRole.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
-    <Compile Include="Registration.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="UserRole.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UsersAditionalInfo.cs">
-      <DependentUpon>OnekonnectEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Utils\CaptchaValidation.cs" />
     <Compile Include="Utils\MailClient.cs" />
     <Compile Include="ViewModels\AccountInfo.cs" />
@@ -376,23 +312,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <EntityDeploy Include="OnekonnectEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OnekonnectEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="OnekonnectEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OnekonnectEntities.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="OnekonnectEntities.edmx.diagram">
-      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
-    </Content>
-    <Content Include="OnekonnectEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OnekonnectEntities.edmx</DependentUpon>
-      <LastGenOutput>OnekonnectEntities.cs</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\OneKonnect.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -438,6 +357,12 @@
     <Content Include="Views\Credit\Index.cshtml" />
     <Content Include="Views\Credit\SelectUsers.cshtml" />
     <Content Include="Views\Credit\Summary.cshtml" />
+    <Content Include="Views\User\_PartialUserList.cshtml" />
+    <Content Include="Views\User\AlreadyRegistered.cshtml" />
+    <Content Include="Views\User\RecordNotExist.cshtml" />
+    <Content Include="Views\User\RegistrationSuccessfull.cshtml" />
+    <Content Include="Views\User\TokenExpired.cshtml" />
+    <Content Include="Views\Home\RecoverPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
