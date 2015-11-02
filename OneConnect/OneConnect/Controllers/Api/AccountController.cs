@@ -129,7 +129,7 @@ namespace OneConnect.Controllers.Api
                             DBEntities.Registrations.Add(registerRow);
                             DBEntities.SaveChanges();
                             string registerationToken = HttpContext.Current.Server.UrlEncode(registerRow.Token);
-                            var url = new Uri(Url.Link("UserActivationRoute", new { token = registerationToken }));
+                            var url = new Uri(Url.Link("UserActivationRoute", new { token = registerationToken,hostName=reg.hostName }));
                             string htmlBody;
                             htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registration").Select(e => e.templateBody).SingleOrDefault();
                             htmlBody = htmlBody.Replace("{Name}","");
@@ -156,7 +156,7 @@ namespace OneConnect.Controllers.Api
         [AllowAnonymous]
         [Route("UserActivation", Name = "UserActivationRoute")]
         //[Route("UserActivation")]
-        public async Task<HttpResponseMessage> Activate(string token)
+        public async Task<HttpResponseMessage> Activate(string token, string hostName)
         {
             try
             {
@@ -164,17 +164,24 @@ namespace OneConnect.Controllers.Api
                 var userData = (Registration)DBEntities.Registrations.Where(u => u.Token == registerationToken).FirstOrDefault();
                 DateTime existingUserRegisteredTime = (DateTime)userData.CreatedAt;
                 existingUserRegisteredTime = existingUserRegisteredTime.AddHours(24);
+                var response = Request.CreateResponse(HttpStatusCode.Moved);
                 if ((bool)userData.IsDeleted)
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Already registered");
+                    var url = new Uri(hostName + "/User/AlreadyRegistered");
+                    response.Headers.Location = url;
+                    return response;
+                    //return Request.CreateResponse<string>(HttpStatusCode.OK, "Already registered");
                 }
                 else if (existingUserRegisteredTime < DateTime.Now)
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please register again");
+                    var url = new Uri(hostName + "/User/TokenExpired");
+                    response.Headers.Location = url;
+                    return response;
+                    //return Request.CreateResponse<string>(HttpStatusCode.OK, "Token expired,please register again");
                 }
                 else if (userData != null)
                 {
-                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("W")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).First();
+                    var lastid = DBEntities.UsersAditionalInfoes.Where(u => u.CustomUserId.StartsWith("W")).OrderByDescending(u => u.Id).Select(u => u.CustomUserId).FirstOrDefault();
                     int newIdCount = 0;
                     if (lastid == null)
                     {
@@ -191,14 +198,6 @@ namespace OneConnect.Controllers.Api
                     userModel.Email = userData.Email;
                     userModel.Password = userData.Password;
                     string userId = await _repo.RegisterUser(userModel);
-
-                    //IdentityResult result = await _repo.RegisterUser(userModel);
-
-                    //IHttpActionResult errorResult = GetErrorResult(result);
-                    //if (errorResult != null)
-                    //{
-                    //    //return errorResult;
-                    //}
                     UsersAditionalInfo user = new UsersAditionalInfo();
                     user.AspNetUserId = userId;
                     user.CreatedBy = userId;
@@ -213,7 +212,6 @@ namespace OneConnect.Controllers.Api
                     DBEntities.UsersAditionalInfoes.Add(user);
                     userData.IsDeleted = true;
                     DBEntities.Entry(userData).State = EntityState.Modified;
-                    DBEntities.SaveChanges();
                     string htmlBody;
                     htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateBody).SingleOrDefault();
                     htmlBody = htmlBody.Replace("{Name}", "");
@@ -223,11 +221,16 @@ namespace OneConnect.Controllers.Api
                     string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateSubject).SingleOrDefault();
 
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, subject, true, htmlBody);
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Registration successfull and user id mailed to you");
+                    var url = new Uri(hostName+"/User/RegistrationSuccessfull");
+                    response.Headers.Location = url;
+                    return response;
                 }
                 else
                 {
-                    return Request.CreateResponse<string>(HttpStatusCode.OK, "Record doesn't exist");
+                    var url = new Uri(hostName + "/User/RecordNotExist");
+                    response.Headers.Location = url;
+                    return response;
+                    //return Request.CreateResponse<string>(HttpStatusCode.OK, "Record doesn't exist");
                 }
             }
             catch (DbEntityValidationException e)

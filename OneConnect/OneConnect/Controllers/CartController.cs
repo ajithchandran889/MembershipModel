@@ -41,7 +41,7 @@ namespace OneConnect.Controllers
             formVals.Add("at", ConfigurationManager.AppSettings["paypalKey"].ToString()); 
             formVals.Add("tx", Request["tx"]);
             //set true for sandbox else false
-            string response = GetPayPalResponse(formVals, true);
+            string response = GetPayPalResponse(formVals, Convert.ToBoolean(ConfigurationManager.AppSettings["paypalSandbox"].ToString()));
 
             if (response.Contains("SUCCESS"))
             {

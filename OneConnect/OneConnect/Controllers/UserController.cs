@@ -410,7 +410,22 @@ namespace OneConnect.Controllers
 
             return null;
         }
-
+        public ActionResult RegistrationSuccessfull()
+        {
+            return View();
+        }
+        public ActionResult RecordNotExist()
+        {
+            return View();
+        }
+        public ActionResult AlreadyRegistered()
+        {
+            return View();
+        }
+        public ActionResult TokenExpired()
+        {
+            return View();
+        }
         public bool IsAuthenticated()
         {
             try
