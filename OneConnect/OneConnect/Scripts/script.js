@@ -154,7 +154,7 @@ $("#loginForm").submit(function (e) {
             error: function (response) {
 
                 var errormsg = response.responseText;
-                var temp = $.parseJSON(errormsg);
+                var temp = JSON.parse(errormsg);
                 var html = "<span>" + temp.error_description + "</span>";
                 $("#errorMessage").empty();
                 $("#errorMessage").append(html);
