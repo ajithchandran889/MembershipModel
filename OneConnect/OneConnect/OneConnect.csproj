@@ -223,14 +223,25 @@
     <Compile Include="ViewModels\ForgotPassword.cs" />
     <Compile Include="ViewModels\ForgotUserId.cs" />
     <Compile Include="ViewModels\GroupDetails.cs" />
+    <Compile Include="ViewModels\GroupInfo.cs" />
+    <Compile Include="ViewModels\GroupMemberDetails.cs" />
+    <Compile Include="ViewModels\GroupMemberRoleDetails.cs" />
+    <Compile Include="ViewModels\GroupMemberRoleDetailsSave.cs" />
+    <Compile Include="ViewModels\GroupProductDetails.cs" />
+    <Compile Include="ViewModels\GroupProductStatus.cs" />
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\ProductInfo.cs" />
+    <Compile Include="ViewModels\ProductPriceDetails.cs" />
+    <Compile Include="ViewModels\ProductRoleDetails.cs" />
+    <Compile Include="ViewModels\ProductSubscribeDetails.cs" />
     <Compile Include="ViewModels\PurchaseItemDeatils.cs" />
     <Compile Include="ViewModels\RecoverPassword.cs" />
     <Compile Include="ViewModels\Register.cs" />
+    <Compile Include="ViewModels\SubscribedProductDetails.cs" />
     <Compile Include="ViewModels\UserActiveStatus.cs" />
     <Compile Include="ViewModels\UserChangeEmail.cs" />
     <Compile Include="ViewModels\UserDetails.cs" />
+    <Compile Include="ViewModels\UserEditInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -212,6 +212,7 @@ namespace OneConnect.Controllers.Api
                     DBEntities.UsersAditionalInfoes.Add(user);
                     userData.IsDeleted = true;
                     DBEntities.Entry(userData).State = EntityState.Modified;
+                    DBEntities.SaveChanges();
                     string htmlBody;
                     htmlBody = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateBody).SingleOrDefault();
                     htmlBody = htmlBody.Replace("{Name}", "");

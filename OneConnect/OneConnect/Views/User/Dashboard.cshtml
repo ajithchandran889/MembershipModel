@@ -130,14 +130,15 @@
             <div class="col-md-12">
 
                 <!-- tabs left -->
-                <div class="tabbable tabs-left">
+                <div class="tabbable tabs-left account-setting-tabs ">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#a" data-toggle="tab">Account Info</a></li>
                         <li><a href="#b" data-toggle="tab">Edit Details</a></li>
                         <li><a href="#c" data-toggle="tab">Change Password</a></li>
                         <li><a href="#d" data-toggle="tab">Change Email</a></li>
-                        @if(Model.accountInfo.isOwner){
-                        <li ><a href="#e" data-toggle="tab">Subscribed Prods</a></li>
+                        @if (Model.accountInfo.isOwner)
+                        {
+                            <li><a href="#e" data-toggle="tab">Subscribed Prods</a></li>
                         }
                     </ul>
                     <div class="tab-content">
@@ -199,17 +200,19 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-xs-4 col-md-3 col-sm-3">Active :</label>
-                                            <div class="col-xs-8 col-md-9 col-sm-9" style="padding-top:5px;">
+                                            <div class="col-xs-8 col-md-9 col-sm-9" style="padding-top: 5px;">
                                                 <span>
-                                                    <input id="checkboxAccountStatus" type="checkbox" class="css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status) { <text> checked="checked" </text>     } @if (!Model.accountInfo.isOwner) { <text> disabled="disabled" </text>     }>
+                                                    <input id="checkboxAccountStatus" type="checkbox" class="css-checkbox" userid="@Model.accountInfo.userId" @if (Model.accountInfo.status)
+                                                                                                                                                              { <text> checked="checked" </text>     } @if (!Model.accountInfo.isOwner)
+                                                                                                                                                                                                       { <text> disabled="disabled" </text>     }>
                                                 </span>
                                                 @*<input type="checkbox" class="form-control edit-tick-mark"  >*@
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-xs-4 col-md-3 col-sm-3"></label>
-                                            <div class="col-xs-8 col-md-9 col-sm-9">
+                                            <label class="control-label col-xs-0 col-md-3 col-sm-3"></label>
+                                            <div class="col-xs-12 col-md-9 col-sm-9">
                                                 <div class="g-recaptcha " data-sitekey=" @System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPublicKey"] "></div>
                                                 @*<img class="captcha" src="~/Content/site/captcha.png" alt="" />*@
                                             </div>
@@ -240,8 +243,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="c">
-                            <div class="row">
+                        <div class="tab-pane " id="c">
+                            <div class="row col-md-12">
                                 <div id="successMessagePasswordChange" class="hideElement">
                                     <div class="alert alert-success" role="alert">
                                         <span>
@@ -298,7 +301,7 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="d">
-                            <div class="row">
+                            <div class="row col-md-12">
                                 <div id="successMessageEmailChange" class="hideElement">
                                     <div class="alert alert-success" role="alert">
                                         <span>
@@ -359,63 +362,63 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="e" @if(!Model.accountInfo.isOwner){<text>style="display:none;"</text>}>
+                        <div class="tab-pane" id="e" @if (!Model.accountInfo.isOwner)
+                                                     {<text>style="display:none;"</text>}>
                             <div class="row">
-                                <div class="">
-                                    <div class="table-responsive">
+                            <div class="bs-example col-md-11">
+                                <div class="form-group table-responsive">
+
+                                    <table class="table table-striped">
 
 
-                                        <table id="mytable" class="table table-bordred table-striped">
-
-                                            <thead>
+                                        <thead>
                                             <th>Product detail</th>
                                             <th>Subscription Modal</th>
                                             <th>From</th>
                                             <th>To</th>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var item in Model.subscribedProducts)
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            <div class="col-md-3">
-                                                                <div class="s_product">
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.subscribedProducts)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="col-md-3">
+                                                            <div class="s_product">
 
-                                                                    <img src="@item.productImageUrl">
-                                                                </div>
+                                                                <img src="@item.productImageUrl">
                                                             </div>
-                                                            <div class="col-md-9 s_p_detail">
-                                                                <h2>@item.productName</h2>
-                                                                <p>@item.productDescription</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <label class="control-label ">@item.subscriptionType</label>
-                                                        </td>
+                                                        </div>
+                                                        <div class="col-md-9 s_p_detail">
+                                                            <h2>@item.productName</h2>
+                                                            <p>@item.productDescription</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <label class="control-label ">@item.subscriptionType</label>
+                                                    </td>
 
 
-                                                        <td>
-                                                            <label class="control-label ">@item.toDate.ToString("dd MMM yyyy")</label>
-                                                        </td>
-                                                        <td>
-                                                            <label class="control-label ">@item.fromDate.ToString("dd MMM yyyy")</label>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
+                                                    <td>
+                                                        <label class="control-label ">@item.toDate.ToString("dd MMM yyyy")</label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="control-label ">@item.fromDate.ToString("dd MMM yyyy")</label>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
 
-                                        </table>
+                                    </table>
 
-                                        <div class="clearfix"></div>
+                                    <div class="clearfix"></div>
 
-
-                                    </div>
 
                                 </div>
-
-                                <div class="col-xs-12 col-sm-5 col-md-5" style="width:18% !important;float:right;">
-                                    <a class="btn btn-info" href="/Credit/">
-                                        Subscribe New
+                            </div>
+                                </div>
+                            <div class="row" style="margin:0px;">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <a class="btn btn-info" href="/Credit/" style="float: right;">Subscribe New
                                     </a>
                                 </div>
 
@@ -463,7 +466,7 @@
                             @Html.Action("UserListPartial")
                         </div>
                         <div class="tab-pane" id="bb">
-                            <div class="row">
+                            <div class="row col-md-12">
                                 <div id="successMessageAddedNewUser" class="hideElement">
                                     <div class="alert alert-success" role="alert">
                                         <span>
@@ -567,7 +570,7 @@
             </div>
         </div>
         <div class="row member-group-settings">
-            <div class="row member-group-master" id="member-group-master">
+            <div class="member-group-master" id="member-group-master">
                 @Html.Action("GroupListPartial", new { isActiveOnly = false })
 
                 @*@foreach (var item in Model.groupList)
@@ -611,7 +614,7 @@
             </div>
 
 
-            <div class="row member-group-details hideElement" id="member-group-details">
+            <div class="member-group-details  hideElement" id="member-group-details">
                 @*<div class="col-md-12">
                         <div class="tabbable tabs-left group-settings-tabs">
                             <ul class="nav nav-tabs">

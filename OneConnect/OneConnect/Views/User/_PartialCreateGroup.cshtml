@@ -1,6 +1,6 @@
 ﻿@model OneConnect.ViewModels.GroupInfo
 
-<div class="row member-group-details" id="member-group-details">
+<div class="member-group-details" id="member-group-details">
     <div class="col-md-12">
         <div class="tabbable tabs-left group-settings-tabs">
             <ul class="nav nav-tabs">
@@ -13,7 +13,7 @@
                        { <text> href="#tabGS_4" data-toggle="tab"</text> }>Users Roles</a> </li>
 
             </ul>
-            <div class="tab-content">
+            <div class="tab-content col-md-12">
                 <div class="tab-pane active group-setting-form" id="tabGS_1">
                     <div class="row">
                         <div id="successMessageGroupInfoSave" class="hideElement">
@@ -24,7 +24,7 @@
                                 Successfully updated changes in group info
                             </div>
                         </div>
-                        <div class="bs-example group-details group-details-gp col-md-10">
+                        <div class="bs-example group-details group-details-gp col-md-12">
                             <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
                                 <div class="row">
                                     <div class="form-group">
@@ -46,10 +46,10 @@
                                     <div class="row"  >
                                         <div class="form-group">
 
-                                            <div class="col-xs-3 col-md-3 col-sm-4">
+                                            <div class="col-xs-6 col-md-3 col-sm-4">
                                                 <label class="control-label ">Group Admin :</label>
                                             </div>
-                                            <div class="col-xs-4 col-md-4 col-sm-5">
+                                            <div class="col-xs-6 col-md-4 col-sm-5">
                                                 @if (!(Model.accInfo.isOwner)){
                                                 @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -",new { @class = "form-control",id="ddlGroupAdmin",disabled="disabled" })
                                                 }else{
@@ -61,7 +61,7 @@
                                     </div>
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-xs-8 col-md-9 col-sm-9">
+                                        <div class="col-xs-12 col-md-9 col-sm-9">
                                             <label class="control-label ">Active :</label>
                                             <span style="margin-left: 10px">
                                                 <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive" @if (!(Model.accInfo.isOwner)){<text>disabled="disabled"</text>}>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tabGS_2">
-                    <div class="row">
+                    <div class="row col-md-12">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
                         </p>

@@ -80,11 +80,12 @@ input, button, select, textarea {
 
 
 /* LOGIN BOX*/
- .login-btn {
-        width: 84%;
-        padding: 5px 5px;
-        margin-right: 0;
-    }
+.login-btn {
+    width: 84%;
+    padding: 5px 5px;
+    margin-right: 0;
+}
+
 .login-box .login-body .username-pass {
     padding: 15px 20px 2px 25px;
     width: 60%;
@@ -155,7 +156,7 @@ input, button, select, textarea {
 /* Section Homepage */
 .home-welcome-page {
     padding: 0px;
-height: initial;
+    height: initial;
 }
 
 .home-welcome-text {
@@ -202,14 +203,14 @@ p.or-bar {
     //background-color: rgb(49, 83, 116);
 }
 
-.or-sign-up .or-text a {
-    color: #ffffff;
-    top: -28px;
-    position: relative;
-    background-color: rgb(49, 83, 116);
-    padding: 0 15px;
-    text-decoration: none;
-}
+    .or-sign-up .or-text a {
+        color: #ffffff;
+        top: -28px;
+        position: relative;
+        background-color: rgb(49, 83, 116);
+        padding: 0 15px;
+        text-decoration: none;
+    }
 
 .user-input {
     position: relative;
@@ -325,7 +326,7 @@ section.top-well {
     text-align: center;
 }
 
-.dashboard h1 {
+    .dashboard h1 {
         margin-top: 10px;
         margin-bottom: 10px;
     }
@@ -499,6 +500,8 @@ section.top-well {
 }
 
 
+
+
 .user-settings-tabs .tab-content {
     margin-left: 117px;
 }
@@ -535,6 +538,8 @@ section.top-well {
 table {
     border: 1px solid #e2e2e2;
 }
+
+
 
 .members-group {
     margin-top: 15px;
@@ -590,7 +595,8 @@ table {
         }
 
 .group-settings-tabs .tab-content {
-    margin-left: 115px;
+    margin-left: 0px;
+
 }
 
 textarea {
@@ -638,6 +644,7 @@ input[type="checkbox"] {
     background-image: url(../site/role-unchecked.png);
     background-repeat: no-repeat;
 }
+
 .edit-tick-mark {
     -webkit-appearance: none;
     display: inline-block;
@@ -649,10 +656,10 @@ input[type="checkbox"] {
     background-repeat: no-repeat;
 }
 
-    input[type="checkbox"]:checked {
-        background-image: url(../site/role-checked.png);
-        background-repeat: no-repeat;
-    }
+input[type="checkbox"]:checked {
+    background-image: url(../site/role-checked.png);
+    background-repeat: no-repeat;
+}
 
 .groups_details_products input[type=checkbox]:focus, input[type=radio]:focus {
     outline: none;
@@ -694,11 +701,11 @@ input[type="checkbox"] {
         background-image: url(../site/subs.png);
         background-repeat: no-repeat;
     }
-account-setting-form
 
-.group-details-userroles input[type=checkbox]:focus, input[type=radio]:focus {
+account-setting-form .group-details-userroles input[type=checkbox]:focus, input[type=radio]:focus {
     outline: none;
 }
+
 .group-setting-form input[type="checkbox"] {
     -webkit-appearance: none;
     display: inline-block;
@@ -710,7 +717,7 @@ account-setting-form
     background-repeat: no-repeat;
 }
 
-.group-setting-form input[type="checkbox"]:checked {
+    .group-setting-form input[type="checkbox"]:checked {
         background-image: url(../site/role-checked.png);
         background-repeat: no-repeat;
     }
@@ -780,7 +787,171 @@ hr.signup {
     }
 }
 
+@media (max-width:335px) {
+    .col-us-1,
+  .col-us-2,
+  .col-us-3,
+  .col-us-4,
+  .col-us-5,
+  .col-us-6,
+  .col-us-7,
+  .col-us-8,
+  .col-us-9,
+  .col-us-10,
+  .col-us-11 {
+    float: left;
+  }
+  .col-us-1 {
+    width: 8.333333333333332%;
+  }
+  .col-us-2 {
+    width: 16.666666666666664%;
+  }
+  .col-us-3 {
+    width: 25%;
+  }
+  .col-us-4 {
+    width: 33.33333333333333%;
+  }
+  .col-us-5 {
+    width: 41.66666666666667%;
+  }
+  .col-us-6 {
+    width: 50%;
+  }
+  .col-us-7 {
+    width: 58.333333333333336%;
+  }
+  .col-us-8 {
+    width: 66.66666666666666%;
+  }
+  .col-us-9 {
+    width: 75%;
+  }
+  .col-us-10 {
+    width: 83.33333333333334%;
+  }
+  .col-us-11 {
+    width: 91.66666666666666%;
+  }
+  .col-us-12 {
+    width: 100%;
+  }
+  .col-us-push-0 {
+    left: auto;
+  }
+  .col-us-push-1 {
+    left: 8.333333333333332%;
+  }
+  .col-us-push-2 {
+    left: 16.666666666666664%;
+  }
+  .col-us-push-3 {
+    left: 25%;
+  }
+  .col-us-push-4 {
+    left: 33.33333333333333%;
+  }
+  .col-us-push-5 {
+    left: 41.66666666666667%;
+  }
+  .col-us-push-6 {
+    left: 50%;
+  }
+  .col-us-push-7 {
+    left: 58.333333333333336%;
+  }
+  .col-us-push-8 {
+    left: 66.66666666666666%;
+  }
+  .col-us-push-9 {
+    left: 75%;
+  }
+  .col-us-push-10 {
+    left: 83.33333333333334%;
+  }
+  .col-us-push-11 {
+    left: 91.66666666666666%;
+  }
+  .col-us-pull-0 {
+    right: auto;
+  }
+  .col-us-pull-1 {
+    right: 8.333333333333332%;
+  }
+  .col-us-pull-2 {
+    right: 16.666666666666664%;
+  }
+  .col-us-pull-3 {
+    right: 25%;
+  }
+  .col-us-pull-4 {
+    right: 33.33333333333333%;
+  }
+  .col-us-pull-5 {
+    right: 41.66666666666667%;
+  }
+  .col-us-pull-6 {
+    right: 50%;
+  }
+  .col-us-pull-7 {
+    right: 58.333333333333336%;
+  }
+  .col-us-pull-8 {
+    right: 66.66666666666666%;
+  }
+  .col-us-pull-9 {
+    right: 75%;
+  }
+  .col-us-pull-10 {
+    right: 83.33333333333334%;
+  }
+  .col-us-pull-11 {
+    right: 91.66666666666666%;
+  }
+  .col-us-offset-0 {
+    margin-left: 0;
+  }
+  .col-us-offset-1 {
+    margin-left: 8.333333333333332%;
+  }
+  .col-us-offset-2 {
+    margin-left: 16.666666666666664%;
+  }
+  .col-us-offset-3 {
+    margin-left: 25%;
+  }
+  .col-us-offset-4 {
+    margin-left: 33.33333333333333%;
+  }
+  .col-us-offset-5 {
+    margin-left: 41.66666666666667%;
+  }
+  .col-us-offset-6 {
+    margin-left: 50%;
+  }
+  .col-us-offset-7 {
+    margin-left: 58.333333333333336%;
+  }
+  .col-us-offset-8 {
+    margin-left: 66.66666666666666%;
+  }
+  .col-us-offset-9 {
+    margin-left: 75%;
+  }
+  .col-us-offset-10 {
+    margin-left: 83.33333333333334%;
+  }
+  .col-us-offset-11 {
+    margin-left: 91.66666666666666%;
+  }
+
+
+}
+
 @media (min-width: 320px) and (max-width: 480px) {
+    
+
     .login-box .login-body .username-pass .login-btn-box {
         width: 100% !important;
     }
@@ -940,6 +1111,9 @@ hr.signup {
     .group-settings-tabs .tab-content {
         margin-left: 0px;
     }
+    .account-setting-tabs .tab-content {
+    margin-left: 0px;
+}
 
     .bt {
         width: 100% !important;
@@ -995,6 +1169,14 @@ hr.signup {
     .account-setting-form .form-horizontal .form-group .col-xs-8.col-md-9 {
         padding: 0px;
     }
+    .account-settings-tabs .tab-content {
+        margin-left: 0px;
+    }
+
+        .account-settings-tabs .tab-content .bs-example .row.table-responsive {
+            width: 95%;
+            margin: auto;
+        }
 
     .user-settings-tabs .tab-content {
         margin-left: 0px;
@@ -1101,6 +1283,10 @@ hr.signup {
     .group-settings-tabs .tab-content {
         margin-left: 0px;
     }
+     .account-setting-tabs .tab-content {
+    margin-left: 0px;
+}
+
 }
 
 @media (max-width: 1025px) {
@@ -1193,7 +1379,6 @@ hr.signup {
 }
 
 *Devices Specific Responsive */
-
 /* Portrait S3, S4, Iphone5, Note3  
 	 @media (max-width: 639px) and (min-width: 360px){
 		.or-sign-up span.or-text {
@@ -1225,7 +1410,6 @@ hr.signup {
 	 @media (max-width: 640px) and (min-width: 360px){
 		
 	 } */
-
 .hideElement {
     display: none;
 }
@@ -1244,8 +1428,8 @@ hr.signup {
 }
 
     .group-header h4 {
-        text-align:left !important;
-        color:#fff !important;
+        text-align: left !important;
+        color: #fff !important;
     }
 
 
@@ -1346,12 +1530,23 @@ hr.signup {
 .errorMessage {
     color: red;
 }
+
 a:hover {
- cursor:pointer;
+    cursor: pointer;
 }
 
-.errorMessageDropDown
-{
+.errorMessageDropDown {
     border-color: red;
 }
-#sl-loadingscreen { float:left; width:100%; height:100%; position:fixed; opacity:0.4; filter:alpha(opacity=40); z-index:999999999; background:#000 url('../site/loading.gif') center center no-repeat; display:none; }
+
+#sl-loadingscreen {
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    z-index: 999999999;
+    background: #000 url('../site/loading.gif') center center no-repeat;
+    display: none;
+}
