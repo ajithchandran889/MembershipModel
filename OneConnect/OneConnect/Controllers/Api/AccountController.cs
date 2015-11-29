@@ -22,6 +22,21 @@ namespace OneConnect.Controllers.Api
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private EventHandler foo;
+        public event EventHandler Foo
+        {
+            add
+            {
+                if (foo == null || !foo.GetInvocationList().Contains(value))
+                {
+                    foo += value;
+                }
+            }
+            remove
+            {
+                foo -= value;
+            }
+        }
         OneKonnectEntities DBEntities = new OneKonnectEntities();
         private AuthRepository _repo = null;
         public AccountController()
@@ -246,6 +261,10 @@ namespace OneConnect.Controllers.Api
                         var message = ve.ErrorMessage;
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+
             }
             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
         }
