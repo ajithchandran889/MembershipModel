@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http;
 
 [assembly: OwinStartup(typeof(OneConnect.Startup))]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace OneConnect
 {
     public class Startup

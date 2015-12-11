@@ -12,6 +12,7 @@ namespace OneConnect.Controllers
 {
     public class CreditController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // GET: Credit
         public ActionResult Index()
         {
@@ -109,6 +110,8 @@ namespace OneConnect.Controllers
             }
             catch (Exception e)
             {
+                logger.Error("CreditController :IsAuthenticated: Something went wrong");
+                logger.Error(e.StackTrace); 
                 //Session["IsAuthenticated"] = false;
                 // return false;
             }

@@ -17,6 +17,7 @@ namespace OneConnect.Controllers
 {
     public class CartController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // GET: Cart
         public ActionResult Index()
         {
@@ -124,6 +125,8 @@ namespace OneConnect.Controllers
             }
             catch (Exception e)
             {
+                logger.Error("CartController :IsAuthenticated: Something went wrong");
+                logger.Error(e.StackTrace); 
                 //Session["IsAuthenticated"] = false;
                 // return false;
             }

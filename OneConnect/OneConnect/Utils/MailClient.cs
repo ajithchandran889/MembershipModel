@@ -10,6 +10,7 @@ namespace OneConnect.Utils
 {
     public static class MailClient
     {
+        static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly SmtpClient Client;
         static MailClient()
         {
@@ -47,6 +48,8 @@ namespace OneConnect.Utils
             {
                 // If you wish to log email errors,
                 // add it here...
+                logger.Error("MailClient :SendMessage: Something went wrong");
+                logger.Error(ex.StackTrace); 
                 var exMsg = ex.Message;
             }
             finally

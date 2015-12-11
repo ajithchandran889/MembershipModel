@@ -23,6 +23,7 @@ namespace OneConnect.Controllers.Api
     public class AccountController : ApiController
     {
         private EventHandler foo;
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public event EventHandler Foo
         {
             add
@@ -74,20 +75,25 @@ namespace OneConnect.Controllers.Api
                         switch (error)
                         {
                             case ("missing-input-secret"):
+                                logger.Info("AccountController :InitialRegister: The secret parameter is missing.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is missing.");
 
                             case ("invalid-input-secret"):
+                                logger.Info("AccountController :InitialRegister: The secret parameter is invalid or malformed.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is invalid or malformed.");
 
 
                             case ("missing-input-response"):
+                                logger.Info("AccountController :InitialRegister: Please input Captcha");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Please input Captcha");
 
                             case ("invalid-input-response"):
+                                logger.Info("AccountController :InitialRegister: Captcha is invalid or malformed.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Captcha is invalid or malformed.");
 
 
                             default:
+                                logger.Info("AccountController :InitialRegister: Error occured. Please try again");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Error occured. Please try again");
 
                         }
@@ -159,6 +165,8 @@ namespace OneConnect.Controllers.Api
                 }
                 catch (Exception e)
                 {
+                    logger.Error("AccountController :InitialRegister: Something went wrong");
+                    logger.Error(e.StackTrace); 
                     return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong!");
                 }
             }
@@ -261,10 +269,12 @@ namespace OneConnect.Controllers.Api
                         var message = ve.ErrorMessage;
                     }
                 }
+                logger.Error("AccountController :User Activation: "+e.StackTrace);
             }
             catch(Exception ex)
             {
-
+                logger.Error("AccountController :User Activation: Something went wrong");
+                logger.Error(ex.StackTrace);
             }
             return Request.CreateResponse<int>(HttpStatusCode.OK, 1);
         }
@@ -293,6 +303,7 @@ namespace OneConnect.Controllers.Api
                                                      select new { u.Id }).FirstOrDefault();
                 if (existingUserRegisteredDetails != null)
                 {
+                    logger.Info("AccountController :UserRegister: Account with email " + reg.emailId + " already exists");
                     return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account with email " + reg.emailId + " already exists");
                 }
                 else
@@ -366,6 +377,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("AccountController :UserRegister: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,somehting went wrong.Please try again.");
             }
 
@@ -391,6 +404,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("AccountController :DisableEnableUser: "+e.Message);
+                logger.Error(e.StackTrace);
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
 
@@ -418,6 +433,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("AccountController :InitialRegister: Something went wrong -"+e.Message);
+                logger.Error(e.StackTrace);
                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
             }
 
@@ -455,6 +472,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("AccountController :InitialRegister: Something went wrong -"+e.Message);
+                logger.Error(e.StackTrace);
                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
             }
 
@@ -470,7 +489,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
-
+                logger.Error("AccountController :GetUserIdByName: Something went wrong-"+e.Message);
+                logger.Error(e.StackTrace);
             }
             return null;
         }
@@ -483,7 +503,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
-
+                logger.Error("AccountController :GetCustomerUserId: Something went wrong-"+e.Message);
+                logger.Error(e.StackTrace);
             }
             return null;
         }
@@ -506,6 +527,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("AccountController :GetAccountInfo: Something went wrong-"+e.Message);
+                logger.Error(e.StackTrace);
             }
             return info;
         }
@@ -747,7 +770,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
-
+                logger.Error("AccountController :ForgotUserId: Something went wrong");
+                logger.Error(e.StackTrace);
             }
 
             return Request.CreateResponse<string>(HttpStatusCode.OK, "Ok");
@@ -829,7 +853,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
-
+                logger.Error("AccountController :ForgotPassword: Something went wrong");
+                logger.Error(e.StackTrace);
             }
 
             return Request.CreateResponse<string>(HttpStatusCode.OK, "Ok");
@@ -879,6 +904,8 @@ namespace OneConnect.Controllers.Api
                         var message = ve.ErrorMessage;
                     }
                 }
+                logger.Error("AccountController :RecoverPassword: Something went wrong");
+                logger.Error(e.StackTrace);
                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Invalid details");
             }
         }
@@ -944,7 +971,8 @@ namespace OneConnect.Controllers.Api
                         var message = ve.ErrorMessage;
                     }
                 }
-
+                logger.Error("AccountController :changeEmailConfirmation: Something went wrong");
+                logger.Error(e.StackTrace);
                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Invalid details");
             }
         }

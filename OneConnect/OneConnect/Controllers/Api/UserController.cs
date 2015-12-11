@@ -5,12 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using OneConnect.ViewModels;
+using System.Diagnostics;
 
 namespace OneConnect.Controllers.Api
 {
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         OneKonnectEntities DBEntities = new OneKonnectEntities();
 
         //POST api/User/GetUsers
@@ -33,6 +35,10 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                //log the details of the exception and page state to the
+                //Windows 2000 Event Log
+                logger.Error("UserController :GetUsers: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return list;
         }

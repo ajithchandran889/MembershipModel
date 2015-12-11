@@ -13,6 +13,7 @@ namespace OneConnect.Controllers.Api
     [RoutePrefix("api/Products")]
     public class ProductsController : ApiController
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         OneKonnectEntities DBEntities = new OneKonnectEntities();
         //POST api/Product/GetProducts
         [HttpGet]
@@ -31,7 +32,8 @@ namespace OneConnect.Controllers.Api
             }
             catch(Exception ex)
             {
-
+                logger.Error("ProductController :GetProducts: Something went wrong");
+                logger.Error(ex.StackTrace); 
             }
             return list;
             
@@ -53,7 +55,8 @@ namespace OneConnect.Controllers.Api
             }
             catch(Exception ex)
             {
-
+                logger.Error("ProductController :GetProductPrice: Something went wrong");
+                logger.Error(ex.StackTrace); 
             }
             return list;
             
@@ -79,7 +82,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception ex)
             {
-
+                logger.Error("ProductController :GetSubscribedProducts: Something went wrong");
+                logger.Error(ex.StackTrace); 
             }
             return list;
 
@@ -108,7 +112,8 @@ namespace OneConnect.Controllers.Api
             }
             catch(Exception e)
             {
-
+                logger.Error("ProductController :PurchaseProductDetails: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return tempIds;
 
@@ -180,7 +185,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception ex)
             {
-
+                logger.Error("ProductController :Subscribe: Something went wrong");
+                logger.Error(ex.StackTrace); 
             }
             return "success";
         }

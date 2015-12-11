@@ -10,6 +10,7 @@ namespace OneConnect.Controllers.Api
     [RoutePrefix("api/Group")]
     public class GroupController : ApiController
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         OneKonnectEntities DBEntities = new OneKonnectEntities();
         //POST api/Group/GetGroups
         [HttpGet]
@@ -35,6 +36,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GetGroups: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return list;
         }
@@ -68,6 +71,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GetGroupWithStatus: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return list;
         }
@@ -141,6 +146,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GetGroupInfo: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return groupInfo;
         }
@@ -167,6 +174,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GetProductDetails: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return groupProducts;
         }
@@ -196,6 +205,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GetGroupMemberDetails: Something went wrong");
+                logger.Error(e.StackTrace); 
             }
             return groupMembers;
         }
@@ -362,6 +373,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :SaveGroup: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
         }
@@ -451,6 +464,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :DeleteGroup: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
         }
@@ -547,6 +562,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :DeleteGroupWithId: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return false;
             }
         }
@@ -631,6 +648,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GroupProductSubscription: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
 
@@ -717,6 +736,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :GroupMemberSubscription: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
 
@@ -769,6 +790,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :SaveGroupMemberRole: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Exception");
             }
         }
@@ -813,6 +836,8 @@ namespace OneConnect.Controllers.Api
             }
             catch (Exception e)
             {
+                logger.Error("GroupController :DeleteUserMemberships: Something went wrong");
+                logger.Error(e.StackTrace); 
                 return false;
             }
 
