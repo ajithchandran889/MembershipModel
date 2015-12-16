@@ -75,25 +75,20 @@ namespace OneConnect.Controllers.Api
                         switch (error)
                         {
                             case ("missing-input-secret"):
-                                logger.Info("AccountController :InitialRegister: The secret parameter is missing.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is missing.");
 
                             case ("invalid-input-secret"):
-                                logger.Info("AccountController :InitialRegister: The secret parameter is invalid or malformed.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "The secret parameter is invalid or malformed.");
 
 
                             case ("missing-input-response"):
-                                logger.Info("AccountController :InitialRegister: Please input Captcha");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Please input Captcha");
 
                             case ("invalid-input-response"):
-                                logger.Info("AccountController :InitialRegister: Captcha is invalid or malformed.");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Captcha is invalid or malformed.");
 
 
                             default:
-                                logger.Info("AccountController :InitialRegister: Error occured. Please try again");
                                 return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Error occured. Please try again");
 
                         }
@@ -303,7 +298,6 @@ namespace OneConnect.Controllers.Api
                                                      select new { u.Id }).FirstOrDefault();
                 if (existingUserRegisteredDetails != null)
                 {
-                    logger.Info("AccountController :UserRegister: Account with email " + reg.emailId + " already exists");
                     return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Account with email " + reg.emailId + " already exists");
                 }
                 else

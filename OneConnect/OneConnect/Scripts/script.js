@@ -522,8 +522,41 @@ $(document).on("click", ".cancelEdit", function () {
     $(editStatusId).hide();
     return false;
 });
+
 $(document).on("click", ".saveChanges", function () {
+    
     var userId = $(this).attr("userId");
+    var editStatusId = "#status_" + userId;
+    var status = false;
+    var opt = {
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        title: 'Confirmation',
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                saveUserInfo(userId);
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        }
+    };
+    if ($(editStatusId).is(':checked')) {
+        status = true;
+    }
+    if (status == 0) {
+        var theDialog = $("#dialog-confirm-user").dialog(opt);
+        theDialog.dialog("open");
+    } else {
+        saveUserInfo(userId);
+    }
+    return false;
+});
+
+function saveUserInfo(userId) {
     var editBtnId = "#editUser_" + userId;
     var saveBtnId = "#saveChanges_" + userId;
     var cancelBtnId = "#cancelEdit_" + userId;
@@ -542,18 +575,6 @@ $(document).on("click", ".saveChanges", function () {
         status = true;
     }
 
-    var confirmed = 0;
-
-    if (!status) {
-        if (confirm("Once you deactivate a user all his memberships and access rights will be deleted! Are you sure?") == true) {
-            confirmed = 1;
-        } else {
-            confirmed = 0;
-        }
-    } else {
-        confirmed = 1;
-    }
-    if (confirmed == 1) {
 
         //if ($(editnameId).val() != "" || $(editAddressId).val() != "" || $(editContactId).val() != "") {
         var UserEditInfo =
@@ -605,9 +626,8 @@ $(document).on("click", ".saveChanges", function () {
                 alert("error");
             }
         });
-    }
-    return false;
-});
+    
+};
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
     return pattern.test(emailAddress);
@@ -618,25 +638,50 @@ $(document).ready(function () {
         somethingChanged = true;
     });
 });
+
 $(document).on("click", ".saveAccountInfoEdit", function () {
 
     if (somethingChanged) {
+        var opt = {
+            autoOpen: false,
+            modal: true,
+            width: 550,
+            title: 'Confirmation',
+            resizable: false,
+            buttons: {
+                "Yes": function () {
+                    saveAccountInfoEdit();
+                    $(this).dialog("close");
+                },
+                "No": function () {
+                    $(this).dialog("close");
+                }
+            }
+        };
         var status = false;
         if ($("#checkboxAccountStatus").is(':checked')) {
             status = true;
         }
-        var confirmed = 0;
-
-        if (status == false) {
-            if (confirm("Once you deactivate your account groups,user and member product access right deactivated! Are you sure?") == true) {
-                confirmed = 1;
-            } else {
-                confirmed = 0;
-            }
+        
+        
+        if (status == 0) {
+            var theDialog = $("#dialog-confirm-account").dialog(opt);
+            theDialog.dialog("open");
         } else {
-            confirmed = 1;
+            saveAccountInfoEdit();
         }
-        if (confirmed == 1) {
+        
+    }
+
+    return false;
+});
+
+function saveAccountInfoEdit() {
+
+        var status = false;
+        if ($("#checkboxAccountStatus").is(':checked')) {
+            status = true;
+        }
             var postData =
             {
                 name: $("#accountName").val(),
@@ -676,10 +721,8 @@ $(document).on("click", ".saveAccountInfoEdit", function () {
                     //$('#sl-loadingscreen').hide();
                 }
             });
-        }
-    }
-    return false;
-});
+    
+};
 $("#forgotUserIdForm").submit(function (e) {
     e.preventDefault();
 }).validate({
@@ -1033,8 +1076,27 @@ $(document).on("click", "#addNewGroupFormSave", function (event) {
 
 
 
-$(document).on("submit", "#addNewGroupForm", function (e) {
 
+
+
+$(document).on("submit", "#addNewGroupForm", function (e) {
+    var opt = {
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        title: 'Confirmation',
+        resizable:false,
+        buttons: {
+            "Yes": function () {
+                saveGroupMaster();
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        }
+    };
+   
     var status = 0;
     if ($("#cbxGroupActive").is(':checked')) {
         status = 1;
@@ -1043,16 +1105,21 @@ $(document).on("submit", "#addNewGroupForm", function (e) {
     var confirmed = 0;
 
     if (status == 0) {
-        if (confirm("Once you deactivate a group all products and member access right deleted! Are you sure?") == true) {
-            confirmed = 1;
-        } else {
-            confirmed = 0;
-        }
+        var theDialog = $("#dialog-confirm").dialog(opt);
+        theDialog.dialog("open");
     } else {
-        confirmed = 1;
+        saveGroupMaster();
     }
-    if (confirmed == 1) {
-        var groupDetails =
+    
+    return false;
+});
+
+function saveGroupMaster() {
+    var status = 0;
+    if ($("#cbxGroupActive").is(':checked')) {
+        status = 1;
+    }
+    var groupDetails =
         {
             groupId: $("#hfdGroupId").val(),
             groupName: $("#txtGroupName").val(),
@@ -1060,31 +1127,29 @@ $(document).on("submit", "#addNewGroupForm", function (e) {
             isActive: status,
             groupAdmin: $("#ddlGroupAdmin :selected").val()
         };
-        var groupDetailsJSON = JSON.stringify(groupDetails);
-        //$('#sl-loadingscreen').show();
-        $.ajax({
-            type: "POST",
-            url: "/api/Group/SaveGroup/",
-            data: groupDetailsJSON,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
-            },
-            success: function (response) {
-                var url = "/User/EditGroupPartial?groupId=" + response;
-                $("#member-group-details").load(url);
-                $("#successMessageGroupInfoSave").show();
-                //$('#sl-loadingscreen').hide();
-            },
-            error: function (x, y, z) {
-                //$('#sl-loadingscreen').hide();
-                alert("error");
-            }
-        });
-    }
-    return false;
-});
+    var groupDetailsJSON = JSON.stringify(groupDetails);
+    //$('#sl-loadingscreen').show();
+    $.ajax({
+        type: "POST",
+        url: "/api/Group/SaveGroup/",
+        data: groupDetailsJSON,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
+        },
+        success: function (response) {
+            var url = "/User/EditGroupPartial?groupId=" + response;
+            $("#member-group-details").load(url);
+            $("#successMessageGroupInfoSave").show();
+            //$('#sl-loadingscreen').hide();
+        },
+        error: function (x, y, z) {
+            //$('#sl-loadingscreen').hide();
+            alert("error");
+        }
+    });
+}
 
 $(document).on("click", "#addNewGroupFormCancel", function (e) {
 
