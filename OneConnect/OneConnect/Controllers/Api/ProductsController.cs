@@ -158,7 +158,7 @@ namespace OneConnect.Controllers.Api
                 
                 foreach(string itemId in itemIds)
                 {
-                    if(itemId!="")
+                    if(itemId!="" && itemId!=null)
                     {
                         ProductSubscription productSubscription = new ProductSubscription();
                         int id=Convert.ToInt32(itemId);

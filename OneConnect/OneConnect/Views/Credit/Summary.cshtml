@@ -78,8 +78,10 @@
                                 <!-- Specify a URL for the payment confirmation page and a page that is displayed
         if the user cancels a transaction. Also specify a URL that PayPal can post IPN
             messages to (see explanation below). -->
-                                <input type="hidden" name="return" value="@Url.Action("Return", "Cart")" />
-                                <input type="hidden" name="cancel_return" value="@Url.Action("Return", "Cart")" />
+                                @*<input type="hidden" name="return" value="@Url.Action("Return", "Cart")" />
+                                <input type="hidden" name="cancel_return" value="@Url.Action("Return", "Cart")" />*@
+                                <input type="hidden" name="return" value="http://www.onekonnect.in/Cart/Return" />
+                                <input type="hidden" name="cancel_return" value="http://www.onekonnect.in/Cart/Return" />
                                 <!-- Do not prompt customers to include a note with their payment. -->
                                 <input type="hidden" name="no_note" value="1" />
                                 <!-- Display the payment button. -->

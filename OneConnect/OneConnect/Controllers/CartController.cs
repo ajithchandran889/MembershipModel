@@ -37,69 +37,78 @@ namespace OneConnect.Controllers
         
         public ActionResult Return()
         {
-            var formVals = new Dictionary<string, string>();
-            formVals.Add("cmd", "_notify-synch");
-            formVals.Add("at", ConfigurationManager.AppSettings["paypalKey"].ToString()); 
-            formVals.Add("tx", Request["tx"]);
-            //set true for sandbox else false
-            string response = GetPayPalResponse(formVals, Convert.ToBoolean(ConfigurationManager.AppSettings["paypalSandbox"].ToString()));
-
-            if (response.Contains("SUCCESS"))
+            try
             {
-                ProductSubscribeDetails productSubscriptionDetails = new ProductSubscribeDetails();
-                productSubscriptionDetails.transactionID = GetPDTValue(response, "txn_id"); 
-                string sAmountPaid = GetPDTValue(response, "mc_gross");
-                productSubscriptionDetails.payerEmail = GetPDTValue(response, "payer_email"); 
-                productSubscriptionDetails.item = GetPDTValue(response, "item_name");
-                productSubscriptionDetails.tempItemIds = GetPDTValue(response, "custom");
-                Decimal amountPaid = 0;
-                Decimal.TryParse(sAmountPaid, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out amountPaid);
-                productSubscriptionDetails.sAmountPaid =Convert.ToDouble(amountPaid);
-                using (var client = new HttpClient())
+                var formVals = new Dictionary<string, string>();
+                formVals.Add("cmd", "_notify-synch");
+                formVals.Add("at", ConfigurationManager.AppSettings["paypalKey"].ToString());
+                formVals.Add("tx", Request["tx"]);
+                //set true for sandbox else false
+                string response = GetPayPalResponse(formVals, Convert.ToBoolean(ConfigurationManager.AppSettings["paypalSandbox"].ToString()));
+
+                if (response.Contains("SUCCESS"))
                 {
-                    //var content = new MultipartFormDataContent();
-                   // content.Add(new StringContent(JsonConvert.SerializeObject(content)), "Content");
-                    client.DefaultRequestHeaders.Authorization =
-                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
-                    var productsSubscribeUrl = Url.RouteUrl(
-                        "Subscribe",
-                        new { httproute = "", controller = "Products", action = "Subscribe" },
-                        Request.Url.Scheme
-                    );
-                    string status="";
-                    using (var result = client.PostAsJsonAsync<ProductSubscribeDetails>(productsSubscribeUrl, productSubscriptionDetails).Result)
+                    ProductSubscribeDetails productSubscriptionDetails = new ProductSubscribeDetails();
+                    productSubscriptionDetails.transactionID = GetPDTValue(response, "txn_id");
+                    string sAmountPaid = GetPDTValue(response, "mc_gross");
+                    productSubscriptionDetails.payerEmail = Server.UrlDecode(GetPDTValue(response, "payer_email"));
+                    productSubscriptionDetails.item = GetPDTValue(response, "item_name");
+                    productSubscriptionDetails.tempItemIds = Server.UrlDecode(GetPDTValue(response, "custom"));
+                    Decimal amountPaid = 0;
+                    Decimal.TryParse(sAmountPaid, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out amountPaid);
+                    productSubscriptionDetails.sAmountPaid = Convert.ToDouble(amountPaid);
+                    using (var client = new HttpClient())
                     {
-
-
-                        if (result.IsSuccessStatusCode)
+                        //var content = new MultipartFormDataContent();
+                        // content.Add(new StringContent(JsonConvert.SerializeObject(content)), "Content");
+                        client.DefaultRequestHeaders.Authorization =
+                            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+                        var productsSubscribeUrl = Url.RouteUrl(
+                            "Subscribe",
+                            new { httproute = "", controller = "Products", action = "Subscribe" },
+                            Request.Url.Scheme
+                        );
+                        string status = "";
+                        using (var result = client.PostAsJsonAsync<ProductSubscribeDetails>(productsSubscribeUrl, productSubscriptionDetails).Result)
                         {
 
-                            status = result.Content.ReadAsAsync<string>().Result;
+
+                            if (result.IsSuccessStatusCode)
+                            {
+
+                                status = result.Content.ReadAsAsync<string>().Result;
+
+                            }
 
                         }
-
                     }
+                    ViewBag.Message = "Succesfully completed the payment";
                 }
-                ViewBag.Message = "Succesfully completed the payment";
-            }
-            else
-            {
-                ViewBag.Message = "Oops..Something went wrong.Please try again.";
-            }
-            if (IsAuthenticated())
-            {
+                else
+                {
+                    ViewBag.Message = "Oops..Something went wrong.Please try again.";
+                }
+                if (IsAuthenticated())
+                {
 
-                var accountInfoUrl = Url.RouteUrl(
-                        "GetAccountInfo",
-                        new { httproute = "", controller = "Account", action = "GetAccountInfo" },
-                        Request.Url.Scheme
-                    );
-                var token = HttpContext.Request.Cookies["token"].Value;
-                dynamic myModel = new ExpandoObject();
+                    var accountInfoUrl = Url.RouteUrl(
+                            "GetAccountInfo",
+                            new { httproute = "", controller = "Account", action = "GetAccountInfo" },
+                            Request.Url.Scheme
+                        );
+                    var token = HttpContext.Request.Cookies["token"].Value;
+                    dynamic myModel = new ExpandoObject();
 
-                myModel.accountInfo = Account.GetAccountInfo(accountInfoUrl, token);
-                return View(myModel);
+                    myModel.accountInfo = Account.GetAccountInfo(accountInfoUrl, token);
+                    return View(myModel);
+                }
             }
+            catch(Exception ex)
+            {
+                logger.Error("Paypal: Something went wrong");
+                logger.Error(ex.StackTrace); 
+            }
+            
             return View();
 
         }
