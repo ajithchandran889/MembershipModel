@@ -135,7 +135,7 @@ namespace OneConnect.Controllers.Api
                             }
                             Registration registerRow = new Registration();
                             registerRow.Email = reg.emailId;
-                            registerRow.Password = reg.password;
+                            registerRow.Password = EncDec.Encrypt(reg.password, ConfigurationManager.AppSettings["passwordHash"]);
                             registerRow.Token = Guid.NewGuid().ToString();
                             registerRow.CreatedAt = DateTime.Now;
                             registerRow.LastModifiedAt = DateTime.Now;
@@ -214,7 +214,7 @@ namespace OneConnect.Controllers.Api
                     UserModel userModel = new UserModel();
                     userModel.UserName = "W" + newIdCount.ToString("000000");
                     userModel.Email = userData.Email;
-                    userModel.Password = userData.Password;
+                    userModel.Password = EncDec.Decrypt(userData.Password, ConfigurationManager.AppSettings["passwordHash"]);
                     string userId = await _repo.RegisterUser(userModel);
                     UsersAditionalInfo user = new UsersAditionalInfo();
                     user.AspNetUserId = userId;
@@ -530,21 +530,21 @@ namespace OneConnect.Controllers.Api
         [Route("ChangePassword")]
         [HttpPost]
         [Authorize]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        public async Task<HttpResponseMessage> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
             }
 
             IdentityResult result = await _repo.ChangePassword(model, User.Identity.Name);
 
             if (!result.Succeeded)
             {
-                return GetErrorResult(result);
+                return Request.CreateResponse<string>(HttpStatusCode.BadRequest, "Sorry,something went wrong.Please try again.");
             }
 
-            return Ok();
+            return Request.CreateResponse(HttpStatusCode.OK, 1);
         }
         // POST api/Account/ChangeEmailWithPassword
         [Route("ChangeEmailWithPassword")]

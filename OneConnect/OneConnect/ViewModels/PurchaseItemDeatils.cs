@@ -10,7 +10,6 @@ namespace OneConnect.ViewModels
         public int productId { get; set; }
         public string userIds { get; set; }
         public DateTime fromDate { get; set; }
-        public DateTime toDate { get; set; }
         public int subsriptionType { get; set; }
     }
 }

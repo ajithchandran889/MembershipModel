@@ -71,6 +71,9 @@ $("#registerForm").submit(function (e) {
                 grecaptcha.reset();
                 $("#username-pass").hide();
                 $("#username-pass-redirect").show();
+                setTimeout(function () {
+                    $("#username-pass-redirect").hide();
+                }, 3000);
                 grecaptcha.reset();
                 //$('#sl-loadingscreen').hide();
             },
@@ -263,11 +266,17 @@ $("#addNewUserForm").submit(function (e) {
                 url = "/User/UserListPartial";
                 $("#userListDIv").load(url);
                 $("#successMessageAddedNewUser").show();
+                setTimeout(function () {
+                    $("#successMessageAddedNewUser").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
 
             },
             error: function (x, y, z) {
                 $("#errorsMessageAddedNewUser").show();
+                setTimeout(function () {
+                    $("#errorsMessageAddedNewUser").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -327,11 +336,18 @@ $("#changePasswordForm").submit(function (e) {
                 xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
             },
             success: function (response) {
+                $("#changePasswordForm")[0].reset();
                 $("#successMessagePasswordChange").show();
+                setTimeout(function () {
+                    $("#successMessagePasswordChange").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 $("#errorMessagePasswordChange").show();
+                setTimeout(function () {
+                    $("#errorMessagePasswordChange").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -398,10 +414,16 @@ $("#changeEmailForm").submit(function (e) {
             },
             success: function (response) {
                 $("#successMessageEmailChange").show();
+                setTimeout(function () {
+                    $("#successMessageEmailChange").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
             },
             error: function (x, y, z) {
                 $("#errorMessageEmailChange").show();
+                setTimeout(function () {
+                    $("#errorMessageEmailChange").hide();
+                }, 3000);
                 //$('#sl-loadingscreen').hide();
             }
         });
@@ -706,8 +728,42 @@ function saveAccountInfoEdit() {
                     if (status == false) {
                         $("#logOutBtn").click();
                     }
+                    else
+                    {
+                        var setData =
+                            {
+                                userId:'',
+                                customUserId: $(".customUserId").text(),
+                                email:$(".emailLabel").text(),
+                                name: $("#accountName").val(),
+                                company: $("#companyName").val(),
+                                address: $("#userAddress").val(),
+                                contact: $("#userContact").val(),
+                                status: status,
+                                captchaResponse: '',
+                                isOwner:true
+                            };
+                        var setDataJSON = JSON.stringify(setData);
+                        $.ajax({
+                            type: "POST",
+                            url: "/User/AccountInfoPartial/",
+                            data: setDataJSON,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                $('#accountInfoPartial').html(data);
+                            },
+                            error: function (x, y, z) {
+                                $('#accountInfoPartial').html(x.responseText);
+                               
+                            }
+                        });
+                    }
                     $("#successMessageEditAccount").show();
                     $("#failureMessageEditAccount").hide();
+                    setTimeout(function () {
+                        $("#successMessageEditAccount").hide();
+                    }, 3000);
                     $("#gpsSuccessMessage").text("Account info updated successfully");
                     grecaptcha.reset();
                     //$('#sl-loadingscreen').hide();
@@ -716,6 +772,9 @@ function saveAccountInfoEdit() {
                     var errorMsg = x.responseText;
                     $("#successMessageEditAccount").hide();
                     $("#failureMessageEditAccount").show();
+                    setTimeout(function () {
+                        $("#failureMessageEditAccount").hide();
+                    }, 3000);
                     $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
                     grecaptcha.reset();
                     //$('#sl-loadingscreen').hide();
@@ -1142,6 +1201,9 @@ function saveGroupMaster() {
             var url = "/User/EditGroupPartial?groupId=" + response;
             $("#member-group-details").load(url);
             $("#successMessageGroupInfoSave").show();
+            setTimeout(function () {
+                $("#successMessageGroupInfoSave").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
@@ -1287,6 +1349,9 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
                 $("#gpsSuccessMessage").text("Product unsubscribed from this group");
+                setTimeout(function () {
+                    $("#groupProductSubscriptionSuccess").hide();
+                }, 3000);
 
             } else if (response == "subscribed") {
 
@@ -1297,13 +1362,18 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
                 $("#gpsSuccessMessage").text("Product subscribed to this group");
-
+                setTimeout(function () {
+                    $("#groupProductSubscriptionSuccess").hide();
+                }, 3000);
             } else {
 
                 e.preventDefault();
                 $("#groupProductSubscriptionFailure").show();
                 $("#groupProductSubscriptionSuccess").hide();
                 $("#gpsFailureMessage").text("Operation failed");
+                setTimeout(function () {
+                    $("#groupProductSubscriptionFailure").hide();
+                }, 3000);
 
             }
             //$('#sl-loadingscreen').hide();
@@ -1315,6 +1385,9 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             $("#groupProductSubscriptionFailure").show();
             $("#groupProductSubscriptionSuccess").hide();
             $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#groupProductSubscriptionFailure").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
             return false;
         }
@@ -1363,6 +1436,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User unsubscribed from this group");
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionSuccess").hide();
+                }, 3000);
 
             } else if (response == "subscribed") {
 
@@ -1373,6 +1449,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User subscribed to this group");
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionSuccess").hide();
+                }, 3000);
 
             } else {
 
@@ -1380,7 +1459,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionFailure").show();
                 $("#groupMemberSubscriptionSuccess").hide();
                 $("#gpmFailureMessage").text("Operation failed");
-
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionFailure").hide();
+                }, 3000);
             }
             //$('#sl-loadingscreen').hide();
         },
@@ -1391,6 +1472,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
             $("#groupMemberSubscriptionFailure").show();
             $("#groupMemberSubscriptionSuccess").hide();
             $("#gpmFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#groupMemberSubscriptionFailure").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
             return false;
         }
@@ -1446,7 +1530,7 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
         },
         error: function (x, y, z) {
             //$('#sl-loadingscreen').hide();
-            alert("error");
+            //alert("error");
         }
     });
     return false;

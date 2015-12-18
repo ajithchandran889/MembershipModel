@@ -86,7 +86,6 @@ namespace OneConnect.Controllers
                         }
 
                     }
-
                     myModel.userList = userDetails;
                     myModel.accountInfo = accounInfo;
                     //myModel.groupList = groupDetails;
@@ -101,7 +100,7 @@ namespace OneConnect.Controllers
                 return RedirectToAction("Index","Home");
             }
         }
-        [ChildActionOnly]
+        //[ChildActionOnly]
         public PartialViewResult AccountInfoPartial(AccountInfo accountInfo)
         {
             return PartialView("_PartialAccountInfo",accountInfo);
