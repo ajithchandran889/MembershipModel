@@ -99,11 +99,21 @@ namespace OneConnect.Controllers.Api
             {
                 foreach(PurchaseItemDeatils item in list)
                 {
+                    DateTime toDate =DateTime.MaxValue;
+                    SubscriptionType subType = DBEntities.SubscriptionTypes.Where(s => s.id == item.subsriptionType).FirstOrDefault();
+                    if (subType.displayName.ToUpper().Contains("Monthly".ToUpper()))
+                    {
+                        toDate = item.fromDate.AddMonths(1);
+                    }
+                    else
+                    {
+                        toDate = item.fromDate.AddYears(1);
+                    }
                     ProductSubscriptionBackup newItem = new ProductSubscriptionBackup();
                     newItem.productId = item.productId;
                     newItem.subscriptionType = item.subsriptionType;
                     newItem.FromDate = item.fromDate;
-                    newItem.toDate = item.toDate;
+                    newItem.toDate = toDate;
                     newItem.userIds = item.userIds;
                     DBEntities.ProductSubscriptionBackups.Add(newItem);
                     DBEntities.SaveChanges();

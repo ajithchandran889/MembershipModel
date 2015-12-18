@@ -507,7 +507,7 @@ section.top-well {
 }
 
 .tab-content .tab-pane {
-    height: auto;
+    /*height: auto;*/
 }
 
 .table > thead > tr > th, .table > tbody > tr > td {

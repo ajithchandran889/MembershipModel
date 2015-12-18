@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="top-well">
-    <div class="well"></div>
-</section>
 <div class="container">
     <section class="login-status">
         <div class="row">
@@ -46,7 +43,9 @@
 
         <div class="row">
 
+            <div class="col-md-8">
 
+            </div>
             <div class="col-md-12">
                 <div  class="table-responsive">
 
@@ -62,13 +61,13 @@
                                 <input type="hidden" id="totalAmount" name="totalAmount" value="" />
                                 <a id="payment" href="#" class="next pull-right">Payment&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a> 
                             }*@
-                            <form id="paymentForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                            <form id="paymentForm" action="@ViewBag.url" method="post">
 
                                 <!-- Specify a Buy Now button. -->
                                 <a id="payment" href="#" class="next pull-right">Payment&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>
                                 <input type="hidden" name="cmd" value="_xclick" />
                                 <!-- Identify your business so that you can collect the payments. -->
-                                <input type="hidden" name="business" value="ajithchandran6046@gmail.com" />
+                                <input type="hidden" name="business" value="@ViewBag.bussinessEmail" />
                                 <!-- Specify details about the item that buyers will purchase. -->
                                 <input type="hidden" name="item_name" value="Product subscription" />
                                 <input type="hidden" name="item_number" id="item_number" value="product subscription" />

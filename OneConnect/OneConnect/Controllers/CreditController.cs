@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using OneConnect.Entities;
+using System.Configuration;
 
 namespace OneConnect.Controllers
 {
@@ -82,6 +83,16 @@ namespace OneConnect.Controllers
                 dynamic myModel = new ExpandoObject();
 
                 myModel.accountInfo = Account.GetAccountInfo(accountInfoUrl, token);
+                bool isSandBox = Convert.ToBoolean(ConfigurationManager.AppSettings["paypalSandbox"].ToString());
+                ViewBag.bussinessEmail = ConfigurationManager.AppSettings["paypalBussinessEmail"].ToString();
+                if(isSandBox)
+                {
+                    ViewBag.url = ConfigurationManager.AppSettings["paypalSandboxUrl"].ToString();
+                }
+                else
+                {
+                    ViewBag.url = ConfigurationManager.AppSettings["paypalUrl"].ToString();
+                }
                 return View(myModel);
             }
             else

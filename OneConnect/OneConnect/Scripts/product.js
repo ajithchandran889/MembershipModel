@@ -23,37 +23,37 @@ $(document).on("click", "#selectUsers", function (event) {
                 item["subscription"] = $(id).val();
                 var priceIdPerUser = "";
                 var priceIdSubsrciption = "";
-                if ($(id).val() == 2)
+                if ($(id).val() == 1)
                 {
                     priceid = "#goldValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#goldMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 3)
+                else if ($(id).val() == 2)
                 {
                     priceid = "#goldValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#goldYearly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 4) {
+                else if ($(id).val() == 3) {
                     priceid = "#silverValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#silverMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 5) {
+                else if ($(id).val() == 4) {
                     priceid = "#silverValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#silverYearly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 6) {
+                else if ($(id).val() == 5) {
                     priceid = "#premiumValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#premiumMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 7) {
+                else if ($(id).val() == 6) {
                     priceid = "#premiumValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#premiumYearly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 8) {
+                else if ($(id).val() == 7) {
                     priceid = "#basicValuePerUserMonthly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#basicMonthly_" + $(this).attr("productid");
                 }
-                else if ($(id).val() == 9) {
+                else if ($(id).val() == 8) {
                     priceid = "#basicValuePerUserYearly_" + $(this).attr("productid");
                     priceIdSubsrciption = "#basicYearly_" + $(this).attr("productid");
                 }
@@ -62,15 +62,31 @@ $(document).on("click", "#selectUsers", function (event) {
                 jsonObj.push(item);
                 $(id).removeClass("errorMessageDropDown");
             }
-        });
+        }); 
         sessionStorage.setItem('productDetails', JSON.stringify(jsonObj));
         window.location.href = '/Credit/SelectUsers';
     }
     else {
-        alert("Please select a product");
+        var opt = {
+            autoOpen: false,
+            modal: true,
+            width: 550,
+            title: 'Error',
+            resizable: false,
+            buttons: {
+                "Ok": function () {
+                    $(this).dialog("close");
+                }
+            }
+        };
+        var theDialog = $("#dialog-warning").dialog(opt);
+        theDialog.dialog("open");
+        //$("#failureMsg").hide();
+       // alert("Please select a product");
         return false
     }
-}); 
+});
+
 $(document).on("click", "#payment", function (event) {
     var error = 0; 
     $('input[type=text]').each(function () {
@@ -99,8 +115,8 @@ $(document).on("click", "#payment", function (event) {
         item['subsriptionType'] = value.subscription;
         var fromDateId = "#productStartDate_" + value.id;
         item['fromDate'] = $(fromDateId).val();
-        var toDateId = "#productEndDate_" + value.id;
-        item['toDate'] = $(toDateId).val();
+        //var toDateId = "#productEndDate_" + value.id;
+        //item['toDate'] = $(toDateId).val();
         var userId = "";
         $.each(jsonProdUsers, function (key1, value1) {
             if (value1.productId == value.id) {
@@ -173,9 +189,8 @@ $(document).ready(function () {
         var count=0;
         var html = '<table id="mytable" class="table table-bordred table-striped">' +
                         '<thead>' +
-                        '<th>Product (Product description)</th>' +
+                        '<th>Product</th>' +
                         '<th>From</th>' +
-                        '<th>To</th>' +
                         '<th>Aditional Users</th>' +
                         '<th>Total Cost =Subscription+Users</th>' +
                         '</thead>' +
@@ -187,8 +202,9 @@ $(document).ready(function () {
                                     {
                                         count++;
                                     }
-                                });
+                                }); 
                                 var productTotal = (count * (Math.round(value.perUserPrice * 1000) / 1000)) + (Math.round(value.subscriptionPrice * 1000) / 1000);
+                                
                             html += '<tr>' +
 
                                  '<td>' +
@@ -198,9 +214,6 @@ $(document).ready(function () {
                                  '</td>' +
                                  '<td>' +
                                      '<input id="productStartDate_' + value.id + '" class="fromDate" type="text" />' +
-                                 '</td>' +
-                                 '<td>' +
-                                     '<input id="productEndDate_' + value.id + '" class="toDate" type="text" />' +
                                  '</td>' +
                                  '<td>' +
                                      '<div class="s_p_detail">' +
@@ -222,7 +235,6 @@ $(document).ready(function () {
 
                         '<tr>'+
                             '<td>&nbsp;</td>'+
-                            '<td>&nbsp;</td>'+
                             '<td>'+
                                 '<div class="s_p_detail">'+
                                     '<h4>Total</h4>'+
@@ -238,8 +250,8 @@ $(document).ready(function () {
                     '</table>';
         $("#totalAmount").val(total);
         $("#summaryContent").append(html);
-        $(".fromDate").datepicker();
-        $(".toDate").datepicker();
+        $(".fromDate").datepicker({ minDate: 0 });
+       // $(".toDate").datepicker({ minDate: 0 });
     }
     if (url.indexOf('http://' + host + '/Credit/SelectUsers') !== -1) {
         var temp = sessionStorage.getItem('productDetails');
