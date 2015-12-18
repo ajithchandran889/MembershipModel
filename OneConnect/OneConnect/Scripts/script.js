@@ -1201,6 +1201,9 @@ function saveGroupMaster() {
             var url = "/User/EditGroupPartial?groupId=" + response;
             $("#member-group-details").load(url);
             $("#successMessageGroupInfoSave").show();
+            setTimeout(function () {
+                $("#successMessageGroupInfoSave").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
@@ -1346,6 +1349,9 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
                 $("#gpsSuccessMessage").text("Product unsubscribed from this group");
+                setTimeout(function () {
+                    $("#groupProductSubscriptionSuccess").hide();
+                }, 3000);
 
             } else if (response == "subscribed") {
 
@@ -1356,13 +1362,18 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
                 $("#gpsSuccessMessage").text("Product subscribed to this group");
-
+                setTimeout(function () {
+                    $("#groupProductSubscriptionSuccess").hide();
+                }, 3000);
             } else {
 
                 e.preventDefault();
                 $("#groupProductSubscriptionFailure").show();
                 $("#groupProductSubscriptionSuccess").hide();
                 $("#gpsFailureMessage").text("Operation failed");
+                setTimeout(function () {
+                    $("#groupProductSubscriptionFailure").hide();
+                }, 3000);
 
             }
             //$('#sl-loadingscreen').hide();
@@ -1374,6 +1385,9 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             $("#groupProductSubscriptionFailure").show();
             $("#groupProductSubscriptionSuccess").hide();
             $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#groupProductSubscriptionFailure").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
             return false;
         }
@@ -1422,6 +1436,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User unsubscribed from this group");
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionSuccess").hide();
+                }, 3000);
 
             } else if (response == "subscribed") {
 
@@ -1432,6 +1449,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User subscribed to this group");
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionSuccess").hide();
+                }, 3000);
 
             } else {
 
@@ -1439,7 +1459,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
                 $("#groupMemberSubscriptionFailure").show();
                 $("#groupMemberSubscriptionSuccess").hide();
                 $("#gpmFailureMessage").text("Operation failed");
-
+                setTimeout(function () {
+                    $("#groupMemberSubscriptionFailure").hide();
+                }, 3000);
             }
             //$('#sl-loadingscreen').hide();
         },
@@ -1450,6 +1472,9 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
             $("#groupMemberSubscriptionFailure").show();
             $("#groupMemberSubscriptionSuccess").hide();
             $("#gpmFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#groupMemberSubscriptionFailure").hide();
+            }, 3000);
             //$('#sl-loadingscreen').hide();
             return false;
         }
@@ -1505,7 +1530,7 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
         },
         error: function (x, y, z) {
             //$('#sl-loadingscreen').hide();
-            alert("error");
+            //alert("error");
         }
     });
     return false;
