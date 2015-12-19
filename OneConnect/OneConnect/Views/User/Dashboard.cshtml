@@ -12,7 +12,7 @@
     <section class="login-status">
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-7">
-                @if (!String.IsNullOrEmpty(Model.accountInfo.name))
+                @if (Model != null && Model.accountInfo != null && !String.IsNullOrEmpty(Model.accountInfo.name))
                 {
                     <p>Logged In As @Model.accountInfo.name </p>
                 }

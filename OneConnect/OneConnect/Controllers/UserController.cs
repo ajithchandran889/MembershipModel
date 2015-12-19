@@ -86,6 +86,10 @@ namespace OneConnect.Controllers
                         }
 
                     }
+                    if(userDetails==null || accounInfo==null || subscribedProductDetails ==null)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                     myModel.userList = userDetails;
                     myModel.accountInfo = accounInfo;
                     //myModel.groupList = groupDetails;
