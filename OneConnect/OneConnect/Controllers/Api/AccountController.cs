@@ -240,7 +240,8 @@ namespace OneConnect.Controllers.Api
                     string subject = DBEntities.EmailTemplates.Where(e => e.templateType == "registrationSuccessful").Select(e => e.templateSubject).SingleOrDefault();
 
                     MailClient.SendMessage(ConfigurationManager.AppSettings["adminEmail"], userData.Email, subject, true, htmlBody);
-                    var url = new Uri(hostName+"/User/RegistrationSuccessfull");
+                    //var url = new Uri(hostName+"/User/RegistrationSuccessfull");
+                    var url = new Uri(hostName);
                     response.Headers.Location = url;
                     return response;
                 }

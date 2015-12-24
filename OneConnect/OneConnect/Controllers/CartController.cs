@@ -34,7 +34,6 @@ namespace OneConnect.Controllers
         //    return new RedirectResult(redirect.Url);
         //    //return View();
         //}
-        
         public ActionResult Return()
         {
             try

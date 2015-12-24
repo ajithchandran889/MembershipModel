@@ -29,7 +29,7 @@ namespace OneConnect.Providers
                 
                 if (user == null)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    context.SetError("invalid_grant", "The userid or password is incorrect.");
                     return;
                 }
                 id = user.Id;

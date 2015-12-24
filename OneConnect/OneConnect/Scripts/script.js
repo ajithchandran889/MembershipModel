@@ -28,14 +28,15 @@ $("#registerForm").submit(function (e) {
 }).validate({
     rules: {
         emailId: { required: true, email: true },
-        password: { required: true }
+        password: { required: true, minlength: 5 }
     },
     messages: {
         emailId: {
             required: "Please enter your email"
         },
         password: {
-            required: "Please enter your password"
+            required: "Please enter your password",
+            minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
         }
     },
     tooltip_options: {
@@ -116,7 +117,7 @@ $("#registerForm").submit(function (e) {
 });
 
 $("#loginForm").submit(function (e) {
-    e.preventDefault();
+   // e.preventDefault();
 }).validate({
     rules: {
         userId: { required: true },

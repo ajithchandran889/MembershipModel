@@ -27,9 +27,9 @@
                 </div>
             </div>
         </div>
-        <div class="blue-line">
+        @*<div class="blue-line">
             <div class="blue-spacing"></div>
-        </div>
+        </div>*@
     </section>
 
 
@@ -100,30 +100,31 @@
                     </div>
                 </div>
             }
+            
         </div>
-        @*<div class="blue-line">
-                <div class="blue-spacing"></div>
-            </div>*@
+        <div class="row">
+            <hr style="height:3px;border:none;color:#33cccc;background-color:#33cccc;" />
+        </div>
     </section>
     <section id="accountSettings" class="account-settings">
-        <div class="row">
+        @*<div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <h3>ACCOUNT SETTINGS</h3>
 
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="col-md-1  col-md-offset-5   col-sm-offset-5 col-sm-6  col-xs-6 col-xs-offset-4">
                 <div class="blue-line-short">
                     <div class="blue-spacing"></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
             </div>
-        </div>
+        </div>*@
         <div id="errDiv">
         </div>
         <div class="row">
@@ -375,7 +376,6 @@
                                             <th>Product detail</th>
                                             <th>Subscription Modal</th>
                                             <th>From</th>
-                                            <th>To</th>
                                         </thead>
                                         <tbody>
                                             @foreach (var item in Model.subscribedProducts)
@@ -400,9 +400,6 @@
 
                                                     <td>
                                                         <label class="control-label ">@item.fromDate.ToString("dd MMM yyyy")</label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="control-label ">@item.toDate.ToString("dd MMM yyyy")</label>
                                                     </td>
                                                 </tr>
                                             }
@@ -432,23 +429,23 @@
         <!-- /row -->
     </section>
     <section id="userSettings" class="account-settings hideElement">
-        <div class="row">
+        @*<div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <h3>USER SETTINGS</h3>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="col-md-1 col-md-offset-5 col-sm-offset-5 col-sm-6 col-xs-6 col-xs-offset-4">
                 <div class="blue-line-short">
                     <div class="blue-spacing"></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
             </div>
-        </div>
+        </div>*@
         <div class="row">
             <div class="col-md-12">
                 <div class="tabbable tabs-left user-settings-tabs">
@@ -524,23 +521,23 @@
         </div>
     </section>
     <section id="groupSettigs" class="account-settings hideElement">
-        <div class="row">
+        @*<div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <h3>GROUP SETTINGS</h3>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="col-md-1 col-md-offset-5 col-sm-offset-5 col-sm-6 col-xs-6 col-xs-offset-4">
                 <div class="blue-line-short">
                     <div class="blue-spacing"></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod fugiat nulla ipsa quae ab illo</p>
             </div>
-        </div>
+        </div>*@
         <div class="row members-group">
             <div class="col-md-12">
                 <div class="col-md-3 pull-left">

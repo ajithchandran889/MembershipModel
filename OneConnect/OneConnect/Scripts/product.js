@@ -6,10 +6,14 @@ $(document).ready(function () {
 });
 $(document).on("click", "#selectUsers", function (event) {
     jsonObj = [];
-    
+    var subscribedProductIds = [];
+    var subscribedCheckBoxIds = [];
     if ($('input[name=selectProducts]:checked').length) {
         $('input[name=selectProducts]:checked').each(function () {
             var id = "#subscribeModel_" + $(this).attr("productid");
+            var checkBoxId = "#product_" + $(this).attr("productid");
+            subscribedProductIds[$(id).val()] = id;
+            subscribedCheckBoxIds.push(checkBoxId);
             if ($(id).val() == 0)
             {
                 $(id).addClass("errorMessageDropDown");
@@ -64,6 +68,9 @@ $(document).on("click", "#selectUsers", function (event) {
             }
         }); 
         sessionStorage.setItem('productDetails', JSON.stringify(jsonObj));
+        $.cookie("selectedUsers", null, { path: '/' });
+        $.cookie('subscribedProductIds', JSON.stringify(subscribedProductIds), { path: '/' });
+        $.cookie('subscribedCheckBoxIds', JSON.stringify(subscribedCheckBoxIds), { path: '/' });
         window.location.href = '/Credit/SelectUsers';
     }
     else {
@@ -105,6 +112,7 @@ $(document).on("click", "#payment", function (event) {
         return false;
     } 
     var purchaseDetails = [];
+    var fromDates = [];
     var temp = sessionStorage.getItem('productDetails');
     var productDetails = $.parseJSON(temp);
     var ProdUsers = sessionStorage.getItem('jsonObjProdUsers');
@@ -115,6 +123,8 @@ $(document).on("click", "#payment", function (event) {
         item['subsriptionType'] = value.subscription;
         var fromDateId = "#productStartDate_" + value.id;
         item['fromDate'] = $(fromDateId).val();
+        fromDates[value.id] = $(fromDateId).val();
+
         //var toDateId = "#productEndDate_" + value.id;
         //item['toDate'] = $(toDateId).val();
         var userId = "";
@@ -134,6 +144,7 @@ $(document).on("click", "#payment", function (event) {
         item['userIds'] = userId;
         purchaseDetails.push(item);
     });
+    $.cookie('fromDates', JSON.stringify(fromDates), { path: '/' });
     console.log("purchaseDetails"); console.log(purchaseDetails);
     var dataPur = JSON.stringify(purchaseDetails);
     $('#sl-loadingscreen').show();
@@ -160,6 +171,7 @@ $(document).on("click", "#payment", function (event) {
     });
 });
 $(document).on("click", "#summary", function (event) {
+    var selectedUsers = [];
     jsonObjProdUsers = [];
     var temp = sessionStorage.getItem('productDetails');
     if ($('input[class=checkthis]:checked').length)
@@ -168,33 +180,69 @@ $(document).on("click", "#summary", function (event) {
             item = {};
             item["productId"] = $(this).attr("productId");
             item["userId"] = $(this).attr("userId");
+            selectedUsers.push($(this).attr("id"));
             jsonObjProdUsers.push(item);
         });
         
         sessionStorage.setItem('jsonObjProdUsers', JSON.stringify(jsonObjProdUsers));
-    }
+    } 
+    $.cookie('selectedUsers', JSON.stringify(selectedUsers), { path: '/' });
+    $.cookie("fromDates", null, { path: '/' });
     window.location.href = '/Credit/Summary';
 });
 $(document).ready(function () {
     var url = window.location.href; 
     var host = window.location.host; 
+    if (url.indexOf('http://' + host + '/Credit') == -1 &&
+        url.indexOf('http://' + host + '/Credit/SelectUsers') == -1 &&
+        url.indexOf('http://' + host + '/Credit/Summary') == -1) {
+        $.cookie("subscribedProductIds", null, { path: '/' });
+        $.cookie("subscribedCheckBoxIds", null, { path: '/' });
+    }
+    if (url.indexOf('http://' + host + '/Credit') !== -1) {
+        if ($.cookie('subscribedProductIds')) {
+            var subscribedProductIds = $.parseJSON($.cookie('subscribedProductIds'));
+            if (subscribedProductIds)
+            {
+                $.each(subscribedProductIds, function (key, value) {
+                    if (value != null) {
+                        $(value).val(key);
+                    }
+                });
+            }
+            
+        }
+        if ($.cookie('subscribedCheckBoxIds')) {
+            var subscribedCheckBoxIds = $.parseJSON($.cookie('subscribedCheckBoxIds'));
+            if (subscribedCheckBoxIds) {
+                $.each(subscribedCheckBoxIds, function (key, value) {
+                    if (value != null) {
+                        $(value).prop("checked", true);
+                    }
+                });
+            }
+
+        }
+    }
     if (url.indexOf('http://' + host + '/Credit/Summary') !== -1) {
         var temp = sessionStorage.getItem('productDetails');
         var productDetails = $.parseJSON(temp);
         var ProdUsers = sessionStorage.getItem('jsonObjProdUsers');
         var jsonProdUsers = $.parseJSON(ProdUsers);
-        console.log("productDetails:"); console.log(productDetails);
-        console.log("jsonProdUsers:"); console.log(jsonProdUsers);
         var total = 0;
-        var count=0;
+        var count = 0;
+        var itemCount = 0;
+        var productNames = "";
+        var subscriptionType = "";
         var html = '<table id="mytable" class="table table-bordred table-striped">' +
                         '<thead>' +
                         '<th>Product</th>' +
                         '<th>From</th>' +
-                        '<th>Aditional Users</th>' +
-                        '<th>Total Cost =Subscription+Users</th>' +
+                        '<th>Subscription Model</th>' +
+                        '<th>Additional Users</th>' +
+                        '<th>Total Cost =Users+Subscription</th>' +
                         '</thead>' +
-                        '<tbody>'; 
+                        '<tbody>'; console.log(productDetails);
                         $.each(productDetails, function (key, value) {
                                 count = 0;
                                 $.each(jsonProdUsers, function (key1, value1) {
@@ -204,7 +252,39 @@ $(document).ready(function () {
                                     }
                                 }); 
                                 var productTotal = (count * (Math.round(value.perUserPrice * 1000) / 1000)) + (Math.round(value.subscriptionPrice * 1000) / 1000);
-                                
+                                if (productNames == "")
+                                {
+                                    productNames = value.name;
+                                }
+                                else
+                                {
+                                    productNames +=","+ value.name;
+                                }
+                                if (value.subscription == "1")
+                                {
+                                    subscriptionType = "Gold - Monthly";
+                                }
+                                else if (value.subscription == "2") {
+                                    subscriptionType = "Gold - Yearly";
+                                }
+                                else if (value.subscription == "3") {
+                                    subscriptionType =  "Silver - Monthly";
+                                }
+                                else if (value.subscription == "4") {
+                                    subscriptionType = "Silver - Yearly";
+                                }
+                                else if (value.subscription == "5") {
+                                    subscriptionType = "Premium - Monthly";
+                                }
+                                else if (value.subscription == "6") {
+                                    subscriptionType = "Premium - Yearly";
+                                }
+                                else if (value.subscription == "7") {
+                                    subscriptionType = "Basic - Monthly";
+                                }
+                                else if (value.subscription == "8") {
+                                    subscriptionType = "Basic - Yearly";
+                                }
                             html += '<tr>' +
 
                                  '<td>' +
@@ -217,7 +297,12 @@ $(document).ready(function () {
                                  '</td>' +
                                  '<td>' +
                                      '<div class="s_p_detail">' +
-                                         '<h3>Aditional Users -'+count+' x $' + Math.round(value.perUserPrice * 1000) / 1000 + '</h3>' +
+                                         '<h3>' + subscriptionType + ' - $ ' + Math.round(value.subscriptionPrice * 1000) / 1000 + '</h3>' +
+                                     '</div>' +
+                                 '</td>' +
+                                 '<td>' +
+                                     '<div class="s_p_detail">' +
+                                         '<h3>Additional Users -' + count + ' x $ ' + Math.round(value.perUserPrice * 1000) / 1000 +  '</h3>' +
                                      '</div>' +
                                  '</td>' +
 
@@ -229,8 +314,10 @@ $(document).ready(function () {
                                  '</td>' +
 
                              '</tr>';
+                            itemCount++;
                             total += productTotal;
-                        });
+                        }); 
+                        $("#quantity").val(itemCount);
                   html+='</tbody>'+
 
                         '<tr>'+
@@ -248,9 +335,21 @@ $(document).ready(function () {
                         '</tr>'+
 
                     '</table>';
+        $("#item_name").val(productNames);
         $("#totalAmount").val(total);
         $("#summaryContent").append(html);
         $(".fromDate").datepicker({ minDate: 0 });
+        if($.cookie('fromDates'))
+        {
+            var fromDates = $.parseJSON($.cookie('fromDates')); 
+            $.each(fromDates, function (key, value) {
+                if (value != null)
+                {
+                    var fromDateId = "#productStartDate_" + key;
+                    $(fromDateId).val(value);
+                }
+            });
+        }
        // $(".toDate").datepicker({ minDate: 0 });
     }
     if (url.indexOf('http://' + host + '/Credit/SelectUsers') !== -1) {
@@ -281,7 +380,7 @@ $(document).ready(function () {
                     $.each(productDetails, function (key, value) {
                         html += '<td>' +
                                     '<div class="s_p_detail">' +
-                                        '<h3><input type="checkbox" productId="' + value.id + '" userId="' + value1.customUserId + '" class="checkthis" />&nbsp;' + value1.customUserId + '</h3>' +
+                                        '<h3><input type="checkbox" id="id_' + value.id + '_' + value1.customUserId + '" productId="' + value.id + '" userId="' + value1.customUserId + '" class="checkthis" />&nbsp;' + value1.customUserId + '</h3>' +
                                     '</div>' +
                                 '</td>';
                     });
@@ -291,6 +390,19 @@ $(document).ready(function () {
            '</table>';
                 $("#selectUsersContent").append(html);
                 $('#sl-loadingscreen').hide();
+                if ($.cookie('selectedUsers')) {
+                    var selectedUsers = $.parseJSON($.cookie('selectedUsers'));
+                    if (selectedUsers)
+                    {
+                        $.each(selectedUsers, function (key, value) {
+                            if (value != null) {
+                                var selectedUsersId = "#" + value;
+                                $(selectedUsersId).prop("checked", true);
+                            }
+                        });
+                    }
+                    
+                }
             },
             error: function (x, y, z) {
                 $('#sl-loadingscreen').hide();

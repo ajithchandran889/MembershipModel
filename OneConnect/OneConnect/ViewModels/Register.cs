@@ -14,6 +14,7 @@ namespace OneConnect.ViewModels
         public string emailId { get; set; }
         [Display(Name="Password")]
         [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
         [Required]
         public string password { get; set; }
         public string captchaResponse { get; set; }
