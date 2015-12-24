@@ -1,0 +1,102 @@
+﻿@model OneConnect.ViewModels.GroupInfo
+<div id="groupMemberRoleSuccess" class="alert alert-success hideElement" role="alert">
+    <span>
+        <img src="~/Content/site/like.png" alt="" />
+    </span>
+    <span id="gpmrSuccessMessage"></span>
+</div>
+<div id="groupMemberRoleFailure" class="alert alert-danger hideElement" role="alert">
+    <span id="gpmrFailureMessage"></span>
+</div>
+<div  class="bs-example  group-details-userroles" @if (@Model.groupMembers.Where(t => t.isSubscribed == true).Count() > 0 && @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0).Count() > 0)
+                                                  {<text> style="display:block;"</text>}
+                                                  else
+                                                  {<text> style="display:none;"</text>}>
+    <div class="row table-responsive">
+
+        <table class="table table-striped" id="groupMemberRoleTable">
+            <thead>
+                <tr>
+                    <th scope="row"></th>
+                    @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                    {
+                                                
+                        <th colspan="@groupProduct.productRole.Count()">@groupProduct.productName</th>
+                                                
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row"></td>
+                    @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                    {
+                        foreach (var productRole in @groupProduct.productRole)
+                        {
+                        <td>@productRole.roleName</td>
+                        }
+                    }
+
+                </tr>
+                @foreach (var groupMember in @Model.groupMembers.Where(t => t.isSubscribed == true))
+                {
+                    <tr>
+
+                        <td scope="row">@groupMember.userName</td>
+                        @foreach (var groupProduct in @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0))
+                        {
+                            foreach (var productRole in @groupProduct.productRole)
+                            {
+                            <td>
+                                <span>
+                                    @if (@Model.groupMemberRoles.Where(gmr => gmr.groupMemberId == @groupMember.id && gmr.groupProductId == @groupProduct.id && gmr.roleId == @productRole.id).Count() > 0)
+                                    {
+
+                                        <input id="checkboxid" type="checkbox" checked="checked" class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                    }
+                                    else
+                                    {
+                                        <input id="checkboxid" type="checkbox"  class="css-checkbox" groupMemberId="@groupMember.id" groupProductId="@groupProduct.id" roleId="@productRole.id">
+                                    }
+                                </span>
+                            </td>
+                            }
+
+                        }
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="form-group account-settings-btn">
+
+            <div class="col-us-12 col-xs-5 col-sm-4 col-md-3  col-md-offset-3 col-sm-offset-2 col-xs-offset-1 col-us-offset-0">
+                <a class="btn btn-info btn-full" id="groupMemberRoleSave">
+                    <img src="~/Content/site/save.png" alt="">Save Your Changes
+                </a>
+            </div>
+            <div class="col-us-12 col-xs-5 col-sm-4 col-md-3">
+                <a class="btn btn-danger btn-full" id="groupMemberRoleCancel">
+                    <img src="~/Content/site/cancel.png" alt="">Cancel Changes
+                </a>
+            </div>
+        </div>
+    </div>
+    @*<div class="form-group account-settings-btn">
+        <div class="col-xs-10 col-sm-4 col-md-4  col-md-offset-3" id="groupMemberRoleSave">
+            <a class="btn btn-info">
+                <img src="~/Content/site/save.png" alt="">Save Your Changes
+            </a>
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-4   " id="groupMemberRoleCancel">
+            <a class="btn btn-danger">
+                <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
+        </div>
+    </div>*@
+
+</div>

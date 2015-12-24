@@ -20,16 +20,16 @@
                                 <p style="height:45px;overflow:hidden;">@item.description</p>
 
                                 <div class="row">
-                                    <div class="col-xs-6 col-sm-6 col-md-6 text-center" style="padding-left:5px;padding-right:5px;">
+                                    <div class="col-us-6 col-xs-6 col-sm-6 col-md-6 text-center" style="padding-right:5px;">
                                         <h5>Products :@item.productCount</h5>
                                         <a href="#" class="btn btn-default grey editGroup" role="button" id="editGroup_@(item.groupId)"  groupId="@item.groupId" data-member="@Url.Action("EditGroupPartial",new {groupId=@item.groupId})">
                                             <img src="~/Content/site/setting.png" alt="" />
                                             Edit Group
                                         </a>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6 text-center" style="padding-left:5px;padding-right:5px;">
+                                    <div class="col-us-6 col-xs-6 col-sm-6 col-md-6 text-center" style="padding-left:5px;">
                                         <h5>Users :@item.memberCount</h5>
-                                        <a href="#" class="btn btn-default grey editGroup" role="button" id="editGroup_@(item.groupId)"  groupId="@item.groupId" data-member="@Url.Action("EditGroupPartial",new {groupId=@item.groupId})">
+                                        <a href="#" class="btn btn-default grey editGroupUser" role="button" id="editGroupUser_@(item.groupId)"  groupId="@item.groupId" data-member="@Url.Action("EditGroupPartial",new {groupId=@item.groupId})">
                                             <img src="~/Content/site/setting.png" alt="" />
                                             Edit User
                                         </a>

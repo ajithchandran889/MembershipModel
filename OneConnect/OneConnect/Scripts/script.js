@@ -657,11 +657,12 @@ function isValidEmailAddress(emailAddress) {
 };
 var somethingChanged = false;
 $(document).ready(function () {
+
+    
     $('#accountEditForm input').change(function () {
         somethingChanged = true;
     });
 });
-
 $(document).on("click", ".saveAccountInfoEdit", function () {
 
     if (somethingChanged) {
@@ -1201,15 +1202,26 @@ function saveGroupMaster() {
         success: function (response) {
             var url = "/User/EditGroupPartial?groupId=" + response;
             $("#member-group-details").load(url);
+
             $("#successMessageGroupInfoSave").show();
+            $("#failureMessageGroupInfoSave").hide();
+            $("#gpinfoSuccessMessage").text("Successfully updated changes in group info");
             setTimeout(function () {
                 $("#successMessageGroupInfoSave").hide();
             }, 3000);
             //$('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
-            //$('#sl-loadingscreen').hide();
-            alert("error");
+            var errorMsg = x.responseText;
+            event.stopPropagation();
+            event.preventDefault();
+            $("#failureMessageGroupInfoSave").show();
+            $("#successMessageGroupInfoSave").hide();
+            $("#gpinfoFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#failureMessageGroupInfoSave").hide();
+            }, 3000);
+            return false;
         }
     });
 }
@@ -1226,6 +1238,12 @@ $(document).on("click", "#addNewGroupFormCancel", function (e) {
         url = "/User/EditGroupPartial?groupId=" + groupId;
     }
     $("#member-group-details").load(url);
+    $("#successMessageGroupInfoSave").show();
+    $("#failureMessageGroupInfoSave").hide();
+    $("#gpinfoSuccessMessage").text("Successfully canceled changes in group info");
+    setTimeout(function () {
+        $("#successMessageGroupInfoSave").hide();
+    }, 3000);
     return false;
 });
 //$(document).on("click", "#addNewGroupFormDelete", function (e) {
@@ -1303,7 +1321,40 @@ $(document).on("click", ".editGroup", function () {
     return false;
 });
 
+$(document).on("click", ".editGroupUser", function () {
 
+    var groupId = $(this).attr("groupId");
+    var editBtnId = "#editGroupUser_" + groupId;
+
+
+
+    $("img.addNewGroups").attr("src", "/Content/site/minus.png");
+    $("span.addNewGroups").html("Go To Group List");
+    $("#AddNewGroup").addClass("selected");
+    $("#member-group-master").hide();
+
+    $("#HideAndShowInActive").hide();
+    var url = $(this).attr("data-member");
+    $("#member-group-details").load(url);
+
+    $("#member-group-details").show();
+
+    if ($("#HideAndShowInActive").hasClass("selected")) {
+
+        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + true)
+
+    } else {
+
+        $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + false)
+
+    }
+    var tab = "tabGS_3";
+    alert($('a[href="' + tab + '"]').html);
+    $('.nav-tabs a[href=#' + "tabGS_3" + ']').parent().toggleClass("actve");
+    alert(2);
+
+    return false;
+});
 $(document).on("change", ".groupProductCheckbox", function (e) {
     //if (event.stopPropagation) {    // standard
     //    event.stopPropagation();
@@ -1341,43 +1392,41 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             xhr.setRequestHeader("Authorization", "Bearer " + $.cookie('token'));
         },
         success: function (response) {
-            if (response == "unsubscribed") {
+            
 
-                $(chkLabelId).html("Unsubscribe");
+            if (response == "unsubscribed") {
                 var currGroupId = $("#hfdGroupId").val();
-                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
-                $("#member-group-details").load(url);
+                var url = "/User/GroupUserRolePartial?groupId=" + currGroupId;
+                $("#groupUserRolePartial").load(url);
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
-                $("#gpsSuccessMessage").text("Product unsubscribed from this group");
+                $("#gppsSuccessMessage").html("Product unsubscribed from this group");
                 setTimeout(function () {
                     $("#groupProductSubscriptionSuccess").hide();
                 }, 3000);
 
             } else if (response == "subscribed") {
-
-                $(chkLabelId).html("Subscribe");
                 var currGroupId = $("#hfdGroupId").val();
-                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
-                $("#member-group-details").load(url);
+                
+                var url = "/User/GroupUserRolePartial?groupId=" + currGroupId;
+                $("#groupUserRolePartial").load(url);
                 $("#groupProductSubscriptionSuccess").show();
                 $("#groupProductSubscriptionFailure").hide();
-                $("#gpsSuccessMessage").text("Product subscribed to this group");
+                $("#gppsSuccessMessage").html("Product subscribed to this group");
                 setTimeout(function () {
                     $("#groupProductSubscriptionSuccess").hide();
                 }, 3000);
             } else {
-
-                e.preventDefault();
+                event.stopPropagation();
+                event.preventDefault();
                 $("#groupProductSubscriptionFailure").show();
                 $("#groupProductSubscriptionSuccess").hide();
-                $("#gpsFailureMessage").text("Operation failed");
+                $("#gppsFailureMessage").text("Operation failed");
                 setTimeout(function () {
                     $("#groupProductSubscriptionFailure").hide();
                 }, 3000);
 
             }
-            //$('#sl-loadingscreen').hide();
         },
         error: function (x, y, z) {
             var errorMsg = x.responseText;
@@ -1385,11 +1434,10 @@ $(document).on("change", ".groupProductCheckbox", function (e) {
             event.preventDefault();
             $("#groupProductSubscriptionFailure").show();
             $("#groupProductSubscriptionSuccess").hide();
-            $("#gpsFailureMessage").text(errorMsg.replace(/"/g, ''));
+            $("#gppsFailureMessage").text(errorMsg.replace(/"/g, ''));
             setTimeout(function () {
                 $("#groupProductSubscriptionFailure").hide();
             }, 3000);
-            //$('#sl-loadingscreen').hide();
             return false;
         }
     });
@@ -1432,8 +1480,8 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
 
                 $(chkLabelId).html("Unsubscribe");
                 var currGroupId = $("#hfdGroupId").val();
-                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
-                $("#member-group-details").load(url);
+                var url = "/User/GroupUserRolePartial?groupId=" + currGroupId;
+                $("#groupUserRolePartial").load(url);
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User unsubscribed from this group");
@@ -1445,8 +1493,8 @@ $(document).on("change", ".groupUserCheckbox", function (event) {
 
                 $(chkLabelId).html("Subscribe");
                 var currGroupId = $("#hfdGroupId").val();
-                var url = "/User/EditGroupPartial?groupId=" + currGroupId;
-                $("#member-group-details").load(url);
+                var url = "/User/GroupUserRolePartial?groupId=" + currGroupId;
+                $("#groupUserRolePartial").load(url);
                 $("#groupMemberSubscriptionSuccess").show();
                 $("#groupMemberSubscriptionFailure").hide();
                 $("#gpmSuccessMessage").text("User subscribed to this group");
@@ -1524,14 +1572,27 @@ $(document).on("click", "#groupMemberRoleSave", function (event) {
         },
         success: function (response) {
             var currGroupId = $("#hfdGroupId").val();
-            var url = "/User/EditGroupPartial?groupId=" + currGroupId;
-            $("#member-group-details").load(url);
-            //$('#sl-loadingscreen').hide();
-            //$("#successMessageGroupInfoSave").show();
+            var url = "/User/GroupUserRolePartial?groupId=" + currGroupId;
+            $("#groupUserRolePartial").load(url);
+            $("#groupMemberRoleSuccess").show();
+            $("#groupMemberRoleFailure").hide();
+            $("#gpmrSuccessMessage").text("User role details saved successfully");
+            setTimeout(function () {
+                $("#groupMemberRoleSuccess").hide();
+            }, 4000);
         },
         error: function (x, y, z) {
+            var errorMsg = x.responseText;
+            event.stopPropagation();
+            event.preventDefault();
+            $("#groupMemberRoleFailure").show();
+            $("#groupMemberRoleSuccess").hide();
+            $("#gpmrFailureMessage").text(errorMsg.replace(/"/g, ''));
+            setTimeout(function () {
+                $("#groupMemberRoleFailure").hide();
+            }, 4000);
             //$('#sl-loadingscreen').hide();
-            //alert("error");
+            return false;
         }
     });
     return false;
@@ -1542,12 +1603,19 @@ $(document).on("click", "#groupMemberRoleCancel", function (e) {
     var groupId = $("#hfdGroupId").val();
     var url = "";
     if (groupId == 0) {
-        url = "/User/AddGroupPartial";
+        url = "/User/GroupUserRolePartial?groupId=" + groupId;
 
 
     } else {
-        url = "/User/EditGroupPartial?groupId=" + groupId;
+        url = "/User/GroupUserRolePartial?groupId=" + groupId;
     }
-    $("#member-group-details").load(url);
+    $("#groupUserRolePartial").load(url);
+
+    $("#groupMemberRoleSuccess").show();
+    $("#groupMemberRoleFailure").hide();
+    $("#gpmrSuccessMessage").text("User role changes canceled");
+    setTimeout(function () {
+        $("#groupMemberRoleSuccess").hide();
+    }, 4000);
     return false;
 });

@@ -414,6 +414,124 @@ namespace OneConnect.Controllers
 
             return null;
         }
+
+        public PartialViewResult GroupUserRolePartial(int groupId)
+        {
+            if (IsAuthenticated())
+            {
+                using (var client = new HttpClient())
+                {
+                    dynamic myModel = new ExpandoObject();
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Request.Cookies["token"].Value);
+
+                    var groupInfoUrl = Url.RouteUrl(
+                                "GetGroupInfo",
+                                new { httproute = "", controller = "Group", action = "GetGroupInfo", id = groupId },
+                                Request.Url.Scheme
+                            );
+                    GroupInfo groupInfo = new GroupInfo();
+                    using (var response = client.GetAsync(groupInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            groupInfo = response.Content.ReadAsAsync<GroupInfo>().Result;
+
+
+
+                        }
+
+                    }
+                    var accountInfoUrl = Url.RouteUrl(
+                       "GetAccountInfo",
+                       new { httproute = "", controller = "Account", action = "GetAccountInfo" },
+                       Request.Url.Scheme
+                   );
+                    AccountInfo accounInfo = null;
+                    using (var response = client.GetAsync(accountInfoUrl).Result)
+                    {
+
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            accounInfo = response.Content.ReadAsAsync<AccountInfo>().Result;
+
+                        }
+
+                    }
+                    IEnumerable<UserDetails> userDetails = null;
+                    if (accounInfo != null)
+                    {
+                        if (accounInfo.isOwner)
+                        {
+
+                            var userDetailUrl = Url.RouteUrl(
+                               "GetUsers",
+                               new { httproute = "", controller = "User", action = "GetUsers" },
+                               Request.Url.Scheme
+                           );
+
+                            using (var response = client.GetAsync(userDetailUrl).Result)
+                            {
+
+                                if (response.IsSuccessStatusCode)
+                                {
+
+                                    userDetails = response.Content.ReadAsAsync<List<UserDetails>>().Result.ToList();
+
+                                }
+
+                            }
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        else
+                        {
+                            if (userDetails == null)
+                            {
+                                userDetails = new List<UserDetails>();
+                            }
+
+                            UserDetails userDetail = new UserDetails();
+                            userDetail.userId = accounInfo.userId;
+                            userDetail.customUserId = accounInfo.customUserId;
+                            userDetail.emailId = accounInfo.email;
+                            userDetail.status = accounInfo.status;
+                            userDetail.isOwner = accounInfo.isOwner;
+                            var list = userDetails.ToList();
+                            list.Insert(0, userDetail);
+                            userDetails = list;
+                        }
+                        if (accounInfo.isOwner && groupInfo.groupDetails.groupId == 0)
+                        {
+                            groupInfo.groupDetails.groupAdmin = accounInfo.userId;
+                        }
+
+                    }
+
+                    groupInfo.users = userDetails == null ? new List<UserDetails>() : userDetails.ToList();
+                    groupInfo.accInfo = accounInfo == null ? new AccountInfo() : accounInfo;
+
+                    return PartialView("_PartialGroupUserRole", groupInfo);
+                }
+            }
+
+            return null;
+        }
         public ActionResult RegistrationSuccessfull()
         {
             return View();

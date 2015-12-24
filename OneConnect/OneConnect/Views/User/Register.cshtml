@@ -43,25 +43,18 @@
                                     <fieldset>
 
                                         <div class="form-group user-input">
-                                            @*<input class="form-control" placeholder="Email" name="email" type="text" value="">*@
-                                            @Html.TextBoxFor(model => model.emailId, new { id = "emailId",autocomplete="off", placeholder = "Email", @class = "form-control" })
                                             <img src="~/Content/site/forgot-pasword-email.png" />
+                                            @Html.TextBoxFor(model => model.emailId, new { id = "emailId",autocomplete="off", placeholder = "Email", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.emailId)
                                         </div>
                                         <div class="form-group user-input">
-                                            @*<input class="form-control" placeholder="Password" name="password" type="password" value="">*@
-                                            @Html.PasswordFor(model => model.password, new { id = "password", placeholder = "Password", @class = "form-control" })
                                             <img src="~/Content/site/key.png">
+                                            @Html.PasswordFor(model => model.password, new { id = "password", placeholder = "Password", @class = "form-control" })
+                                            
                                             @Html.ValidationMessageFor(model => model.password)
                                         </div>
                                         <div class="g-recaptcha form-group" data-sitekey=" @System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPublicKey"]"></div>
-                                        @*<div class="captcha-box">
-                                            <img src="~/Content/site/captcha.png" />"6LeUTAoTAAAAAOvGucHt_lc8T63gI2V3xzccwJkr"
-                                        </div>*@
-                                        @*<div class="form-group user-input">
-                                            <input class="form-control" placeholder="Code" name="Code" type="text" value="">
-                                            <img src="~/Content/site/captcha-code-bug.png" />
-                                        </div>*@
+                                        
                                         <div class="login-btn-box col-md-5">
                                             <input class="btn btn-flat flat-info btn-lg btn-block login-btn" type="submit" value="Submit" id="submitRegister">
                                         </div>

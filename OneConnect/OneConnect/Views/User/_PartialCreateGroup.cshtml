@@ -1,218 +1,230 @@
 ﻿@model OneConnect.ViewModels.GroupInfo
 
-<div class="member-group-details" id="member-group-details">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tabbable tabs-left group-settings-tabs">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tabGS_1" data-toggle="tab">Group Details</a> </li>
-                    <li><a   @if (@Model.groupDetails.groupId != 0)
-                             { <text> href="#tabGS_2" data-toggle="tab"</text> }>Products</a> </li>
-                    <li><a @if (@Model.groupDetails.groupId != 0)
-                           { <text> href="#tabGS_3" data-toggle="tab"</text> }>User</a> </li>
-                    <li><a @if (@Model.groupDetails.groupId != 0)
-                           { <text> href="#tabGS_4" data-toggle="tab"</text> }>Users Roles</a> </li>
+@*<div class="member-group-details" id="member-group-details">
+    <div class="row">*@
+<div class="col-md-12">
+    <div class="tabbable tabs-left group-settings-tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabGS_1" data-toggle="tab">Group Details</a> </li>
+            <li><a   @if (@Model.groupDetails.groupId != 0)
+                     { <text> href="#tabGS_2" data-toggle="tab"</text> }>Products</a> </li>
+            <li><a @if (@Model.groupDetails.groupId != 0)
+                   { <text> href="#tabGS_3" data-toggle="tab"</text> }>User</a> </li>
+            <li><a @if (@Model.groupDetails.groupId != 0)
+                   { <text> href="#tabGS_4" data-toggle="tab"</text> }>Users Roles</a> </li>
 
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active group-setting-form" id="tabGS_1">
-                        <div class="row">
-                            <div id="successMessageGroupInfoSave" class="hideElement">
-                                <div class="alert alert-success" role="alert">
-                                    <span>
-                                        <img src="~/Content/site/like.png" alt="" />
-                                    </span>
-                                    Successfully updated changes in group info
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active group-setting-form" id="tabGS_1">
+                <div class="row col-md-12">
+                    <div id="successMessageGroupInfoSave" class="hideElement">
+                        <div class="alert alert-success" role="alert">
+                            <span>
+                                <img src="~/Content/site/like.png" alt="" />
+                            </span>
+                            <span id="gpinfoSuccessMessage"></span>
+
+                        </div>
+                    </div>
+                    <div id="failureMessageGroupInfoSave" class="alert alert-danger hideElement" role="alert">
+                        <span id="gpinfoFailureMessage"></span>
+                    </div>
+                    <div class="bs-example group-details group-details-gp col-md-12">
+                        <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="control-label col-xs-4 col-md-2 col-sm-3">
+                                        <label class="control-label ">Name :</label>
+                                    </div>
+                                    <div class="col-xs-8 col-md-10 col-sm-9">
+                                        <input type="text" class="form-control" name="txtGroupName" id="txtGroupName" placeholder="Group Name" value="@Model.groupDetails.groupName">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="bs-example group-details group-details-gp col-md-11">
-                                <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <div class="control-label col-xs-4 col-md-2 col-sm-3">
-                                                <label class="control-label ">Name :</label>
-                                            </div>
-                                            <div class="col-xs-8 col-md-10 col-sm-9">
-                                                <input type="text" class="form-control" name="txtGroupName" id="txtGroupName" placeholder="Group Name" value="@Model.groupDetails.groupName">
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="control-label col-xs-4 col-md-2 col-sm-3">
+                                        <label class="control-label ">Description :</label>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <div class="control-label col-xs-4 col-md-2 col-sm-3">
-                                                <label class="control-label ">Description :</label>
-                                            </div>
-                                            <div class="col-xs-8 col-md-10 col-sm-9">
-                                                @Html.TextArea("inputDescription", @Model.groupDetails.description, new { @id = "txtGroupDescription", @title = "Description" })
+                                    <div class="col-xs-8 col-md-10 col-sm-9">
+                                        @Html.TextArea("inputDescription", @Model.groupDetails.description, new { @id = "txtGroupDescription", @title = "Description" })
 
-                                            </div>
-
-                                        </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group">
 
-                                            <div class="control-label col-xs-4 col-md-2 col-sm-3">
-                                                <label class="control-label ">Group Admin :</label>
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 col-sm-5">
-                                                @if (!(Model.accInfo.isOwner))
-                                                {
-                                                    @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -", new { @class = "form-control", id = "ddlGroupAdmin", disabled = "disabled" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -", new { @class = "form-control", id = "ddlGroupAdmin" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+
+                                    <div class="control-label col-xs-4 col-md-2 col-sm-3">
+                                        <label class="control-label ">Group Admin :</label>
+                                    </div>
+                                    <div class="col-xs-6 col-md-4 col-sm-5">
+                                        @if (!(Model.accInfo.isOwner))
+                                        {
+                                            @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -", new { @class = "form-control", id = "ddlGroupAdmin", disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -", new { @class = "form-control", id = "ddlGroupAdmin" })
                                                
-                                                }
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <div class="control-label col-xs-4 col-md-2 col-sm-3">
-                                                <label class="control-label ">Active :</label>
-                                            </div>
-                                            <div class="col-xs-8 col-md-10 col-sm-9" style="padding-top: 13px;">
-                                                <span>
-                                                    <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive" @if (!(Model.accInfo.isOwner))
-                                                                                                                                                           {<text>disabled="disabled"</text>}>
-                                                </span>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="control-label col-xs-4 col-md-2 col-sm-3">
+                                        <label class="control-label ">Active :</label>
                                     </div>
-                                    <div class="row">
+                                    <div class="col-xs-8 col-md-10 col-sm-9" style="padding-top: 13px;">
+                                        <span>
+                                            <input id="cbxGroupActive" type="checkbox" class="css-checkbox" checked="@Model.groupDetails.isActive" @if (!(Model.accInfo.isOwner))
+                                                                                                                                                   {<text>disabled="disabled"</text>}>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group account-settings-btn">
+
+                                    <div class="col-us-12 col-xs-5 col-sm-4 col-md-3  col-md-offset-2 col-sm-offset-3 col-xs-offset-2 col-us-offset-0">
+                                        <a class="btn btn-info btn-full" id="addNewGroupFormSave">
+                                            <img src="~/Content/site/save.png" alt="">Save Your Changes
+                                        </a>
+                                    </div>
+                                    <div class="col-us-12 col-xs-5 col-sm-4 col-md-3">
+                                        <a class="btn btn-danger btn-full" id="addNewGroupFormCancel">
+                                            <img src="~/Content/site/cancel.png" alt="">Cancel Changes
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @* <div class="row">
                                         <div class="form-group">
-                                            <div class="col-xs-12 col-sm-offset-2 col-sm-5 col-md-offset-6 col-md-3  " >
-                                                <a class="btn btn-info" id="addNewGroupFormSave" style="float:right">
+                                            <div class="control-label col-us-12 col-xs-4 col-sm-3 col-md-2 ">
+                                            </div>
+                                            <div class="col-us-12 col-xs-5 col-sm-4 col-md-3  col-md-offset-2 col-sm-offset-3 col-xs-offset-2 col-us-offset-0">
+                                                  <a class="btn btn-info" id="addNewGroupFormSave" >
                                                     <img src="~/Content/site/save.png" alt="">Save Your Changes</a>
                                             </div>
-                                            <div class="col-xs-12 col-sm-5 col-md-3   " >
-                                                <a class="btn btn-danger" id="addNewGroupFormCancel" style="float:right">
+                                            <div class="col-us-12 col-xs-5 col-sm-4 col-md-3">
+                                               <a class="btn btn-danger" id="addNewGroupFormCancel" >
                                                     <img src="~/Content/site/cancel.png" alt="">Cancel Changes</a>
                                             </div>
-                                            @*<div class="col-xs-12 col-sm-5 col-md-2   ">
-                                            <a class="btn btn-danger" id="addNewGroupFormDelete" groupId="@Model.groupDetails.groupId" @if (@Model.groupDetails.groupId == 0)
-                                                                                                                                       { <text> style="display:none;"</text> } >
-                                                <img src="~/Content/site/delete.png" alt="">Delete</a>
-                                        </div>*@
+                                           
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                    </div>*@
+                        </form>
                     </div>
-                    <div class="tab-pane" id="tabGS_2">
-                        <div class="row">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
-                            </p>
-                            <div id="groupProductSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
-                                <span>
-                                    <img src="~/Content/site/like.png" alt="" />
-                                </span>
-                                <span id="gpsSuccessMessage"></span>
-                            </div>
-                            <div id="groupProductSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
-                                <span id="gpsFailureMessage"></span>
-                            </div>
-                            <div class="bs-example  ">
+                </div>
+            </div>
+            <div class="tab-pane" id="tabGS_2">
+                <div class="row col-md-12">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                    </p>
+                    <div id="groupProductSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
+                        <span>
+                            <img src="~/Content/site/like.png" alt="" />
+                        </span>
+                        <span id="gppsSuccessMessage"></span>
+                    </div>
+                    <div id="groupProductSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
+                        <span id="gppsFailureMessage"></span>
+                    </div>
+                    <div class="bs-example">
 
-                                <div class="row table-responsive groups_details_products">
+                        <div class="row table-responsive groups_details_products">
 
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Product Name</th>
-                                                <th>Info/Notes</th>
-                                                <th>Subscription</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var groupProduct in @Model.groupProducts)
-                                            {
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Info/Notes</th>
+                                        <th>Assigned</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var groupProduct in @Model.groupProducts)
+                                    {
                                             
-                                                <tr>
-                                                    <td scope="row">@groupProduct.productName</td>
-                                                    <td>@groupProduct.productDescription</td>
-                                                    <td>
-                                                        <span class="subscribe">
-                                                            <input id="chk_grp_prd_@(groupProduct.productId)" type="checkbox" @if (groupProduct.isSubscribed)
-                                                                                                                              { <text> checked="checked" </text> } class="groupProductCheckbox un-subs css-checkbox " productId="@groupProduct.productId" groupId="@Model.groupDetails.groupId" >
-                                                        </span>
-                                                        <span id="chk_grp_prd_label_@(groupProduct.productId)">@if (groupProduct.isSubscribed)
-                                                                                                               { <text> Subscribe </text>}
-                                                                                                               else
-                                                                                                               {<text> Unsubscribe </text>}</span>
+                                        <tr>
+                                            <td scope="row">@groupProduct.productName</td>
+                                            <td>@groupProduct.productDescription</td>
+                                            <td>
+                                                <span class="subscribe">
+                                                    <input id="chk_grp_prd_@(groupProduct.productId)" type="checkbox" @if (groupProduct.isSubscribed)
+                                                                                                                      { <text> checked="checked" </text> } class="groupProductCheckbox un-subs css-checkbox " productId="@groupProduct.productId" groupId="@Model.groupDetails.groupId" >
+                                                </span>
 
-                                                    </td>
-                                                </tr>
-                                            }
+                                            </td>
+                                        </tr>
+                                    }
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tabGS_3">
-                        <div class="row">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
-                            </p>
-                            <div id="groupMemberSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
-                                <span>
-                                    <img src="~/Content/site/like.png" alt="" />
-                                </span>
-                                <span id="gpmSuccessMessage"></span>
-                            </div>
-                            <div id="groupMemberSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
-                                <span id="gpmFailureMessage"></span>
-                            </div>
-                            <div class="bs-example  ">
-                                <div class="row table-responsive  groups_details_users">
+                </div>
+            </div>
+            <div class="tab-pane" id="tabGS_3">
+                <div class="row col-md-12">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                    </p>
+                    <div id="groupMemberSubscriptionSuccess" class="alert alert-success hideElement" role="alert">
+                        <span>
+                            <img src="~/Content/site/like.png" alt="" />
+                        </span>
+                        <span id="gpmSuccessMessage"></span>
+                    </div>
+                    <div id="groupMemberSubscriptionFailure" class="alert alert-danger hideElement" role="alert">
+                        <span id="gpmFailureMessage"></span>
+                    </div>
+                    <div class="bs-example  ">
+                        <div class="row table-responsive  groups_details_users">
 
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Username</th>
-                                                <th>Email</th>
-                                                <th>Subscription</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var groupMember in @Model.groupMembers)
-                                            {
-                                                <tr>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Assigned</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var groupMember in @Model.groupMembers)
+                                    {
+                                        <tr>
 
-                                                    <td scope="row">@groupMember.userName</td>
-                                                    <td>@groupMember.userEmail</td>
-                                                    <td>
-                                                        <span class="subscribe">
-                                                            <input id="chk_grp_usr_@(groupMember.userId)" type="checkbox" @if (groupMember.isSubscribed)
-                                                                                                                          { <text> checked="checked" </text> } class="groupUserCheckbox un-subs css-checkbox " userId="@groupMember.userId" groupId="@Model.groupDetails.groupId" >
-                                                        </span>
-                                                        <span id="chk_grp_usr_label_@(groupMember.userId)">@if (groupMember.isSubscribed)
-                                                                                                           { <text> Subscribe </text>}
-                                                                                                           else
-                                                                                                           {<text> Unsubscribe </text>}</span>
+                                            <td scope="row">@groupMember.userName</td>
+                                            <td>@groupMember.userEmail</td>
+                                            <td>
+                                                <span class="subscribe">
+                                                    <input id="chk_grp_usr_@(groupMember.userId)" type="checkbox" @if (groupMember.isSubscribed)
+                                                                                                                  { <text> checked="checked" </text> } class="groupUserCheckbox un-subs css-checkbox " userId="@groupMember.userId" groupId="@Model.groupDetails.groupId" >
+                                                </span>
 
-                                                    </td>
-                                                </tr>
-                                            }
+                                            </td>
+                                        </tr>
+                                    }
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tabGS_4">
-                        <div class="row">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
-                            </p>
-                            <div class="bs-example  group-details-userroles" @if (@Model.groupMembers.Where(t => t.isSubscribed == true).Count() > 0 && @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0).Count() > 0)
+                </div>
+            </div>
+            <div class="tab-pane" id="tabGS_4">
+                <div class="row col-md-12">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .
+                    </p>
+                    <div id="groupUserRolePartial">
+                        @Html.Action("GroupUserRolePartial", new { groupId = @Model.groupDetails.groupId })
+                    </div>
+                    @*<div  class="bs-example  group-details-userroles" @if (@Model.groupMembers.Where(t => t.isSubscribed == true).Count() > 0 && @Model.groupProducts.Where(t => t.isSubscribed == true && t.productRole.Count() > 0).Count() > 0)
                                                                              {<text> style="display:block;"</text>}
                                                                              else
                                                                              {<text> style="display:none;"</text>}>
@@ -288,20 +300,20 @@
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-
-                    </div>
-
+                            </div>*@
                 </div>
+
             </div>
+
         </div>
     </div>
 </div>
+@*</div>
+</div>*@
 
-<div id="dialog-confirm" style="display:none;">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Once you deactivate a group all products and member access right deleted! Are you sure?</p>
+<div id="dialog-confirm" style="display: none;">
+    <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Once you deactivate a group all products and member access right deleted! Are you sure?</p>
 </div>
 
-@Html.Hidden("hfdGroupId", @Model.groupDetails.groupId);
+@Html.Hidden("hfdGroupId", @Model.groupDetails.groupId)
 
