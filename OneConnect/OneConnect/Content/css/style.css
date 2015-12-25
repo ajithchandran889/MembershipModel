@@ -487,7 +487,9 @@ section.top-well {
     margin: 20px;
 }
 .group-settings-tabs .bs-example {
-    margin: 15px;
+    margin: 0px;
+    margin-top:20px;
+    margin-bottom:20px;
 }/* Fix alignment issue of label on extra small devices in Bootstrap 3.2 */
 .form-horizontal .control-label {
     padding-top: 7px;

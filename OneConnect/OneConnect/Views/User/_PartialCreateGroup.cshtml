@@ -29,9 +29,9 @@
                     <div id="failureMessageGroupInfoSave" class="alert alert-danger hideElement" role="alert">
                         <span id="gpinfoFailureMessage"></span>
                     </div>
-                    <div class="bs-example group-details group-details-gp col-md-12">
+                    <div class="bs-example group-details group-details-gp">
                         <form class="form-horizontal" id="addNewGroupForm" accept-charset="UTF-8" role="form">
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="control-label col-xs-4 col-md-2 col-sm-3">
                                         <label class="control-label ">Name :</label>
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="control-label col-xs-4 col-md-2 col-sm-3">
                                         <label class="control-label ">Description :</label>
@@ -53,13 +53,13 @@
 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
 
                                     <div class="control-label col-xs-4 col-md-2 col-sm-3">
                                         <label class="control-label ">Group Admin :</label>
                                     </div>
-                                    <div class="col-xs-6 col-md-4 col-sm-5">
+                                    <div class="col-xs-8 col-md-5 col-sm-5">
                                         @if (!(Model.accInfo.isOwner))
                                         {
                                             @Html.DropDownListFor(m => m.groupDetails.groupAdmin, new SelectList(Model.users as System.Collections.IEnumerable, "userId", "customUserId"), "- Select Group Admin -", new { @class = "form-control", id = "ddlGroupAdmin", disabled = "disabled" })
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="control-label col-xs-4 col-md-2 col-sm-3">
                                         <label class="control-label ">Active :</label>
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group account-settings-btn">
 
                                     <div class="col-us-12 col-xs-5 col-sm-4 col-md-3  col-md-offset-2 col-sm-offset-3 col-xs-offset-2 col-us-offset-0">
@@ -135,7 +135,7 @@
                     </div>
                     <div class="bs-example">
 
-                        <div class="row table-responsive groups_details_products">
+                        <div class="table-responsive groups_details_products">
 
                             <table class="table table-striped">
                                 <thead>
@@ -183,7 +183,7 @@
                         <span id="gpmFailureMessage"></span>
                     </div>
                     <div class="bs-example  ">
-                        <div class="row table-responsive  groups_details_users">
+                        <div class="table-responsive  groups_details_users">
 
                             <table class="table table-striped">
                                 <thead>

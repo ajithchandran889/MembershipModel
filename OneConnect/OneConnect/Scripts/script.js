@@ -190,7 +190,7 @@ $(document).on("click", "#logOutBtn", function (event) {
         },
         error: function (x, y, z) {
             //$('#sl-loadingscreen').hide();
-            alert("error");
+            //alert("error");
 
         }
     });
@@ -468,7 +468,7 @@ $('.checkboxid').change(function () {
         },
         error: function (x, y, z) {
             //$('#sl-loadingscreen').hide();
-            alert("error");
+           // alert("error");
         }
     });
     return false;
@@ -646,7 +646,7 @@ function saveUserInfo(userId) {
             },
             error: function (x, y, z) {
                 //$('#sl-loadingscreen').hide();
-                alert("error");
+                //alert("error");
             }
         });
     
@@ -1348,10 +1348,6 @@ $(document).on("click", ".editGroupUser", function () {
         $("img.addNewGroups").attr("data-member", "/User/GroupListPartial?isActiveOnly=" + false)
 
     }
-    var tab = "tabGS_3";
-    alert($('a[href="' + tab + '"]').html);
-    $('.nav-tabs a[href=#' + "tabGS_3" + ']').parent().toggleClass("actve");
-    alert(2);
 
     return false;
 });
